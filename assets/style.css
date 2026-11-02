@@ -1,0 +1,24 @@
+:root{
+  --paper:#FBFCFE; --grid:#E3EAF4; --ink:#1B2A41; --muted:#5A6B82;
+  --blue:#2457C5; --mark:#FFE36E; --line:#C9D4E3;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --paper:#121A26; --grid:#1C2736; --ink:#E6ECF5; --muted:#9AAAC0;
+    --blue:#7FA6FF; --mark:#6B5A12; --line:#2C3A4F; color-scheme: dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px; line-height:1.65;
+}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+a{color:var(--blue)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.logo{font-family:"Gowun Batang",serif;font-weight:700;font-size:1.25rem;color:var(--ink);text-decoration:none}
+.logo span{color:var(--blue)}
+footer{color:var(--muted);font-size:.9rem;padding:48px 0 32px;border-top:1px solid var(--line);margin-top:64px}
