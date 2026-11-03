@@ -534,6 +534,7 @@ body.pm-open{overflow:hidden}
 /* ---------- 닫힌 G-Man 멘토 창: 그림자가 비치지 않고, 키보드 초점이 들어가지 않게 ---------- */
 .ai:not(.open){visibility:hidden;box-shadow:none;transition:transform .25s ease,visibility 0s .25s}
 .ai.open{visibility:visible}
+.mhint code,.lens code,.empty code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:0 5px;color:var(--ink);white-space:nowrap}
 </style>
 <script>
 window.MathJax={
@@ -968,10 +969,10 @@ lab({
   id:"lim1",
   mount(el){
     const FS={
-      A:{f:x=>(x*x-1)/(x-1),tex:"f(x)=\\dfrac{x^{2}-1}{x-1}",L:2,R:2,v:null,note:"$x=1$ 에서 정의되지 않지만 그래프에는 ‘구멍’ 하나만 있어요."},
-      B:{f:x=>x<1?x+1:x+2,tex:"f(x)=\\begin{cases}x+1&(x<1)\\\\x+2&(x\\ge1)\\end{cases}",L:2,R:3,v:3,note:"$x=1$ 의 왼쪽과 오른쪽 식이 달라요."},
-      C:{f:x=>x===1?2:x*x,tex:"f(x)=\\begin{cases}x^{2}&(x\\ne1)\\\\2&(x=1)\\end{cases}",L:1,R:1,v:2,special:true,note:"함숫값 $f(1)$ 은 따로 정해져 있어요."},
-      D:{f:x=>1/((x-1)*(x-1)),tex:"f(x)=\\dfrac{1}{(x-1)^{2}}",L:Infinity,R:Infinity,v:null,note:"$x=1$ 에 가까워질수록 값이 한없이 커져요."}
+      A:{f:x=>(x*x-1)/(x-1),tex:"f(x)=\\dfrac{x^{2}-1}{x-1}",L:2,R:2,v:null,note:"$x=1$에서 정의되지 않지만 그래프에는 ‘구멍’ 하나만 있어요."},
+      B:{f:x=>x<1?x+1:x+2,tex:"f(x)=\\begin{cases}x+1&(x<1)\\\\x+2&(x\\ge1)\\end{cases}",L:2,R:3,v:3,note:"$x=1$의 왼쪽과 오른쪽 식이 달라요."},
+      C:{f:x=>x===1?2:x*x,tex:"f(x)=\\begin{cases}x^{2}&(x\\ne1)\\\\2&(x=1)\\end{cases}",L:1,R:1,v:2,special:true,note:"함숫값 $f(1)$은 따로 정해져 있어요."},
+      D:{f:x=>1/((x-1)*(x-1)),tex:"f(x)=\\dfrac{1}{(x-1)^{2}}",L:Infinity,R:Infinity,v:null,note:"$x=1$에 가까워질수록 값이 한없이 커져요."}
     };
     let key="A",k=1,showV=true;
     const [L,R]=grid2(el);
@@ -992,7 +993,7 @@ lab({
     const tb=h("div",{style:"margin-top:10px"}); L.append(tb);
     seg(R,{label:"함수 고르기",options:[["A","①"],["B","②"],["C","③"],["D","④"]],value:key,onChange:v=>{key=v;upd();}});
     const ft=h("div",{class:"readout"}); R.append(ft);
-    slider(R,{label:"거리 $h=10^{-k}$ 의 $k$",min:0,max:4,step:.25,value:k,fmt:v=>"h = "+fmt(Math.pow(10,-v),4),onInput:v=>{k=v;upd();}});
+    slider(R,{label:"거리 $h=10^{-k}$의 $k$",min:0,max:4,step:.25,value:k,fmt:v=>"h = "+fmt(Math.pow(10,-v),4),onInput:v=>{k=v;upd();}});
     const out=ro(); R.append(out);
     const lim=v=>v===Infinity?"\\infty":tnum(v);
     function upd(){
@@ -1002,21 +1003,21 @@ lab({
       setRO(tb,tblHTML(["$x\\to1^{-}$","$f(x)$","$x\\to1^{+}$","$f(x)$"],rows,i=>i+1===Math.round(k)));
       const same=F.L===F.R&&isFinite(F.L);
       setRO(out,`좌극한 $\\displaystyle\\lim_{x\\to1^{-}}f(x)=${lim(F.L)}$<br>우극한 $\\displaystyle\\lim_{x\\to1^{+}}f(x)=${lim(F.R)}$<br>`+
-        (same?`<span class="ok">좌극한 = 우극한이므로 극한값 $${tnum(F.L)}$ 이 존재해요.</span>`:F.L===Infinity?`<span class="bad">양의 무한대로 발산해요. 극한값은 없어요.</span>`:`<span class="bad">좌극한 ≠ 우극한이므로 극한값이 존재하지 않아요.</span>`)+
+        (same?`<span class="ok">좌극한 = 우극한이므로 극한값 $${tnum(F.L)}$이 존재해요.</span>`:F.L===Infinity?`<span class="bad">양의 무한대로 발산해요. 극한값은 없어요.</span>`:`<span class="bad">좌극한 ≠ 우극한이므로 극한값이 존재하지 않아요.</span>`)+
         `<br>함숫값 $f(1)$: ${F.v==null?"정의되지 않음":"$"+F.v+"$"}`);
     }
     upd();
   },
   concept:String.raw`<h4>함수의 수렴</h4>
-  <p>함수 $f(x)$ 에서 $x$ 의 값이 $a$ 가 아니면서 $a$ 에 한없이 가까워질 때, $f(x)$ 의 값이 일정한 값 $L$ 에 한없이 가까워지면 $f(x)$ 는 $L$ 에 <b>수렴</b>한다고 하고, $L$ 을 $x=a$ 에서의 <b>극한값</b> 또는 <b>극한</b>이라 해요.</p>
-  <div class="box">$\displaystyle\lim_{x\to a}f(x)=L$ 또는 $x\to a$ 일 때 $f(x)\to L$</div>
-  <p>‘$x\ne a$ 이면서’가 핵심이에요. 극한은 $x=a$ 에서의 함숫값과 상관없이, $a$ 의 <b>근처</b>에서 함수가 어떻게 행동하는지를 말해요.</p>
+  <p>함수 $f(x)$에서 $x$의 값이 $a$가 아니면서 $a$에 한없이 가까워질 때, $f(x)$의 값이 일정한 값 $L$에 한없이 가까워지면 $f(x)$는 $L$에 <b>수렴</b>한다고 하고, $L$을 $x=a$에서의 <b>극한값</b> 또는 <b>극한</b>이라 해요.</p>
+  <div class="box">$\displaystyle\lim_{x\to a}f(x)=L$ 또는 $x\to a$일 때 $f(x)\to L$</div>
+  <p>‘$x\ne a$이면서’가 핵심이에요. 극한은 $x=a$에서의 함숫값과 상관없이, $a$의 <b>근처</b>에서 함수가 어떻게 행동하는지를 말해요.</p>
   <h4>좌극한과 우극한</h4>
-  <p>$x$ 가 $a$ 보다 작으면서 $a$ 에 가까워질 때의 극한을 <b>좌극한</b> $\displaystyle\lim_{x\to a^{-}}f(x)$, 크면서 가까워질 때의 극한을 <b>우극한</b> $\displaystyle\lim_{x\to a^{+}}f(x)$ 라 해요.</p>
+  <p>$x$가 $a$보다 작으면서 $a$에 가까워질 때의 극한을 <b>좌극한</b> $\displaystyle\lim_{x\to a^{-}}f(x)$, 크면서 가까워질 때의 극한을 <b>우극한</b> $\displaystyle\lim_{x\to a^{+}}f(x)$라 해요.</p>
   <div class="box">$\displaystyle\lim_{x\to a}f(x)=L \iff \lim_{x\to a^{-}}f(x)=\lim_{x\to a^{+}}f(x)=L$</div>
   <h4>발산</h4>
-  <p>$f(x)$ 가 수렴하지 않으면 <b>발산</b>한다고 해요. 값이 한없이 커지면 $\displaystyle\lim_{x\to a}f(x)=\infty$ (양의 무한대로 발산)라고 써요. $\infty$ 는 수가 아니라 ‘한없이 커지는 상태’를 나타내는 기호예요.</p>`,
-  deeper:"함수 ③에서 $f(1)$ 의 값을 $2$ 가 아닌 다른 수로 바꾸면 $\\displaystyle\\lim_{x\\to1}f(x)$ 는 달라질까요? ‘극한값’과 ‘함숫값’이 다를 수 있는 예를 하나 더 만들고, 그래프로 그려 설명해 보세요."
+  <p>$f(x)$가 수렴하지 않으면 <b>발산</b>한다고 해요. 값이 한없이 커지면 $\displaystyle\lim_{x\to a}f(x)=\infty$ (양의 무한대로 발산)라고 써요. $\infty$는 수가 아니라 ‘한없이 커지는 상태’를 나타내는 기호예요.</p>`,
+  deeper:"함수 ③에서 $f(1)$의 값을 $2$가 아닌 다른 수로 바꾸면 $\\displaystyle\\lim_{x\\to1}f(x)$는 달라질까요? ‘극한값’과 ‘함숫값’이 다를 수 있는 예를 하나 더 만들고, 그래프로 그려 설명해 보세요."
 });
 
 lab({
@@ -1040,26 +1041,26 @@ lab({
     const tb=h("div",{style:"margin-top:10px"}); L.append(tb);
     seg(R,{label:"함수 고르기",options:Object.keys(FS).map((k,i)=>[k,"①②③④"[i]]),value:key,onChange:v=>{key=v;upd();}});
     const ft=ro(); R.append(ft);
-    seg(R,{label:"$x$ 의 방향",options:[[1,"$x\\to\\infty$"],[-1,"$x\\to-\\infty$"]],value:dir,onChange:v=>{dir=v;upd();}});
-    slider(R,{label:"$|x|$ 의 크기",min:1,max:20,step:.5,value:X,onInput:v=>{X=v;upd();}});
+    seg(R,{label:"$x$의 방향",options:[[1,"$x\\to\\infty$"],[-1,"$x\\to-\\infty$"]],value:dir,onChange:v=>{dir=v;upd();}});
+    slider(R,{label:"$|x|$의 크기",min:1,max:20,step:.5,value:X,onInput:v=>{X=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const F=FS[key];
       setRO(ft,`$${F.tex}$`);
       const xs=[10,100,1000,10000,100000].map(v=>v*dir);
       setRO(tb,tblHTML(["$x$",...xs.map(v=>fmt(v,0))],[["$y$",...xs.map(v=>fmt(F.f(v),5))]]));
       const lv=dir>0?F.pos:F.neg, conv=!/infty/.test(lv);
-      setRO(out,`$\\displaystyle\\lim_{x\\to${dir>0?"":"-"}\\infty}${F.tex.replace("y=","")}=${lv}$<br>`+(conv?`<span class="ok">일정한 값 $${lv}$ 에 수렴해요.</span>`:`<span class="bad">한없이 ${lv[0]==="-"?"작아지므로 음의":"커지므로 양의"} 무한대로 발산해요.</span>`));
+      setRO(out,`$\\displaystyle\\lim_{x\\to${dir>0?"":"-"}\\infty}${F.tex.replace("y=","")}=${lv}$<br>`+(conv?`<span class="ok">일정한 값 $${lv}$에 수렴해요.</span>`:`<span class="bad">한없이 ${lv[0]==="-"?"작아지므로 음의":"커지므로 양의"} 무한대로 발산해요.</span>`));
     }
     upd();
   },
-  concept:String.raw`<h4>$x\to\infty$, $x\to-\infty$ 일 때의 극한</h4>
-  <p>$x$ 의 값이 한없이 커질 때 $f(x)$ 가 일정한 값 $L$ 에 한없이 가까워지면 $\displaystyle\lim_{x\to\infty}f(x)=L$ 이라 해요. $x\to-\infty$ 일 때도 같은 방법으로 정의해요.</p>
+  concept:String.raw`<h4>$x\to\infty$, $x\to-\infty$일 때의 극한</h4>
+  <p>$x$의 값이 한없이 커질 때 $f(x)$가 일정한 값 $L$에 한없이 가까워지면 $\displaystyle\lim_{x\to\infty}f(x)=L$이라 해요. $x\to-\infty$일 때도 같은 방법으로 정의해요.</p>
   <div class="box">$\displaystyle\lim_{x\to\infty}\frac{1}{x}=0,\qquad \lim_{x\to-\infty}\frac{1}{x}=0$</div>
   <h4>무한대로의 발산</h4>
-  <p>$f(x)$ 의 값이 한없이 커지면 $\displaystyle\lim f(x)=\infty$, 음수이면서 절댓값이 한없이 커지면 $\displaystyle\lim f(x)=-\infty$ 라 해요. 이것은 극한값이 존재한다는 뜻이 아니라 <b>발산하는 모양</b>을 나타내는 말이에요.</p>
+  <p>$f(x)$의 값이 한없이 커지면 $\displaystyle\lim f(x)=\infty$, 음수이면서 절댓값이 한없이 커지면 $\displaystyle\lim f(x)=-\infty$라 해요. 이것은 극한값이 존재한다는 뜻이 아니라 <b>발산하는 모양</b>을 나타내는 말이에요.</p>
   <h4>그래프에서 읽기</h4>
-  <p>$\displaystyle\lim_{x\to\pm\infty}f(x)=L$ 이면 직선 $y=L$ 이 그래프의 점근선이 돼요. 예를 들어 $y=\dfrac{2x+1}{x-1}=2+\dfrac{3}{x-1}$ 이므로 $|x|$ 가 커질수록 $\dfrac{3}{x-1}\to0$ 이고 $y\to2$ 예요.</p>`,
-  deeper:"‘$x$ 가 커질수록 $f(x)$ 가 계속 커지면 $f(x)$ 는 반드시 $\\infty$ 로 발산한다’는 말은 참일까요? $y=2-\\dfrac{1}{x}\\ (x>0)$ 을 예로 들어 따져 보고, 참이 되려면 어떤 조건이 필요한지 설명해 보세요."
+  <p>$\displaystyle\lim_{x\to\pm\infty}f(x)=L$이면 직선 $y=L$이 그래프의 점근선이 돼요. 예를 들어 $y=\dfrac{2x+1}{x-1}=2+\dfrac{3}{x-1}$이므로 $|x|$가 커질수록 $\dfrac{3}{x-1}\to0$이고 $y\to2$예요.</p>`,
+  deeper:"‘$x$가 커질수록 $f(x)$가 계속 커지면 $f(x)$는 반드시 $\\infty$로 발산한다’는 말은 참일까요? $y=2-\\dfrac{1}{x}\\ (x>0)$을 예로 들어 따져 보고, 참이 되려면 어떤 조건이 필요한지 설명해 보세요."
 });
 
 lab({
@@ -1076,11 +1077,11 @@ lab({
       [[f,P.col.blue],[g,P.col.green],[x=>f(x)+g(x),P.col.amber],[x=>f(x)*g(x),P.col.magenta]].forEach(([F,c])=>{const y=F(a); if(y<P.ymax) P.pt(a,y,c,5);});
     }});
     legend(L1,[["var(--lab-blue)","$f(x)=x^{2}-1$"],["var(--lab-green)","$g(x)=x+2$"],["var(--lab-amber)","$f(x)+g(x)$"],["var(--lab-magenta)","$f(x)g(x)$"]]);
-    slider(R1,{label:"$x\\to a$ 의 $a$",min:-2,max:3,step:.5,value:a,onInput:v=>{a=v;u1();}});
+    slider(R1,{label:"$x\\to a$의 $a$",min:-2,max:3,step:.5,value:a,onInput:v=>{a=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const A=f(a),B=g(a);
       setRO(o1,`$\\lim f=${tnum(A)},\\ \\lim g=${tnum(B)}$<br>$\\lim(f+g)=${tnum(A+B)}$ <span class="ok">$=${tnum(A)}+${tnum(B)}$</span><br>$\\lim(f-g)=${tnum(A-B)}$<br>$\\lim fg=${tnum(A*B)}$ <span class="ok">$=${tnum(A)}\\times${tnum(B)}$</span><br>`+
-        (Math.abs(B)>1e-9?`$\\lim\\dfrac{f}{g}=${tnum(A/B)}$`:`$\\lim g=0$ 이라 몫의 성질은 쓸 수 없어요.`)); }
+        (Math.abs(B)>1e-9?`$\\lim\\dfrac{f}{g}=${tnum(A/B)}$`:`$\\lim g=0$이라 몫의 성질은 쓸 수 없어요.`)); }
     u1();
     /* ② */
     const CS={A:{f:x=>(x*x+x-6)/(x-2),a:2,tex:"\\dfrac{x^{2}+x-6}{x-2}",how:"x^{2}+x-6=(x-2)(x+3)",red:"x+3",L:5},
@@ -1097,7 +1098,7 @@ lab({
     slider(R2,{label:"확대 배율",min:0,max:4,step:.5,value:zoom,fmt:v=>"× "+fmt(Math.pow(4,v),0),onInput:v=>{zoom=v;view();}});
     const o2=ro(); R2.append(o2);
     function view(){ const C=CS[ck],w=4/Math.pow(4,zoom),hh=6/Math.pow(4,zoom); P2.setView(C.a-w,C.a+w,C.L-hh,C.L+hh);
-      setRO(o2,`$\\displaystyle\\lim_{x\\to${C.a}}${C.tex}$<br>$x=${C.a}$ 을 넣으면 $\\dfrac{0}{0}$: 정의되지 않아요.<br>$${C.how}$ 이므로 $x\\ne${C.a}$ 일 때 $${C.tex}=${C.red}$<br><b>극한값 $=${tnum(C.L)}$</b> (구멍의 높이)`); }
+      setRO(o2,`$\\displaystyle\\lim_{x\\to${C.a}}${C.tex}$<br>$x=${C.a}$을 넣으면 $\\dfrac{0}{0}$: 정의되지 않아요.<br>$${C.how}$이므로 $x\\ne${C.a}$일 때 $${C.tex}=${C.red}$<br><b>극한값 $=${tnum(C.L)}$</b> (구멍의 높이)`); }
     view();
     /* ③ */
     let n=2;
@@ -1109,18 +1110,18 @@ lab({
       const xs=[10,100,1000,10000];
       const lv=n<2?"0":n===2?"3":"\\infty";
       setRO(t3,`<p>$\\displaystyle\\lim_{x\\to\\infty}\\frac{${ptex(nu)}}{x^{2}-2}$</p>`+tblHTML(["$x$",...xs.map(String)],[["값",...xs.map(x=>fmt(fx(x),4))]])+
-        `<p class="readout" style="margin-top:10px">분모의 최고차항 $x^{2}$ 으로 나누면 $\\dfrac{${n===1?"\\frac{3}{x}+\\frac{1}{x^{2}}":n===2?"3+\\frac{1}{x}":"3x+1"}}{1-\\frac{2}{x^{2}}}$ 이므로 극한은 $${lv}$</p>`); }
+        `<p class="readout" style="margin-top:10px">분모의 최고차항 $x^{2}$으로 나누면 $\\dfrac{${n===1?"\\frac{3}{x}+\\frac{1}{x^{2}}":n===2?"3+\\frac{1}{x}":"3x+1"}}{1-\\frac{2}{x^{2}}}$이므로 극한은 $${lv}$</p>`); }
     u3();
   },
   concept:String.raw`<h4>함수의 극한에 대한 성질</h4>
-  <p>$\displaystyle\lim_{x\to a}f(x)=\alpha,\ \lim_{x\to a}g(x)=\beta$ ($\alpha,\ \beta$ 는 실수)일 때</p>
-  <div class="box">① $\displaystyle\lim_{x\to a}cf(x)=c\alpha$ ($c$ 는 상수)<br>② $\displaystyle\lim_{x\to a}\{f(x)\pm g(x)\}=\alpha\pm\beta$<br>③ $\displaystyle\lim_{x\to a}f(x)g(x)=\alpha\beta$<br>④ $\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=\frac{\alpha}{\beta}$ (단, $\beta\ne0$)</div>
+  <p>$\displaystyle\lim_{x\to a}f(x)=\alpha,\ \lim_{x\to a}g(x)=\beta$ ($\alpha,\ \beta$는 실수)일 때</p>
+  <div class="box">① $\displaystyle\lim_{x\to a}cf(x)=c\alpha$ ($c$는 상수)<br>② $\displaystyle\lim_{x\to a}\{f(x)\pm g(x)\}=\alpha\pm\beta$<br>③ $\displaystyle\lim_{x\to a}f(x)g(x)=\alpha\beta$<br>④ $\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=\frac{\alpha}{\beta}$ (단, $\beta\ne0$)</div>
   <p>이 성질은 두 극한이 모두 <b>수렴할 때만</b> 쓸 수 있어요.</p>
   <h4>$\dfrac{0}{0}$ 꼴</h4>
-  <p>분자와 분모가 모두 $0$ 으로 가면 바로 계산할 수 없어요. 분수식은 인수분해하여 약분하고, 무리식은 근호가 있는 쪽을 유리화한 다음 극한을 구해요. 약분이 가능한 것은 $x\to a$ 에서 $x\ne a$ 이기 때문이에요.</p>
+  <p>분자와 분모가 모두 $0$으로 가면 바로 계산할 수 없어요. 분수식은 인수분해하여 약분하고, 무리식은 근호가 있는 쪽을 유리화한 다음 극한을 구해요. 약분이 가능한 것은 $x\to a$에서 $x\ne a$이기 때문이에요.</p>
   <h4>$\dfrac{\infty}{\infty}$ 꼴</h4>
   <p>분모의 최고차항으로 분자와 분모를 나누어요. (분자의 차수) $<$ (분모의 차수)이면 $0$, 같으면 최고차항의 계수의 비, 크면 발산해요.</p>`,
-  deeper:"‘$\\displaystyle\\lim_{x\\to a}f(x)g(x)$ 가 존재하면 $\\displaystyle\\lim_{x\\to a}f(x)$ 와 $\\displaystyle\\lim_{x\\to a}g(x)$ 도 존재한다.’ 이 말이 거짓임을 보이는 예를 찾고, 극한의 성질을 쓸 때 왜 ‘수렴한다는 조건’을 먼저 확인해야 하는지 설명해 보세요."
+  deeper:"‘$\\displaystyle\\lim_{x\\to a}f(x)g(x)$가 존재하면 $\\displaystyle\\lim_{x\\to a}f(x)$와 $\\displaystyle\\lim_{x\\to a}g(x)$도 존재한다.’ 이 말이 거짓임을 보이는 예를 찾고, 극한의 성질을 쓸 때 왜 ‘수렴한다는 조건’을 먼저 확인해야 하는지 설명해 보세요."
 });
 
 lab({
@@ -1142,18 +1143,18 @@ lab({
     const out=ro(); R.append(out);
     function upd(){ P.render(); const z=1+a+b;
       let s=`목표: $\\displaystyle\\lim_{x\\to1}\\frac{x^{2}+ax+b}{x-1}=3$<br>분자에 $x=1$ 대입: $1+a+b=${tnum(z)}$<br>`;
-      if(Math.abs(z)>1e-9) s+=`<span class="bad">분모 → $0$ 인데 분자 → $${tnum(z)}\\ne0$ 이므로 발산해요.</span>`;
-      else { const lv=2+a; s+=`<span class="ok">분자도 $0$: $\\dfrac{0}{0}$ 꼴</span><br>$x^{2}+ax+b=(x-1)(x+${tnum(1+a)})$ 이므로 극한값 $=1+1+a=${tnum(lv)}$<br>`+(Math.abs(lv-3)<1e-9?`<span class="ok">목표 달성! $a=${tnum(a)},\\ b=${tnum(b)}$</span>`:`목표 $3$ 과 ${lv>3?"크게":"작게"} 차이 나요.`); }
+      if(Math.abs(z)>1e-9) s+=`<span class="bad">분모 → $0$인데 분자 → $${tnum(z)}\\ne0$이므로 발산해요.</span>`;
+      else { const lv=2+a; s+=`<span class="ok">분자도 $0$: $\\dfrac{0}{0}$ 꼴</span><br>$x^{2}+ax+b=(x-1)(x+${tnum(1+a)})$이므로 극한값 $=1+1+a=${tnum(lv)}$<br>`+(Math.abs(lv-3)<1e-9?`<span class="ok">목표 달성! $a=${tnum(a)},\\ b=${tnum(b)}$</span>`:`목표 $3$과 ${lv>3?"크게":"작게"} 차이 나요.`); }
       setRO(out,s); }
     upd();
   },
   concept:String.raw`<h4>극한값이 존재할 조건</h4>
-  <p>$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=\alpha$ ($\alpha$ 는 실수)일 때</p>
-  <div class="box">① $\displaystyle\lim_{x\to a}g(x)=0$ 이면 $\displaystyle\lim_{x\to a}f(x)=0$<br>② $\alpha\ne0$ 이고 $\displaystyle\lim_{x\to a}f(x)=0$ 이면 $\displaystyle\lim_{x\to a}g(x)=0$</div>
-  <p>①의 이유: $f(x)=\dfrac{f(x)}{g(x)}\times g(x)$ 이므로, 극한의 성질에 의해 $\displaystyle\lim_{x\to a}f(x)=\alpha\times0=0$ 이에요.</p>
+  <p>$\displaystyle\lim_{x\to a}\frac{f(x)}{g(x)}=\alpha$ ($\alpha$는 실수)일 때</p>
+  <div class="box">① $\displaystyle\lim_{x\to a}g(x)=0$이면 $\displaystyle\lim_{x\to a}f(x)=0$<br>② $\alpha\ne0$이고 $\displaystyle\lim_{x\to a}f(x)=0$이면 $\displaystyle\lim_{x\to a}g(x)=0$</div>
+  <p>①의 이유: $f(x)=\dfrac{f(x)}{g(x)}\times g(x)$이므로, 극한의 성질에 의해 $\displaystyle\lim_{x\to a}f(x)=\alpha\times0=0$이에요.</p>
   <h4>미정계수 구하기</h4>
-  <p>① 분모 → $0$ 이면 분자 → $0$ 이라는 조건으로 식 하나를 얻고, ② 인수분해하여 약분한 뒤 극한값이 주어진 값과 같다는 조건으로 또 하나의 식을 얻어요.</p>`,
-  deeper:"$\\displaystyle\\lim_{x\\to2}\\frac{x-2}{x^{2}+ax+b}=\\frac{1}{5}$ 일 때 $a,\\ b$ 를 구해 보세요. 이번에는 분자가 $0$ 으로 가는데, 분모에 대해 무엇을 알 수 있나요? 탐색에서 쓴 논리와 어떻게 연결되는지 설명해 보세요."
+  <p>① 분모 → $0$이면 분자 → $0$이라는 조건으로 식 하나를 얻고, ② 인수분해하여 약분한 뒤 극한값이 주어진 값과 같다는 조건으로 또 하나의 식을 얻어요.</p>`,
+  deeper:"$\\displaystyle\\lim_{x\\to2}\\frac{x-2}{x^{2}+ax+b}=\\frac{1}{5}$일 때 $a,\\ b$를 구해 보세요. 이번에는 분자가 $0$으로 가는데, 분모에 대해 무엇을 알 수 있나요? 탐색에서 쓴 논리와 어떻게 연결되는지 설명해 보세요."
 });
 
 lab({
@@ -1167,25 +1168,25 @@ lab({
       P.fn(left,P.col.blue,2.6,{to:1}); P.fn(right,P.col.blue,2.6,{from:1});
       hole(P,1,1+k,P.col.blue); hole(P,1,2,P.col.blue); P.pt(1,c,P.col.magenta,6,"f(1)","e");
     }});
-    legend(L,[["var(--lab-blue)","$x<1$ 일 때 $x+k$, $x>1$ 일 때 $x^{2}+1$"],["var(--lab-magenta)","함숫값 $f(1)=c$"]]);
+    legend(L,[["var(--lab-blue)","$x<1$일 때 $x+k$, $x>1$일 때 $x^{2}+1$"],["var(--lab-magenta)","함숫값 $f(1)=c$"]]);
     slider(R,{label:"$k$ (왼쪽 식)",min:-2,max:3,step:.5,value:k,onInput:v=>{k=v;upd();}});
     slider(R,{label:"$c=f(1)$",min:-1,max:4,step:.5,value:c,onInput:v=>{c=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Lm=1+k,Rm=2,ex=Math.abs(Lm-Rm)<1e-9,eq=ex&&Math.abs(c-2)<1e-9;
       const ok=t=>`<span class="ok">✓ ${t}</span>`,no=t=>`<span class="bad">✗ ${t}</span>`;
-      setRO(out,`(1) $f(1)=${tnum(c)}$ 으로 정의됨 ${ok("")}<br>(2) 좌극한 $${tnum(Lm)}$, 우극한 $2$: `+(ex?ok("극한값 존재"):no("극한값 없음"))+
-        `<br>(3) $\\displaystyle\\lim_{x\\to1}f(x)=f(1)$: `+(eq?ok("같음"):no(ex?"다름":"비교 불가"))+`<br><b>`+(eq?`<span class="ok">$x=1$ 에서 연속이에요.</span>`:`<span class="bad">$x=1$ 에서 불연속이에요.</span>`)+"</b>"); }
+      setRO(out,`(1) $f(1)=${tnum(c)}$으로 정의됨 ${ok("")}<br>(2) 좌극한 $${tnum(Lm)}$, 우극한 $2$: `+(ex?ok("극한값 존재"):no("극한값 없음"))+
+        `<br>(3) $\\displaystyle\\lim_{x\\to1}f(x)=f(1)$: `+(eq?ok("같음"):no(ex?"다름":"비교 불가"))+`<br><b>`+(eq?`<span class="ok">$x=1$에서 연속이에요.</span>`:`<span class="bad">$x=1$에서 불연속이에요.</span>`)+"</b>"); }
     upd();
   },
   concept:String.raw`<h4>함수의 연속</h4>
-  <p>함수 $f(x)$ 가 실수 $a$ 에 대하여 다음 세 조건을 모두 만족할 때, $f(x)$ 는 $x=a$ 에서 <b>연속</b>이라 해요.</p>
-  <div class="box">(1) 함수 $f(x)$ 는 $x=a$ 에서 정의되어 있다.<br>(2) 극한값 $\displaystyle\lim_{x\to a}f(x)$ 가 존재한다.<br>(3) $\displaystyle\lim_{x\to a}f(x)=f(a)$</div>
-  <p>세 조건 중 하나라도 만족하지 않으면 $x=a$ 에서 <b>불연속</b>이에요. 그래프로는 ‘펜을 떼지 않고 그릴 수 있는가’로 직관적으로 볼 수 있지만, 판정은 극한으로 해요.</p>
+  <p>함수 $f(x)$가 실수 $a$에 대하여 다음 세 조건을 모두 만족할 때, $f(x)$는 $x=a$에서 <b>연속</b>이라 해요.</p>
+  <div class="box">(1) 함수 $f(x)$는 $x=a$에서 정의되어 있다.<br>(2) 극한값 $\displaystyle\lim_{x\to a}f(x)$가 존재한다.<br>(3) $\displaystyle\lim_{x\to a}f(x)=f(a)$</div>
+  <p>세 조건 중 하나라도 만족하지 않으면 $x=a$에서 <b>불연속</b>이에요. 그래프로는 ‘펜을 떼지 않고 그릴 수 있는가’로 직관적으로 볼 수 있지만, 판정은 극한으로 해요.</p>
   <h4>구간과 연속함수</h4>
-  <p>$\{x\mid a\le x\le b\}$ 를 닫힌구간 $[a,\ b]$, $\{x\mid a<x<b\}$ 를 열린구간 $(a,\ b)$ 라 해요. 어떤 구간에 속하는 모든 $x$ 에서 연속이면 그 구간에서 연속이라 하고, 그런 함수를 <b>연속함수</b>라 해요.</p>
+  <p>$\{x\mid a\le x\le b\}$를 닫힌구간 $[a,\ b]$, $\{x\mid a\lt x\lt b\}$를 열린구간 $(a,\ b)$라 해요. 어떤 구간에 속하는 모든 $x$에서 연속이면 그 구간에서 연속이라 하고, 그런 함수를 <b>연속함수</b>라 해요.</p>
   <h4>연속함수의 성질</h4>
-  <p>$f(x),\ g(x)$ 가 $x=a$ 에서 연속이면 $cf(x),\ f(x)\pm g(x),\ f(x)g(x),\ \dfrac{f(x)}{g(x)}\ (g(a)\ne0)$ 도 $x=a$ 에서 연속이에요. 극한의 성질에서 바로 나와요. 그래서 다항함수는 모든 실수에서, 유리함수는 분모가 $0$ 이 아닌 모든 실수에서 연속이에요.</p>`,
-  deeper:"함수 $f(x)=\\begin{cases}\\dfrac{x^{2}-4}{x-2}&(x\\ne2)\\\\a&(x=2)\\end{cases}$ 가 모든 실수에서 연속이 되도록 $a$ 를 정하고, 연속의 세 조건을 하나씩 확인하며 설명해 보세요."
+  <p>$f(x),\ g(x)$가 $x=a$에서 연속이면 $cf(x),\ f(x)\pm g(x),\ f(x)g(x),\ \dfrac{f(x)}{g(x)}\ (g(a)\ne0)$도 $x=a$에서 연속이에요. 극한의 성질에서 바로 나와요. 그래서 다항함수는 모든 실수에서, 유리함수는 분모가 $0$이 아닌 모든 실수에서 연속이에요.</p>`,
+  deeper:"함수 $f(x)=\\begin{cases}\\dfrac{x^{2}-4}{x-2}&(x\\ne2)\\\\a&(x=2)\\end{cases}$가 모든 실수에서 연속이 되도록 $a$를 정하고, 연속의 세 조건을 하나씩 확인하며 설명해 보세요."
 });
 
 lab({
@@ -1242,17 +1243,17 @@ lab({
     btn.append(h("button",{class:"btn",type:"button",onclick:()=>{ const g=x=>f2(x)-K,m=(lo+hi)/2; if(g(lo)*g(m)<=0) hi=m; else lo=m; steps++; u2(); }},"구간 반으로 줄이기"),
       h("button",{class:"btn ghost",type:"button",onclick:()=>{steps=0;lo=0;hi=1;u2();}},"처음부터"));
     const o2=ro(); R2.append(o2);
-    function u2(){ P2.render(); setRO(o2,`$f(x)=x^{3}+x-1$ 은 $[0,\\ 1]$ 에서 연속, $f(0)=-1<${fmt(K)}<1=f(1)$<br>→ $f(c)=${fmt(K)}$ 인 $c$ 가 $(0,\\ 1)$ 에 적어도 하나 있어요.<br>`+(steps?`이분법 ${steps}번: $c$ 는 $[${fmt(lo,5)},\\ ${fmt(hi,5)}]$ 안 (구간 폭 $${fmt(hi-lo,5)}$)`:`버튼을 눌러 $c$ 가 있는 구간을 좁혀 보세요.`)); }
+    function u2(){ P2.render(); setRO(o2,`$f(x)=x^{3}+x-1$은 $[0,\\ 1]$에서 연속, $f(0)=-1<${fmt(K)}<1=f(1)$<br>→ $f(c)=${fmt(K)}$인 $c$가 $(0,\\ 1)$에 적어도 하나 있어요.<br>`+(steps?`이분법 ${steps}번: $c$는 $[${fmt(lo,5)},\\ ${fmt(hi,5)}]$ 안 (구간 폭 $${fmt(hi-lo,5)}$)`:`버튼을 눌러 $c$가 있는 구간을 좁혀 보세요.`)); }
     u2();
   },
   concept:String.raw`<h4>최대·최소 정리</h4>
-  <div class="box">함수 $f(x)$ 가 닫힌구간 $[a,\ b]$ 에서 연속이면, $f(x)$ 는 이 구간에서 반드시 최댓값과 최솟값을 가진다.</div>
+  <div class="box">함수 $f(x)$가 닫힌구간 $[a,\ b]$에서 연속이면, $f(x)$는 이 구간에서 반드시 최댓값과 최솟값을 가진다.</div>
   <p>‘닫힌구간’과 ‘연속’ 두 조건이 모두 필요해요. 열린구간이면 끝점에 한없이 가까워지기만 하고 도달하지 않을 수 있고, 불연속이면 끊어진 곳에서 값이 도달하지 않을 수 있어요.</p>
   <h4>사잇값 정리</h4>
-  <div class="box">함수 $f(x)$ 가 닫힌구간 $[a,\ b]$ 에서 연속이고 $f(a)\ne f(b)$ 일 때, $f(a)$ 와 $f(b)$ 사이의 임의의 값 $k$ 에 대하여 $f(c)=k$ 인 $c$ 가 열린구간 $(a,\ b)$ 에 적어도 하나 존재한다.</div>
-  <p>특히 $f(a)f(b)<0$ 이면 방정식 $f(x)=0$ 은 $(a,\ b)$ 에서 적어도 하나의 실근을 가져요. 구간을 반씩 줄여 가면 근의 위치를 원하는 만큼 정확하게 좁힐 수 있어요.</p>
+  <div class="box">함수 $f(x)$가 닫힌구간 $[a,\ b]$에서 연속이고 $f(a)\ne f(b)$일 때, $f(a)$와 $f(b)$ 사이의 임의의 값 $k$에 대하여 $f(c)=k$인 $c$가 열린구간 $(a,\ b)$에 적어도 하나 존재한다.</div>
+  <p>특히 $f(a)f(b)<0$이면 방정식 $f(x)=0$은 $(a,\ b)$에서 적어도 하나의 실근을 가져요. 구간을 반씩 줄여 가면 근의 위치를 원하는 만큼 정확하게 좁힐 수 있어요.</p>
   <p>이 정리들은 근이 <b>존재한다</b>는 것을 알려 줄 뿐, 근이 몇 개인지나 정확한 값은 알려 주지 않아요.</p>`,
-  deeper:"방정식 $x^{3}-3x+1=0$ 이 서로 다른 세 실근을 가짐을 사잇값 정리로 보이려면 어떤 구간들을 골라야 할까요? 근이 ‘적어도’ 세 개라는 것과 ‘정확히’ 세 개라는 것은 어떻게 다른지도 설명해 보세요."
+  deeper:"방정식 $x^{3}-3x+1=0$이 서로 다른 세 실근을 가짐을 사잇값 정리로 보이려면 어떤 구간들을 골라야 할까요? 근이 ‘적어도’ 세 개라는 것과 ‘정확히’ 세 개라는 것은 어떻게 다른지도 설명해 보세요."
 });
 
 /* =========================================================
@@ -1282,8 +1283,8 @@ lab({
     legend(L,[["var(--lab-magenta)","할선 AB (평균변화율)"],["var(--lab-amber)","점 A에서의 접선 (순간변화율)"]]);
     const tb=h("div",{style:"margin-top:10px"}); L.append(tb);
     seg(R,{label:"함수 $f(x)$",options:Object.keys(FN3).map(k=>[k,"$"+FN3[k].name+"$"]),value:key,onChange:v=>{key=v;upd();}});
-    slider(R,{label:"점 A의 $x$ 좌표 $a$",min:-1.5,max:2,step:.25,value:a,onInput:v=>{a=v;upd();}});
-    const hs=slider(R,{label:"$x$ 의 증분 $h$",min:-2,max:2,step:.01,value:hv,onInput:v=>{hv=Math.abs(v)<.01?.01:v;upd();}});
+    slider(R,{label:"점 A의 $x$좌표 $a$",min:-1.5,max:2,step:.25,value:a,onInput:v=>{a=v;upd();}});
+    const hs=slider(R,{label:"$x$의 증분 $h$",min:-2,max:2,step:.01,value:hv,onInput:v=>{hv=Math.abs(v)<.01?.01:v;upd();}});
     playBtn(R,"h → 0 으로 보내기",dt=>{ const s=Math.sign(hv)||1; hv=s*Math.max(.01,Math.abs(hv)*Math.pow(.25,dt)); hs.set(hv); upd(); return Math.abs(hv)>.0101; },api);
     const out=ro(); R.append(out);
     function upd(){ P.render(); const b=a+hv,m=(f(b)-f(a))/hv;
@@ -1294,14 +1295,14 @@ lab({
     upd();
   },
   concept:String.raw`<h4>평균변화율</h4>
-  <p>함수 $y=f(x)$ 에서 $x$ 의 값이 $a$ 에서 $a+\Delta x$ 까지 변할 때 $y$ 의 증분 $\Delta y=f(a+\Delta x)-f(a)$ 에 대하여</p>
+  <p>함수 $y=f(x)$에서 $x$의 값이 $a$에서 $a+\Delta x$까지 변할 때 $y$의 증분 $\Delta y=f(a+\Delta x)-f(a)$에 대하여</p>
   <div class="box">평균변화율 $\dfrac{\Delta y}{\Delta x}=\dfrac{f(a+\Delta x)-f(a)}{\Delta x}$</div>
-  <p>이 값은 두 점 $(a,\ f(a))$, $(a+\Delta x,\ f(a+\Delta x))$ 를 지나는 직선(할선)의 기울기예요.</p>
+  <p>이 값은 두 점 $(a,\ f(a))$, $(a+\Delta x,\ f(a+\Delta x))$를 지나는 직선(할선)의 기울기예요.</p>
   <h4>순간변화율(미분계수)</h4>
   <div class="box">$f'(a)=\displaystyle\lim_{\Delta x\to0}\frac{f(a+\Delta x)-f(a)}{\Delta x}=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$</div>
-  <p>이 극한값이 존재하면 $f(x)$ 는 $x=a$ 에서 <b>미분가능</b>하다고 하고, $f'(a)$ 를 $x=a$ 에서의 <b>미분계수</b> 또는 순간변화율이라 해요.</p>
+  <p>이 극한값이 존재하면 $f(x)$는 $x=a$에서 <b>미분가능</b>하다고 하고, $f'(a)$를 $x=a$에서의 <b>미분계수</b> 또는 순간변화율이라 해요.</p>
   <h4>기하적 의미</h4>
-  <p>$\Delta x\to0$ 이면 할선이 점 $(a,\ f(a))$ 에서의 <b>접선</b>에 한없이 가까워져요. 따라서 $f'(a)$ 는 곡선 $y=f(x)$ 위의 점 $(a,\ f(a))$ 에서의 접선의 기울기예요.</p>`,
+  <p>$\Delta x\to0$이면 할선이 점 $(a,\ f(a))$에서의 <b>접선</b>에 한없이 가까워져요. 따라서 $f'(a)$는 곡선 $y=f(x)$ 위의 점 $(a,\ f(a))$에서의 접선의 기울기예요.</p>`,
   deeper:"자동차 계기판의 ‘순간 속력’은 실제로 어떻게 잴까요? 아주 짧은 시간 동안의 평균 속력으로 순간 속력을 나타낼 수 있는 이유를 미분계수의 정의와 연결해 설명하고, 측정 시간을 너무 짧게 잡으면 생길 수 있는 문제도 생각해 보세요."
 });
 
@@ -1330,19 +1331,19 @@ lab({
     function view(){ const F=FS[key],w=2/Math.pow(3,z); P.o.ycenter=F.f(1); P.setView(1-w,1+w,0,1);
       const e=1e-6,lft=(F.f(1)-F.f(1-e))/e,rgt=(F.f(1+e)-F.f(1))/e;
       setRO(ft,`$f(x)=${F.tex}$`);
-      setRO(out,`$x=1$ 에서<br>왼쪽 기울기 $\\displaystyle\\lim_{h\\to0^-}\\frac{f(1+h)-f(1)}{h}$ ${F.cont?"$\\approx"+fmt(lft,3)+"$":"(발산)"}<br>오른쪽 기울기 $\\displaystyle\\lim_{h\\to0^+}\\frac{f(1+h)-f(1)}{h}\\approx${fmt(rgt,3)}$<br>`+
+      setRO(out,`$x=1$에서<br>왼쪽 기울기 $\\displaystyle\\lim_{h\\to0^-}\\frac{f(1+h)-f(1)}{h}$ ${F.cont?"$\\approx"+fmt(lft,3)+"$":"(발산)"}<br>오른쪽 기울기 $\\displaystyle\\lim_{h\\to0^+}\\frac{f(1+h)-f(1)}{h}\\approx${fmt(rgt,3)}$<br>`+
         `연속: ${F.cont?'<span class="ok">예</span>':'<span class="bad">아니요</span>'} · 미분가능: ${F.diff?'<span class="ok">예</span>':'<span class="bad">아니요</span>'}<br><span class="hint">${F.diff?"확대할수록 그래프가 직선처럼 보여요.":F.cont?"아무리 확대해도 꺾인 점이 그대로예요.":"끊어진 곳은 확대해도 이어지지 않아요."}</span>`); }
     view();
   },
   concept:String.raw`<h4>미분가능성과 연속성</h4>
-  <div class="box">함수 $f(x)$ 가 $x=a$ 에서 미분가능하면 $f(x)$ 는 $x=a$ 에서 연속이다.</div>
-  <p>이유: $x\ne a$ 일 때 $f(x)-f(a)=\dfrac{f(x)-f(a)}{x-a}\times(x-a)$ 이므로</p>
-  <p>$\displaystyle\lim_{x\to a}\{f(x)-f(a)\}=f'(a)\times0=0$, 즉 $\displaystyle\lim_{x\to a}f(x)=f(a)$ 예요.</p>
+  <div class="box">함수 $f(x)$가 $x=a$에서 미분가능하면 $f(x)$는 $x=a$에서 연속이다.</div>
+  <p>이유: $x\ne a$일 때 $f(x)-f(a)=\dfrac{f(x)-f(a)}{x-a}\times(x-a)$이므로</p>
+  <p>$\displaystyle\lim_{x\to a}\{f(x)-f(a)\}=f'(a)\times0=0$, 즉 $\displaystyle\lim_{x\to a}f(x)=f(a)$예요.</p>
   <h4>역은 성립하지 않는다</h4>
-  <p>$f(x)=|x-1|+1$ 은 $x=1$ 에서 연속이지만, 좌극한 $-1$ 과 우극한 $1$ 이 달라 $f'(1)$ 이 존재하지 않아요. 그래프가 <b>꺾인 점</b>에서는 미분가능하지 않아요.</p>
+  <p>$f(x)=|x-1|+1$은 $x=1$에서 연속이지만, 좌극한 $-1$과 우극한 $1$이 달라 $f'(1)$이 존재하지 않아요. 그래프가 <b>꺾인 점</b>에서는 미분가능하지 않아요.</p>
   <h4>판정 순서</h4>
-  <p>구간별로 정의된 함수가 $x=a$ 에서 미분가능하려면 ① $x=a$ 에서 연속이고 ② 좌미분계수와 우미분계수가 같아야 해요. 불연속이면 미분가능성은 따질 필요도 없이 미분가능하지 않아요.</p>`,
-  deeper:"함수 $f(x)=\\begin{cases}x^{2}+ax+b&(x<1)\\\\4x&(x\\ge1)\\end{cases}$ 가 $x=1$ 에서 미분가능하도록 $a,\\ b$ 를 정해 보세요. 연속 조건과 미분계수 조건이 각각 어떤 식을 주는지 구분해서 설명해 보세요."
+  <p>구간별로 정의된 함수가 $x=a$에서 미분가능하려면 ① $x=a$에서 연속이고 ② 좌미분계수와 우미분계수가 같아야 해요. 불연속이면 미분가능성은 따질 필요도 없이 미분가능하지 않아요.</p>`,
+  deeper:"함수 $f(x)=\\begin{cases}x^{2}+ax+b&(x<1)\\\\4x&(x\\ge1)\\end{cases}$가 $x=1$에서 미분가능하도록 $a,\\ b$를 정해 보세요. 연속 조건과 미분계수 조건이 각각 어떤 식을 주는지 구분해서 설명해 보세요."
 });
 
 lab({
@@ -1363,13 +1364,13 @@ lab({
       P.pt(x0,fp(x0),P.col.magenta,6,"(x, 기울기)","ne");
     }});
     let showD=false;
-    seg(R1,{label:"$f(x)=x^n$ 의 $n$",options:[[1,"1"],[2,"2"],[3,"3"],[4,"4"]],value:n,onChange:v=>{n=v;trace=[];u1();}});
-    const xs=slider(R1,{label:"점의 $x$ 좌표",min:-2,max:2,step:.05,value:x0,onInput:v=>{x0=v;trace.push([v,fp(v)]);u1();}});
+    seg(R1,{label:"$f(x)=x^n$의 $n$",options:[[1,"1"],[2,"2"],[3,"3"],[4,"4"]],value:n,onChange:v=>{n=v;trace=[];u1();}});
+    const xs=slider(R1,{label:"점의 $x$좌표",min:-2,max:2,step:.05,value:x0,onInput:v=>{x0=v;trace.push([v,fp(v)]);u1();}});
     playBtn(R1,"점 움직이기",dt=>{ x0+=dt*.8; if(x0>2){x0=2;} xs.set(x0); trace.push([x0,fp(x0)]); u1(); return x0<2; },api);
     check(R1,"도함수 그래프 겹쳐 보기",showD,v=>{showD=v;P2.render();});
     R1.append(h("button",{class:"btn ghost",type:"button",onclick:()=>{trace=[];x0=-2;xs.set(-2);u1();}},"자취 지우기"));
     const o1=ro(); R1.append(o1);
-    function u1(){ P1.render(); P2.render(); setRO(o1,`$f(x)=x^{${n}}$<br>점 $(${fmt(x0,2)},\\ ${fmt(f(x0),3)})$ 에서 접선의 기울기 $=${fmt(fp(x0),3)}$<br><span class="hint">아래 그래프에 (x, 기울기)의 자취가 남아요. 자취는 어떤 함수의 그래프처럼 보이나요?</span>`); }
+    function u1(){ P1.render(); P2.render(); setRO(o1,`$f(x)=x^{${n}}$<br>점 $(${fmt(x0,2)},\\ ${fmt(f(x0),3)})$에서 접선의 기울기 $=${fmt(fp(x0),3)}$<br><span class="hint">아래 그래프에 (x, 기울기)의 자취가 남아요. 자취는 어떤 함수의 그래프처럼 보이나요?</span>`); }
     u1();
     /* ② */
     let m=3; const t2=h("div");
@@ -1379,17 +1380,17 @@ lab({
     function u2(){ const terms=[]; for(let k=0;k<=m;k++){ const c=C(m,k); const xp=m-k,hp=k; terms.push((c===1?"":c)+(xp?("x"+(xp>1?"^{"+xp+"}":"")):"")+(hp?("h"+(hp>1?"^{"+hp+"}":"")):"")||"1"); }
       const rest=[]; for(let k=2;k<=m;k++){ const c=C(m,k); rest.push((c===1?"":c)+(m-k?("x"+(m-k>1?"^{"+(m-k)+"}":"")):"")+("h"+(k-1>1?"^{"+(k-1)+"}":(k-1===1?"":"")))); }
       setRO(t2,`<p>$(x+h)^{${m}}=${terms.join("+")}$</p><p>$\\dfrac{(x+h)^{${m}}-x^{${m}}}{h}=${m}x${m-1>1?"^{"+(m-1)+"}":(m-1===1?"":"^{0}")}${rest.length?"+"+rest.join("+"):""}$</p>`+
-        `<p class="readout">$h\\to0$ 이면 $h$ 가 곱해진 항은 모두 $0$ 으로 가요. 남는 것은 첫째 항 $${m}x^{${m-1}}$ 뿐이에요.<br>$\\therefore\\ (x^{${m}})'=${m}x^{${m-1}}$</p>`); }
+        `<p class="readout">$h\\to0$이면 $h$가 곱해진 항은 모두 $0$으로 가요. 남는 것은 첫째 항 $${m}x^{${m-1}}$뿐이에요.<br>$\\therefore\\ (x^{${m}})'=${m}x^{${m-1}}$</p>`); }
     u2();
   },
   concept:String.raw`<h4>도함수</h4>
-  <p>함수 $f(x)$ 가 정의역의 모든 $x$ 에서 미분가능할 때, 각 $x$ 에 미분계수 $f'(x)$ 를 대응시키는 새로운 함수를 $f(x)$ 의 <b>도함수</b>라 해요.</p>
+  <p>함수 $f(x)$가 정의역의 모든 $x$에서 미분가능할 때, 각 $x$에 미분계수 $f'(x)$를 대응시키는 새로운 함수를 $f(x)$의 <b>도함수</b>라 해요.</p>
   <div class="box">$f'(x)=\displaystyle\lim_{h\to0}\frac{f(x+h)-f(x)}{h}$, 기호: $f'(x),\ y',\ \dfrac{dy}{dx},\ \dfrac{d}{dx}f(x)$</div>
   <p>도함수를 구하는 것을 <b>미분한다</b>고 해요. 도함수의 그래프는 원래 그래프 위 각 점의 ‘접선의 기울기’를 모아 그린 그래프예요.</p>
-  <h4>$y=x^n$ 의 도함수 ($n$ 은 양의 정수)</h4>
-  <div class="box">$(x^{n})'=nx^{n-1},\qquad (c)'=0$ ($c$ 는 상수)</div>
-  <p>$(x+h)^{n}=x^{n}+nx^{n-1}h+(h^{2}$ 이상이 곱해진 항$)$ 이므로, $h$ 로 나누고 $h\to0$ 이면 $nx^{n-1}$ 만 남아요. 상수함수는 그래프가 수평선이라 기울기가 항상 $0$ 이에요.</p>`,
-  deeper:"$f(x)=x^{2}$ 의 그래프는 $y$ 축에 대하여 대칭인데, 도함수 $f'(x)=2x$ 의 그래프는 원점에 대하여 대칭이에요. $f(x)=x^{3}$ 은 어떤가요? ‘원래 함수의 대칭성’과 ‘도함수의 대칭성’ 사이에 어떤 규칙이 있는지 추측하고, 그 이유를 접선의 기울기로 설명해 보세요."
+  <h4>$y=x^n$의 도함수 ($n$은 양의 정수)</h4>
+  <div class="box">$(x^{n})'=nx^{n-1},\qquad (c)'=0$ ($c$는 상수)</div>
+  <p>$(x+h)^{n}=x^{n}+nx^{n-1}h+(h^{2}$ 이상이 곱해진 항$)$이므로, $h$로 나누고 $h\to0$이면 $nx^{n-1}$만 남아요. 상수함수는 그래프가 수평선이라 기울기가 항상 $0$이에요.</p>`,
+  deeper:"$f(x)=x^{2}$의 그래프는 $y$축에 대하여 대칭인데, 도함수 $f'(x)=2x$의 그래프는 원점에 대하여 대칭이에요. $f(x)=x^{3}$은 어떤가요? ‘원래 함수의 대칭성’과 ‘도함수의 대칭성’ 사이에 어떤 규칙이 있는지 추측하고, 그 이유를 접선의 기울기로 설명해 보세요."
 });
 
 lab({
@@ -1415,7 +1416,7 @@ lab({
     slider(R1,{label:"$\\Delta x$",min:.02,max:1,step:.02,value:dx,onInput:v=>{dx=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const f=F(x),g=G(x),df=F(x+dx)-f,dg=G(x+dx)-g,tot=(f+df)*(g+dg)-f*g;
-      setRO(o1,`$f(x)=x+1,\\ g(x)=\\dfrac{1}{4}x^{2}+1$<br>늘어난 넓이 $\\Delta(fg)=g\\Delta f+f\\Delta g+\\Delta f\\Delta g$<br>$=${fmt(g*df,3)}+${fmt(f*dg,3)}+${fmt(df*dg,4)}=${fmt(tot,3)}$<br>$\\Delta x$ 로 나누면 $\\dfrac{\\Delta(fg)}{\\Delta x}=${fmt(tot/dx,3)}$<br>모서리 조각의 몫 $\\dfrac{\\Delta f\\Delta g}{\\Delta x}=${fmt(df*dg/dx,4)}$ ← $\\Delta x\\to0$ 이면 $0$<br>극한: $f'g+fg'=${fmt(1*g+f*x/2,3)}$`); }
+      setRO(o1,`$f(x)=x+1,\\ g(x)=\\dfrac{1}{4}x^{2}+1$<br>늘어난 넓이 $\\Delta(fg)=g\\Delta f+f\\Delta g+\\Delta f\\Delta g$<br>$=${fmt(g*df,3)}+${fmt(f*dg,3)}+${fmt(df*dg,4)}=${fmt(tot,3)}$<br>$\\Delta x$로 나누면 $\\dfrac{\\Delta(fg)}{\\Delta x}=${fmt(tot/dx,3)}$<br>모서리 조각의 몫 $\\dfrac{\\Delta f\\Delta g}{\\Delta x}=${fmt(df*dg/dx,4)}$ ← $\\Delta x\\to0$이면 $0$<br>극한: $f'g+fg'=${fmt(1*g+f*x/2,3)}$`); }
     u1();
     /* ② */
     let c=2,x2=1;
@@ -1436,14 +1437,14 @@ lab({
     u2();
   },
   concept:String.raw`<h4>실수배, 합, 차의 미분법</h4>
-  <p>두 함수 $f(x),\ g(x)$ 가 미분가능할 때</p>
-  <div class="box">① $\{cf(x)\}'=cf'(x)$ ($c$ 는 상수)<br>② $\{f(x)+g(x)\}'=f'(x)+g'(x)$<br>③ $\{f(x)-g(x)\}'=f'(x)-g'(x)$</div>
+  <p>두 함수 $f(x),\ g(x)$가 미분가능할 때</p>
+  <div class="box">① $\{cf(x)\}'=cf'(x)$ ($c$는 상수)<br>② $\{f(x)+g(x)\}'=f'(x)+g'(x)$<br>③ $\{f(x)-g(x)\}'=f'(x)-g'(x)$</div>
   <p>도함수의 정의에 극한의 성질을 적용하면 바로 얻어져요. 그래서 다항함수는 각 항을 따로 미분해 더하면 돼요.</p>
   <h4>곱의 미분법</h4>
   <div class="box">$\{f(x)g(x)\}'=f'(x)g(x)+f(x)g'(x)$</div>
-  <p>직사각형의 가로를 $f$, 세로를 $g$ 라 하면 넓이 증가량은 $g\Delta f+f\Delta g+\Delta f\Delta g$ 예요. $\Delta x$ 로 나누고 $\Delta x\to0$ 이면 모서리 조각 $\dfrac{\Delta f\Delta g}{\Delta x}=\dfrac{\Delta f}{\Delta x}\cdot\Delta g\to f'(x)\times0=0$ 이 사라지고 $f'g+fg'$ 만 남아요.</p>
-  <p>주의: $\{f(x)g(x)\}'\ne f'(x)g'(x)$ 예요. 예: $(x\cdot x)'=2x$ 인데 $(x)'(x)'=1$.</p>`,
-  deeper:"곱의 미분법을 두 번 써서 $\\{f(x)\\}^{3}$ 의 도함수를 구하고, 그 결과를 $(x^{n})'=nx^{n-1}$ 과 비교해 보세요. 세 함수의 곱 $f(x)g(x)k(x)$ 의 도함수는 ‘상자의 부피’ 모형으로 어떻게 설명할 수 있을까요?"
+  <p>직사각형의 가로를 $f$, 세로를 $g$라 하면 넓이 증가량은 $g\Delta f+f\Delta g+\Delta f\Delta g$예요. $\Delta x$로 나누고 $\Delta x\to0$이면 모서리 조각 $\dfrac{\Delta f\Delta g}{\Delta x}=\dfrac{\Delta f}{\Delta x}\cdot\Delta g\to f'(x)\times0=0$이 사라지고 $f'g+fg'$만 남아요.</p>
+  <p>주의: $\{f(x)g(x)\}'\ne f'(x)g'(x)$예요. 예: $(x\cdot x)'=2x$인데 $(x)'(x)'=1$.</p>`,
+  deeper:"곱의 미분법을 두 번 써서 $\\{f(x)\\}^{3}$의 도함수를 구하고, 그 결과를 $(x^{n})'=nx^{n-1}$과 비교해 보세요. 세 함수의 곱 $f(x)g(x)k(x)$의 도함수는 ‘상자의 부피’ 모형으로 어떻게 설명할 수 있을까요?"
 });
 
 lab({
@@ -1463,27 +1464,27 @@ lab({
     seg(R,{label:"상황 고르기",options:[[0,"곡선 위의 점"],[1,"기울기가 주어질 때"],[2,"곡선 밖의 점"]],value:mode,onChange:v=>{mode=v;show();}});
     R.append(box);
     const s0=h("div"),s1=h("div",{hidden:true}),s2=h("div",{hidden:true}); box.append(s0,s1,s2);
-    slider(s0,{label:"접점의 $x$ 좌표 $t$",min:-2.5,max:2.5,step:.25,value:t,onInput:v=>{t=v;upd();}});
+    slider(s0,{label:"접점의 $x$좌표 $t$",min:-2.5,max:2.5,step:.25,value:t,onInput:v=>{t=v;upd();}});
     slider(s1,{label:"기울기 $m$",min:-4,max:9,step:.5,value:m,onInput:v=>{m=v;upd();}});
-    slider(s2,{label:"점 P의 $x$ 좌표",min:-2,max:2,step:.5,value:p,onInput:v=>{p=v;upd();}});
-    slider(s2,{label:"점 P의 $y$ 좌표",min:-4,max:4,step:.5,value:q,onInput:v=>{q=v;upd();}});
+    slider(s2,{label:"점 P의 $x$좌표",min:-2,max:2,step:.5,value:p,onInput:v=>{p=v;upd();}});
+    slider(s2,{label:"점 P의 $y$좌표",min:-4,max:4,step:.5,value:q,onInput:v=>{q=v;upd();}});
     const out=ro(); R.append(out);
     function show(){ [s0,s1,s2].forEach((s,i)=>s.hidden=i!==mode); upd(); }
     const lineTex=s=>{ const k=fp(s),b=f(s)-k*s; return `y=${ptex([k,b])}`; };
     function upd(){ P.render(); const T=tans(); let s="$f(x)=x^{3}-3x,\\ f'(x)=3x^{2}-3$<br>";
       if(mode===0) s+=`접점 $(${tnum(t)},\\ ${tnum(f(t))})$, 기울기 $f'(${tnum(t)})=${tnum(fp(t))}$<br>접선: $y-f(t)=f'(t)(x-t)$<br>$\\Rightarrow ${lineTex(t)}$`;
-      else if(mode===1) s+=`$3t^{2}-3=${tnum(m)}$ 을 풀면 접점 ${T.length}개<br>`+(T.map(x=>`$t=${fmt(x,3)}$: $${lineTex(x)}$`).join("<br>")||'<span class="bad">기울기가 $-3$ 보다 작은 접선은 없어요.</span>');
-      else s+=`접점을 $(t,\\ f(t))$ 로 두고 접선이 P를 지난다는 조건:<br>$${tnum(q)}=f(t)+f'(t)(${tnum(p)}-t)$<br>실근의 개수 = 접선의 개수 = <b>${T.length}개</b><br>`+T.map(x=>`$t\\approx${fmt(x,3)}$`).join(", ");
+      else if(mode===1) s+=`$3t^{2}-3=${tnum(m)}$을 풀면 접점 ${T.length}개<br>`+(T.map(x=>`$t=${fmt(x,3)}$: $${lineTex(x)}$`).join("<br>")||'<span class="bad">기울기가 $-3$보다 작은 접선은 없어요.</span>');
+      else s+=`접점을 $(t,\\ f(t))$로 두고 접선이 P를 지난다는 조건:<br>$${tnum(q)}=f(t)+f'(t)(${tnum(p)}-t)$<br>실근의 개수 = 접선의 개수 = <b>${T.length}개</b><br>`+T.map(x=>`$t\\approx${fmt(x,3)}$`).join(", ");
       setRO(out,s); }
     show();
   },
   concept:String.raw`<h4>접선의 방정식</h4>
-  <p>곡선 $y=f(x)$ 위의 점 $(a,\ f(a))$ 에서의 접선의 기울기는 $f'(a)$ 이므로</p>
+  <p>곡선 $y=f(x)$ 위의 점 $(a,\ f(a))$에서의 접선의 기울기는 $f'(a)$이므로</p>
   <div class="box">$y-f(a)=f'(a)(x-a)$</div>
   <h4>세 가지 상황</h4>
-  <ul><li><b>접점이 주어질 때:</b> $f'(a)$ 를 구해 바로 대입해요.</li>
-  <li><b>기울기 $m$ 이 주어질 때:</b> $f'(t)=m$ 을 풀어 접점의 $x$ 좌표 $t$ 를 찾아요.</li>
-  <li><b>곡선 밖의 점 $(p,\ q)$ 를 지날 때:</b> 접점을 $(t,\ f(t))$ 로 놓고 접선 $y-f(t)=f'(t)(x-t)$ 에 $(p,\ q)$ 를 대입해 $t$ 에 대한 방정식을 풀어요. 이 방정식의 실근의 개수가 그을 수 있는 접선의 개수예요.</li></ul>
+  <ul><li><b>접점이 주어질 때:</b> $f'(a)$를 구해 바로 대입해요.</li>
+  <li><b>기울기 $m$이 주어질 때:</b> $f'(t)=m$을 풀어 접점의 $x$좌표 $t$를 찾아요.</li>
+  <li><b>곡선 밖의 점 $(p,\ q)$를 지날 때:</b> 접점을 $(t,\ f(t))$로 놓고 접선 $y-f(t)=f'(t)(x-t)$에 $(p,\ q)$를 대입해 $t$에 대한 방정식을 풀어요. 이 방정식의 실근의 개수가 그을 수 있는 접선의 개수예요.</li></ul>
   <p>어느 경우든 핵심은 <b>접점을 먼저 정하는 것</b>이에요. 접점을 알면 기울기와 지나는 점을 모두 알 수 있으니까요.</p>`,
   deeper:"곡선 $y=x^{3}-3x$ 밖의 점 P에서 그을 수 있는 접선이 $1$개, $2$개, $3$개인 경우를 탐색 도구로 찾아보세요. 접선이 $3$개인 점 P들은 평면에서 어떤 영역을 이룰지 추측하고, 그 이유를 설명해 보세요."
 });
@@ -1515,17 +1516,17 @@ lab({
     const out=ro(); R.append(out);
     function upd(){ P.render(); const F=FS[key],f=F.f,m=(f(b)-f(a))/(b-a),s=sol();
       setRO(out,`평균변화율 $\\dfrac{f(b)-f(a)}{b-a}=${fmt(m,3)}$<br>$f'(c)=${fmt(nd(f,c),3)}$ ${Math.abs(nd(f,c)-m)<.02?'<span class="ok">같아요!</span>':""}<br>`+
-        (F.diff?`$(a,\\ b)$ 안의 $c$: ${s.map(x=>"$"+fmt(x,3)+"$").join(", ")||"없음"}`+(Math.abs(f(a)-f(b))<1e-9?'<br><span class="ok">$f(a)=f(b)$: 롤의 정리 상황</span>':""):`<span class="bad">$x=0$ 에서 미분가능하지 않아요.</span> 평행한 접선이 ${a<0&&b>0&&Math.abs(m)<1-1e-9?"없을 수 있어요":"있을 수도, 없을 수도 있어요"}.`)); }
+        (F.diff?`$(a,\\ b)$ 안의 $c$: ${s.map(x=>"$"+fmt(x,3)+"$").join(", ")||"없음"}`+(Math.abs(f(a)-f(b))<1e-9?'<br><span class="ok">$f(a)=f(b)$: 롤의 정리 상황</span>':""):`<span class="bad">$x=0$에서 미분가능하지 않아요.</span> 평행한 접선이 ${a<0&&b>0&&Math.abs(m)<1-1e-9?"없을 수 있어요":"있을 수도, 없을 수도 있어요"}.`)); }
     upd();
   },
   concept:String.raw`<h4>롤의 정리</h4>
-  <div class="box">함수 $f(x)$ 가 닫힌구간 $[a,\ b]$ 에서 연속이고 열린구간 $(a,\ b)$ 에서 미분가능할 때, $f(a)=f(b)$ 이면 $f'(c)=0$ 인 $c$ 가 $(a,\ b)$ 에 적어도 하나 존재한다.</div>
-  <p>최대·최소 정리로 $[a,\ b]$ 에서 최댓값 또는 최솟값이 구간 안쪽에서 생기고, 그 점에서는 접선이 수평이 돼요.</p>
+  <div class="box">함수 $f(x)$가 닫힌구간 $[a,\ b]$에서 연속이고 열린구간 $(a,\ b)$에서 미분가능할 때, $f(a)=f(b)$이면 $f'(c)=0$인 $c$가 $(a,\ b)$에 적어도 하나 존재한다.</div>
+  <p>최대·최소 정리로 $[a,\ b]$에서 최댓값 또는 최솟값이 구간 안쪽에서 생기고, 그 점에서는 접선이 수평이 돼요.</p>
   <h4>평균값 정리</h4>
-  <div class="box">함수 $f(x)$ 가 닫힌구간 $[a,\ b]$ 에서 연속이고 열린구간 $(a,\ b)$ 에서 미분가능하면 $\dfrac{f(b)-f(a)}{b-a}=f'(c)$ 인 $c$ 가 $(a,\ b)$ 에 적어도 하나 존재한다.</div>
-  <p>할선 AB와 <b>평행한 접선</b>이 구간 안에 반드시 있다는 뜻이에요. 롤의 정리는 평균값 정리에서 $f(a)=f(b)$ 인 특별한 경우예요.</p>
-  <p>조건(연속, 미분가능)이 하나라도 깨지면 정리가 성립하지 않을 수 있어요. $|x|+1$ 처럼 꺾인 점이 있으면 평행한 접선이 없을 수 있어요.</p>`,
-  deeper:"고속도로의 두 지점 사이 $60\\,\\text{km}$ 를 $30$ 분 만에 지나간 차가 있어요. 이 차가 구간 어딘가에서 정확히 시속 $120\\,\\text{km}$ 로 달린 순간이 있었다고 말할 수 있을까요? 평균값 정리의 조건이 현실의 자동차 운동에서 왜 만족된다고 볼 수 있는지 함께 설명해 보세요."
+  <div class="box">함수 $f(x)$가 닫힌구간 $[a,\ b]$에서 연속이고 열린구간 $(a,\ b)$에서 미분가능하면 $\dfrac{f(b)-f(a)}{b-a}=f'(c)$인 $c$가 $(a,\ b)$에 적어도 하나 존재한다.</div>
+  <p>할선 AB와 <b>평행한 접선</b>이 구간 안에 반드시 있다는 뜻이에요. 롤의 정리는 평균값 정리에서 $f(a)=f(b)$인 특별한 경우예요.</p>
+  <p>조건(연속, 미분가능)이 하나라도 깨지면 정리가 성립하지 않을 수 있어요. $|x|+1$처럼 꺾인 점이 있으면 평행한 접선이 없을 수 있어요.</p>`,
+  deeper:"고속도로의 두 지점 사이 $60\\,\\text{km}$를 $30$분 만에 지나간 차가 있어요. 이 차가 구간 어딘가에서 정확히 시속 $120\\,\\text{km}$로 달린 순간이 있었다고 말할 수 있을까요? 평균값 정리의 조건이 현실의 자동차 운동에서 왜 만족된다고 볼 수 있는지 함께 설명해 보세요."
 });
 
 lab({
@@ -1546,7 +1547,7 @@ lab({
     legend(L,[["var(--lab-blue)","증가하는 부분 ($f'(x)>0$)"],["var(--lab-magenta)","감소하는 부분 ($f'(x)<0$)"],["var(--lab-green)","도함수 $y=f'(x)$"]]);
     const tb=h("div",{style:"margin-top:10px"}); L.append(tb);
     function crit(){ const r=allRoots(fp,-4,4); return r.map(x=>{ const l=fp(x-1e-3),rr=fp(x+1e-3); return [x,l>0&&rr<0?"max":l<0&&rr>0?"min":null]; }); }
-    slider(R,{label:"$f(x)=x^{3}+px^{2}+qx$ 의 $p$",min:-3,max:3,step:.5,value:p,onInput:v=>{p=v;upd();}});
+    slider(R,{label:"$f(x)=x^{3}+px^{2}+qx$의 $p$",min:-3,max:3,step:.5,value:p,onInput:v=>{p=v;upd();}});
     slider(R,{label:"$q$",min:-6,max:6,step:.5,value:q,onInput:v=>{q=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); P2.render(); const cr=crit();
@@ -1556,19 +1557,19 @@ lab({
         head.push("⋯"); r1.push(fp(m)>0?"$+$":"$-$"); r2.push(fp(m)>0?"↗":"↘");
         if(i<cr.length){ head.push("$"+fmt(cr[i][0],2)+"$"); r1.push("$0$"); r2.push(cr[i][1]?(cr[i][1]==="max"?"극대 ":"극소 ")+fmt(f(cr[i][0]),2):fmt(f(cr[i][0]),2)); } }
       setRO(tb,`<div class="tbl-wrap"><table class="t"><tr>${head.map(x=>`<th>${x}</th>`).join("")}</tr><tr>${r1.map(x=>`<td>${x}</td>`).join("")}</tr><tr>${r2.map(x=>`<td>${x}</td>`).join("")}</tr></table></div>`);
-      setRO(out,`$f(x)=${ptex(c())}$<br>$f'(x)=${ptex(pder(c()))}$<br>`+(cr.length?cr.map(([x,t])=>`$x=${fmt(x,3)}$: $f'=0$, ${t?(t==="max"?"<b>극대</b>":"<b>극소</b>"):"부호가 안 바뀌어 극값 아님"}`).join("<br>"):"$f'(x)=0$ 인 점이 없어요. 한 방향으로만 변해요."));
+      setRO(out,`$f(x)=${ptex(c())}$<br>$f'(x)=${ptex(pder(c()))}$<br>`+(cr.length?cr.map(([x,t])=>`$x=${fmt(x,3)}$: $f'=0$, ${t?(t==="max"?"<b>극대</b>":"<b>극소</b>"):"부호가 안 바뀌어 극값 아님"}`).join("<br>"):"$f'(x)=0$인 점이 없어요. 한 방향으로만 변해요."));
     }
     upd();
   },
   concept:String.raw`<h4>함수의 증가와 감소</h4>
-  <p>어떤 구간에 속하는 임의의 두 수 $x_{1}<x_{2}$ 에 대하여 $f(x_{1})<f(x_{2})$ 이면 $f(x)$ 는 그 구간에서 <b>증가</b>, $f(x_{1})>f(x_{2})$ 이면 <b>감소</b>한다고 해요.</p>
-  <div class="box">어떤 열린구간에서 $f'(x)>0$ 이면 $f(x)$ 는 그 구간에서 증가하고, $f'(x)<0$ 이면 감소한다.</div>
-  <p>이유는 평균값 정리예요. $x_{1}<x_{2}$ 이면 $f(x_{2})-f(x_{1})=f'(c)(x_{2}-x_{1})$ 인 $c$ 가 있고, $f'(c)>0$ 이면 이 값이 양수예요.</p>
+  <p>어떤 구간에 속하는 임의의 두 수 $x_{1}\lt x_{2}$에 대하여 $f(x_{1})\lt f(x_{2})$이면 $f(x)$는 그 구간에서 <b>증가</b>, $f(x_{1})>f(x_{2})$이면 <b>감소</b>한다고 해요.</p>
+  <div class="box">어떤 열린구간에서 $f'(x)>0$이면 $f(x)$는 그 구간에서 증가하고, $f'(x)<0$이면 감소한다.</div>
+  <p>이유는 평균값 정리예요. $x_{1}\lt x_{2}$이면 $f(x_{2})-f(x_{1})=f'(c)(x_{2}-x_{1})$인 $c$가 있고, $f'(c)>0$이면 이 값이 양수예요.</p>
   <h4>극대와 극소</h4>
-  <p>$x=a$ 를 포함하는 어떤 열린구간에서 $f(x)\le f(a)$ 이면 $f(a)$ 를 <b>극댓값</b>, $f(x)\ge f(a)$ 이면 <b>극솟값</b>이라 하고, 둘을 <b>극값</b>이라 해요.</p>
-  <div class="box">미분가능한 함수 $f(x)$ 에서 $f'(a)=0$ 이고 $x=a$ 의 좌우에서 $f'(x)$ 의 부호가 양에서 음으로 바뀌면 극대, 음에서 양으로 바뀌면 극소</div>
-  <p>$f'(a)=0$ 이라고 해서 항상 극값인 것은 아니에요. $f(x)=x^{3}$ 은 $f'(0)=0$ 이지만 부호가 바뀌지 않아 극값이 없어요.</p>`,
-  deeper:"‘$f(x)$ 가 어떤 구간에서 증가하면 그 구간에서 $f'(x)>0$ 이다.’는 참일까요? $f(x)=x^{3}$ 을 예로 따져 보고, 증가의 정의와 도함수의 부호 사이의 관계를 정확하게 말해 보세요."
+  <p>$x=a$를 포함하는 어떤 열린구간에서 $f(x)\le f(a)$이면 $f(a)$를 <b>극댓값</b>, $f(x)\ge f(a)$이면 <b>극솟값</b>이라 하고, 둘을 <b>극값</b>이라 해요.</p>
+  <div class="box">미분가능한 함수 $f(x)$에서 $f'(a)=0$이고 $x=a$의 좌우에서 $f'(x)$의 부호가 양에서 음으로 바뀌면 극대, 음에서 양으로 바뀌면 극소</div>
+  <p>$f'(a)=0$이라고 해서 항상 극값인 것은 아니에요. $f(x)=x^{3}$은 $f'(0)=0$이지만 부호가 바뀌지 않아 극값이 없어요.</p>`,
+  deeper:"‘$f(x)$가 어떤 구간에서 증가하면 그 구간에서 $f'(x)>0$이다.’는 참일까요? $f(x)=x^{3}$을 예로 따져 보고, 증가의 정의와 도함수의 부호 사이의 관계를 정확하게 말해 보세요."
 });
 
 lab({
@@ -1589,12 +1590,12 @@ lab({
       P.fn(x=>x*x/3,P.col.green,2); P.text("q = p²/3",2.6,2.25,P.col.green,"ne",4);
       P.pt(p,q,P.col.magenta,7,"현재 함수","ne");
     }});
-    slider(R1,{label:"$f(x)=x^{3}+px^{2}+qx$ 의 $p$",min:-3,max:3,step:.25,value:p,onInput:v=>{p=v;u1();}});
+    slider(R1,{label:"$f(x)=x^{3}+px^{2}+qx$의 $p$",min:-3,max:3,step:.25,value:p,onInput:v=>{p=v;u1();}});
     slider(R1,{label:"$q$",min:-4,max:8,step:.25,value:q,onInput:v=>{q=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); P2.render(); const D=p*p-3*q;
       setRO(o1,`$f'(x)=3x^{2}+${tnum(2*p)}x+${tnum(q)}$<br>$\\dfrac{D}{4}=p^{2}-3q=${tnum(D)}$<br>`+
-        (D>1e-9?`<span class="ok">$f'(x)=0$ 이 서로 다른 두 실근 → 극댓값과 극솟값을 모두 가져요.</span>`:D<-1e-9?`$f'(x)>0$ → 항상 증가, 극값 없음`:`$f'(x)\\ge0$, 중근 → 증가하며 극값 없음 (잠깐 수평)`)); }
+        (D>1e-9?`<span class="ok">$f'(x)=0$이 서로 다른 두 실근 → 극댓값과 극솟값을 모두 가져요.</span>`:D<-1e-9?`$f'(x)>0$ → 항상 증가, 극값 없음`:`$f'(x)\\ge0$, 중근 → 증가하며 극값 없음 (잠깐 수평)`)); }
     u1();
     /* ② */
     let a=0,b=-2;
@@ -1604,23 +1605,23 @@ lab({
       P.axes({}); P.fn(f4,P.col.blue,2.6);
       allRoots(fp4,-5,5).forEach(x=>{ const l=fp4(x-1e-3),r=fp4(x+1e-3); P.pt(x,f4(x),l*r<0?(l<0?P.col.green:P.col.magenta):P.col.muted,6); });
     }});
-    slider(R2,{label:"$f'(x)=x(x^{2}+ax+b)$ 의 $a$",min:-3,max:3,step:.5,value:a,onInput:v=>{a=v;u2();}});
+    slider(R2,{label:"$f'(x)=x(x^{2}+ax+b)$의 $a$",min:-3,max:3,step:.5,value:a,onInput:v=>{a=v;u2();}});
     slider(R2,{label:"$b$",min:-4,max:4,step:.5,value:b,onInput:v=>{b=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P3.render(); const r=allRoots(fp4,-5,5); let mx=0,mn=0;
       r.forEach(x=>{ const l=fp4(x-1e-3),rr=fp4(x+1e-3); if(l>0&&rr<0) mx++; if(l<0&&rr>0) mn++; });
-      setRO(o2,`$f(x)=${ptex(c4())}$<br>$f'(x)=0$ 의 서로 다른 실근: ${r.map(x=>"$"+fmt(x,2)+"$").join(", ")}<br>극대 <b>${mx}</b>개, 극소 <b>${mn}</b>개<br><span class="hint">최고차항의 계수가 양수인 사차함수는 극소가 적어도 하나 있어요. 왜일까요?</span>`); }
+      setRO(o2,`$f(x)=${ptex(c4())}$<br>$f'(x)=0$의 서로 다른 실근: ${r.map(x=>"$"+fmt(x,2)+"$").join(", ")}<br>극대 <b>${mx}</b>개, 극소 <b>${mn}</b>개<br><span class="hint">최고차항의 계수가 양수인 사차함수는 극소가 적어도 하나 있어요. 왜일까요?</span>`); }
     u2();
   },
   concept:String.raw`<h4>그래프의 개형을 그리는 순서</h4>
-  <ol><li>$f'(x)$ 를 구하고 $f'(x)=0$ 인 $x$ 를 찾는다.</li><li>증감표를 만들어 $f'(x)$ 의 부호로 증가·감소와 극값을 정한다.</li><li>극값, $y$ 절편, 필요하면 $x$ 절편을 구한다.</li><li>$x\to\pm\infty$ 일 때의 모양(최고차항)을 생각하며 매끄럽게 잇는다.</li></ol>
+  <ol><li>$f'(x)$를 구하고 $f'(x)=0$인 $x$를 찾는다.</li><li>증감표를 만들어 $f'(x)$의 부호로 증가·감소와 극값을 정한다.</li><li>극값, $y$절편, 필요하면 $x$절편을 구한다.</li><li>$x\to\pm\infty$일 때의 모양(최고차항)을 생각하며 매끄럽게 잇는다.</li></ol>
   <h4>삼차함수가 극값을 가질 조건</h4>
-  <p>$f(x)=ax^{3}+bx^{2}+cx+d\ (a\ne0)$ 에서 $f'(x)=3ax^{2}+2bx+c$ 는 이차함수예요.</p>
-  <div class="box">$f(x)$ 가 극값을 가진다 $\iff$ $f'(x)=0$ 이 서로 다른 두 실근을 가진다 $\iff$ $\dfrac{D}{4}=b^{2}-3ac>0$</div>
-  <p>$\dfrac{D}{4}\le0$ 이면 $f'(x)$ 의 부호가 바뀌지 않으므로 극값이 없어요. 삼차함수는 ‘극값 2개’ 또는 ‘극값 0개’뿐이에요.</p>
+  <p>$f(x)=ax^{3}+bx^{2}+cx+d\ (a\ne0)$에서 $f'(x)=3ax^{2}+2bx+c$는 이차함수예요.</p>
+  <div class="box">$f(x)$가 극값을 가진다 $\iff$ $f'(x)=0$이 서로 다른 두 실근을 가진다 $\iff$ $\dfrac{D}{4}=b^{2}-3ac>0$</div>
+  <p>$\dfrac{D}{4}\le0$이면 $f'(x)$의 부호가 바뀌지 않으므로 극값이 없어요. 삼차함수는 ‘극값 2개’ 또는 ‘극값 0개’뿐이에요.</p>
   <h4>사차함수</h4>
-  <p>$f'(x)$ 가 삼차함수이므로 $f'(x)=0$ 의 실근과 부호 변화에 따라 극값이 $1$ 개 또는 $3$ 개가 돼요.</p>`,
-  deeper:"삼차함수 $f(x)=x^{3}+px^{2}+qx$ 가 극값을 갖지 않도록 하는 $(p,\\ q)$ 의 영역을 $pq$ 평면에 나타내면 포물선 $q=\\dfrac{p^{2}}{3}$ 의 위쪽(경계 포함)이 돼요. ‘극값이 없다’가 ‘역함수가 존재한다’와 어떤 관련이 있는지 설명해 보세요."
+  <p>$f'(x)$가 삼차함수이므로 $f'(x)=0$의 실근과 부호 변화에 따라 극값이 $1$개 또는 $3$개가 돼요.</p>`,
+  deeper:"삼차함수 $f(x)=x^{3}+px^{2}+qx$가 극값을 갖지 않도록 하는 $(p,\\ q)$의 영역을 $pq$ 평면에 나타내면 포물선 $q=\\dfrac{p^{2}}{3}$의 위쪽(경계 포함)이 돼요. ‘극값이 없다’가 ‘역함수가 존재한다’와 어떤 관련이 있는지 설명해 보세요."
 });
 
 lab({
@@ -1640,7 +1641,7 @@ lab({
     slider(R1,{label:"$k$",min:-24,max:12,step:.5,value:k,onInput:v=>{k=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const cr=findRoots(x=>pv(pder(FS[key].c),x),-5,5).map(f),n=allRoots(x=>f(x)-k,-6,6).length;
-      setRO(o1,`$f(x)=${ptex(FS[key].c)}$<br>극댓값 $${tnum(Math.max(...cr))}$, 극솟값 $${tnum(Math.min(...cr))}$<br>방정식 $f(x)=${tnum(k)}$ 의 서로 다른 실근: <b>${n}개</b><br><span class="hint">실근 = 두 그래프의 교점의 $x$ 좌표</span>`); }
+      setRO(o1,`$f(x)=${ptex(FS[key].c)}$<br>극댓값 $${tnum(Math.max(...cr))}$, 극솟값 $${tnum(Math.min(...cr))}$<br>방정식 $f(x)=${tnum(k)}$의 서로 다른 실근: <b>${n}개</b><br><span class="hint">실근 = 두 그래프의 교점의 $x$좌표</span>`); }
     P1.setView(-4,4.5,-6,6); u1();
     /* ② */
     let kk=0;
@@ -1654,16 +1655,16 @@ lab({
     slider(R2,{label:"$k$",min:-1,max:4,step:.25,value:kk,onInput:v=>{kk=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const m=g(1);
-      setRO(o2,`목표: $x\\ge0$ 인 모든 $x$ 에 대하여 $x^{3}-3x+k\\ge0$<br>$g'(x)=3x^{2}-3=0$ 에서 $x=1$, $x\\ge0$ 에서의 최솟값 $g(1)=k-2=${tnum(m)}$<br>`+(m>=-1e-9?`<span class="ok">최솟값 $\\ge0$ 이므로 항상 성립해요.</span>`:`<span class="bad">음수인 부분이 있어요(색칠한 부분).</span>`)); }
+      setRO(o2,`목표: $x\\ge0$인 모든 $x$에 대하여 $x^{3}-3x+k\\ge0$<br>$g'(x)=3x^{2}-3=0$에서 $x=1$, $x\\ge0$에서의 최솟값 $g(1)=k-2=${tnum(m)}$<br>`+(m>=-1e-9?`<span class="ok">최솟값 $\\ge0$이므로 항상 성립해요.</span>`:`<span class="bad">음수인 부분이 있어요(색칠한 부분).</span>`)); }
     u2();
   },
   concept:String.raw`<h4>방정식의 실근의 개수</h4>
-  <p>방정식 $f(x)=k$ 의 실근은 곡선 $y=f(x)$ 와 직선 $y=k$ 의 교점의 $x$ 좌표예요. 따라서 $y=f(x)$ 의 개형을 그리고 수평선 $y=k$ 를 위아래로 움직이며 교점의 개수를 세면 돼요.</p>
-  <div class="box">삼차함수가 극댓값 $M$, 극솟값 $m$ 을 가질 때 $f(x)=k$ 의 서로 다른 실근의 개수<br>$k>M$ 또는 $k<m$: $1$개, $k=M$ 또는 $k=m$: $2$개, $m<k<M$: $3$개</div>
-  <p>$f(x)=g(x)$ 꼴이면 $h(x)=f(x)-g(x)=0$ 으로 바꾸어 생각할 수 있어요.</p>
+  <p>방정식 $f(x)=k$의 실근은 곡선 $y=f(x)$와 직선 $y=k$의 교점의 $x$좌표예요. 따라서 $y=f(x)$의 개형을 그리고 수평선 $y=k$를 위아래로 움직이며 교점의 개수를 세면 돼요.</p>
+  <div class="box">삼차함수가 극댓값 $M$, 극솟값 $m$을 가질 때 $f(x)=k$의 서로 다른 실근의 개수<br>$k>M$ 또는 $k\lt m$: $1$개, $k=M$ 또는 $k=m$: $2$개, $m\lt k\lt M$: $3$개</div>
+  <p>$f(x)=g(x)$ 꼴이면 $h(x)=f(x)-g(x)=0$으로 바꾸어 생각할 수 있어요.</p>
   <h4>부등식의 증명</h4>
-  <p>어떤 구간에서 부등식 $f(x)\ge0$ 이 항상 성립함을 보이려면 그 구간에서 $f(x)$ 의 <b>최솟값</b>이 $0$ 이상임을 보이면 돼요. 최솟값은 극값과 구간의 끝값을 비교해서 구해요.</p>`,
-  deeper:"방정식 $2x^{3}-3x^{2}-12x-k=0$ 이 서로 다른 두 양의 실근과 하나의 음의 실근을 갖도록 하는 $k$ 의 범위를 그래프로 찾아보세요. ‘교점의 개수’뿐 아니라 ‘교점의 위치’까지 따지려면 무엇을 더 봐야 할까요?"
+  <p>어떤 구간에서 부등식 $f(x)\ge0$이 항상 성립함을 보이려면 그 구간에서 $f(x)$의 <b>최솟값</b>이 $0$ 이상임을 보이면 돼요. 최솟값은 극값과 구간의 끝값을 비교해서 구해요.</p>`,
+  deeper:"방정식 $2x^{3}-3x^{2}-12x-k=0$이 서로 다른 두 양의 실근과 하나의 음의 실근을 갖도록 하는 $k$의 범위를 그래프로 찾아보세요. ‘교점의 개수’뿐 아니라 ‘교점의 위치’까지 따지려면 무엇을 더 봐야 할까요?"
 });
 
 lab({
@@ -1691,17 +1692,17 @@ lab({
     playBtn(R,"움직이기",dt=>{ t=Math.min(T,t+dt*.8); ts.set(t); upd(); return t<T; },api);
     const out=ro(); R.append(out);
     function upd(){ NL.render(); PL.render(); const vv=v(t),aa=a(t);
-      setRO(out,`$x(t)=${ptex(cs[A],"t")}$<br>$t=${fmt(t,2)}$ 일 때<br>위치 $${fmt(x(t),3)}$, 속도 $${fmt(vv,3)}$, 가속도 $${fmt(aa,3)}$<br>`+
+      setRO(out,`$x(t)=${ptex(cs[A],"t")}$<br>$t=${fmt(t,2)}$일 때<br>위치 $${fmt(x(t),3)}$, 속도 $${fmt(vv,3)}$, 가속도 $${fmt(aa,3)}$<br>`+
         (Math.abs(vv)<.06?`<span class="ok">속도 $0$: 잠깐 멈춤</span>`:vv>0?"양의 방향으로 운동":"음의 방향으로 운동")+`, 속력 $|v|=${fmt(Math.abs(vv),3)}$<br>`+
         `<span class="hint">${vv*aa>0?"속도와 가속도의 부호가 같아 빨라지는 중":vv*aa<0?"속도와 가속도의 부호가 달라 느려지는 중":""}</span>`); }
     upd();
   },
   concept:String.raw`<h4>수직선 위를 움직이는 점의 속도와 가속도</h4>
-  <p>수직선 위를 움직이는 점 P의 시각 $t$ 에서의 위치가 $x=f(t)$ 일 때</p>
+  <p>수직선 위를 움직이는 점 P의 시각 $t$에서의 위치가 $x=f(t)$일 때</p>
   <div class="box">속도 $v=\dfrac{dx}{dt}=f'(t)$, 가속도 $a=\dfrac{dv}{dt}=v'(t)$</div>
-  <ul><li>$v>0$ 이면 양의 방향, $v<0$ 이면 음의 방향으로 움직여요.</li><li>속도 $v$ 의 부호가 바뀌는 순간 운동 방향이 바뀌고, 그 순간 $v=0$ 이에요.</li><li>속력은 속도의 크기 $|v|$ 예요.</li><li>$v$ 와 $a$ 의 부호가 같으면 점점 빨라지고, 다르면 점점 느려져요.</li></ul>
+  <ul><li>$v>0$이면 양의 방향, $v<0$이면 음의 방향으로 움직여요.</li><li>속도 $v$의 부호가 바뀌는 순간 운동 방향이 바뀌고, 그 순간 $v=0$이에요.</li><li>속력은 속도의 크기 $|v|$예요.</li><li>$v$와 $a$의 부호가 같으면 점점 빨라지고, 다르면 점점 느려져요.</li></ul>
   <p>속도는 ‘위치의 순간변화율’, 가속도는 ‘속도의 순간변화율’이에요. 미분계수의 뜻을 운동으로 해석한 것이에요.</p>`,
-  deeper:"지면에서 위로 던진 공의 $t$ 초 후 높이가 $h(t)=20t-5t^{2}\\,(\\text{m})$ 일 때, 공이 가장 높이 올라간 순간의 속도와 가속도를 구하고 각각의 의미를 설명해 보세요. ‘가장 높은 곳에서는 가속도도 0이다’라는 친구의 생각을 바로잡아 보세요."
+  deeper:"지면에서 위로 던진 공의 $t$초 후 높이가 $h(t)=20t-5t^{2}\\,(\\text{m})$일 때, 공이 가장 높이 올라간 순간의 속도와 가속도를 구하고 각각의 의미를 설명해 보세요. ‘가장 높은 곳에서는 가속도도 0이다’라는 친구의 생각을 바로잡아 보세요."
 });
 
 /* =========================================================
@@ -1725,24 +1726,24 @@ lab({
       if(cond) P.pt(px,py,P.col.green,7,"지나는 점","ne");
     }});
     const cur=()=>cond?py-pv(F(),px):C;
-    legend(L,[["var(--lab-magenta)","고른 함수 $F(x)+C$"],["var(--lab-blue)","다른 $C$ 값"],["var(--lab-amber)","같은 $x$ 에서의 접선 조각"]]);
+    legend(L,[["var(--lab-magenta)","고른 함수 $F(x)+C$"],["var(--lab-blue)","다른 $C$ 값"],["var(--lab-amber)","같은 $x$에서의 접선 조각"]]);
     seg(R,{label:"$f(x)$",options:[["A","$2x$"],["B","$3x^{2}-3$"],["C","$2x-2$"]],value:key,onChange:v=>{key=v;upd();}});
     const cS=slider(R,{label:"적분상수 $C$",min:-5,max:5,step:.5,value:C,onInput:v=>{C=v;upd();}});
     slider(R,{label:"접선을 볼 $x$",min:-2.5,max:2.5,step:.25,value:x0,onInput:v=>{x0=v;upd();}});
     check(R,"지나는 점으로 $C$ 정하기",cond,v=>{cond=v;cbox.hidden=!v;upd();});
     const cbox=h("div",{hidden:true}); R.append(cbox);
-    slider(cbox,{label:"점의 $x$ 좌표",min:-2,max:2,step:.5,value:px,onInput:v=>{px=v;upd();}});
-    slider(cbox,{label:"점의 $y$ 좌표",min:-4,max:6,step:.5,value:py,onInput:v=>{py=v;upd();}});
+    slider(cbox,{label:"점의 $x$좌표",min:-2,max:2,step:.5,value:px,onInput:v=>{px=v;upd();}});
+    slider(cbox,{label:"점의 $y$좌표",min:-4,max:6,step:.5,value:py,onInput:v=>{py=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Fc=F(),c=cur();
-      setRO(out,`$\\displaystyle\\int ${ptex(FS[key])}\\,dx=${ptex(Fc)}+C$<br>지금 $C=${tnum(c)}$: $F(x)=${ptex([...Fc.slice(0,-1),c])}$<br>$x=${fmt(x0)}$ 에서 모든 곡선의 접선 기울기 $=f(${fmt(x0)})=${tnum(pv(FS[key],x0))}$`+(cond?`<br><span class="ok">점 $(${tnum(px)},\\ ${tnum(py)})$ 을 지나는 곡선은 하나뿐이에요.</span>`:"")); }
+      setRO(out,`$\\displaystyle\\int ${ptex(FS[key])}\\,dx=${ptex(Fc)}+C$<br>지금 $C=${tnum(c)}$: $F(x)=${ptex([...Fc.slice(0,-1),c])}$<br>$x=${fmt(x0)}$에서 모든 곡선의 접선 기울기 $=f(${fmt(x0)})=${tnum(pv(FS[key],x0))}$`+(cond?`<br><span class="ok">점 $(${tnum(px)},\\ ${tnum(py)})$을 지나는 곡선은 하나뿐이에요.</span>`:"")); }
     upd();
     /* ② */
     let n=2; const t2=h("div");
-    seg(panes[1],{label:"$x^{n}$ 의 $n$",options:[[0,"0"],[1,"1"],[2,"2"],[3,"3"],[4,"4"]],value:n,onChange:v=>{n=v;u2();}});
+    seg(panes[1],{label:"$x^{n}$의 $n$",options:[[0,"0"],[1,"1"],[2,"2"],[3,"3"],[4,"4"]],value:n,onChange:v=>{n=v;u2();}});
     panes[1].append(t2);
     function u2(){ const m=n+1;
-      setRO(t2,`<p>미분해서 $x^{${n}}$ 이 되는 함수를 찾아요.</p>`+tblHTML(["후보 $F(x)$","$F'(x)$","맞나요?"],[
+      setRO(t2,`<p>미분해서 $x^{${n}}$이 되는 함수를 찾아요.</p>`+tblHTML(["후보 $F(x)$","$F'(x)$","맞나요?"],[
         [`$x^{${m}}$`,`$${m===1?"1":m+"x^{"+n+"}"}$`,m===1?'<span class="ok">○</span>':`<span class="bad">${m}배 커요</span>`],
         [`$${m===1?"x":"\\dfrac{1}{"+m+"}x^{"+m+"}"}$`,`$x^{${n}}$`,'<span class="ok">○</span>'],
         [`$${m===1?"x":"\\dfrac{1}{"+m+"}x^{"+m+"}"}+5$`,`$x^{${n}}$`,'<span class="ok">○ 상수는 미분하면 0</span>']])+
@@ -1750,13 +1751,13 @@ lab({
     u2();
   },
   concept:String.raw`<h4>부정적분</h4>
-  <p>함수 $F(x)$ 의 도함수가 $f(x)$, 즉 $F'(x)=f(x)$ 일 때 $F(x)$ 를 $f(x)$ 의 <b>부정적분</b>(원시함수)이라 해요.</p>
-  <div class="box">$\displaystyle\int f(x)\,dx=F(x)+C$ ($C$ 는 적분상수)</div>
-  <p>$F(x)$ 와 $G(x)$ 가 모두 $f(x)$ 의 부정적분이면 $\{G(x)-F(x)\}'=0$ 이므로 $G(x)-F(x)$ 는 상수예요. 그래서 부정적분은 하나가 아니라 <b>상수만큼 위아래로 평행이동한 곡선들의 모임</b>이에요. 이 곡선들은 같은 $x$ 에서 접선의 기울기가 모두 같아요.</p>
+  <p>함수 $F(x)$의 도함수가 $f(x)$, 즉 $F'(x)=f(x)$일 때 $F(x)$를 $f(x)$의 <b>부정적분</b>(원시함수)이라 해요.</p>
+  <div class="box">$\displaystyle\int f(x)\,dx=F(x)+C$ ($C$는 적분상수)</div>
+  <p>$F(x)$와 $G(x)$가 모두 $f(x)$의 부정적분이면 $\{G(x)-F(x)\}'=0$이므로 $G(x)-F(x)$는 상수예요. 그래서 부정적분은 하나가 아니라 <b>상수만큼 위아래로 평행이동한 곡선들의 모임</b>이에요. 이 곡선들은 같은 $x$에서 접선의 기울기가 모두 같아요.</p>
   <h4>다항함수의 부정적분</h4>
-  <div class="box">$\displaystyle\int x^{n}\,dx=\frac{1}{n+1}x^{n+1}+C$ ($n$ 은 $0$ 이상의 정수)<br>$\displaystyle\int kf(x)\,dx=k\int f(x)\,dx,\quad \int\{f(x)\pm g(x)\}\,dx=\int f(x)\,dx\pm\int g(x)\,dx$</div>
-  <p>주어진 점을 지난다는 조건이 있으면 $C$ 가 하나로 정해져요.</p>`,
-  deeper:"$\\dfrac{d}{dx}\\left\\{\\displaystyle\\int f(x)\\,dx\\right\\}$ 와 $\\displaystyle\\int\\left\\{\\dfrac{d}{dx}f(x)\\right\\}dx$ 는 같을까요? $f(x)=x^{2}+3$ 으로 직접 계산해 비교하고, 차이가 생기는 이유를 ‘미분하면 사라지는 것’과 연결해 설명해 보세요."
+  <div class="box">$\displaystyle\int x^{n}\,dx=\frac{1}{n+1}x^{n+1}+C$ ($n$은 $0$ 이상의 정수)<br>$\displaystyle\int kf(x)\,dx=k\int f(x)\,dx,\quad \int\{f(x)\pm g(x)\}\,dx=\int f(x)\,dx\pm\int g(x)\,dx$</div>
+  <p>주어진 점을 지난다는 조건이 있으면 $C$가 하나로 정해져요.</p>`,
+  deeper:"$\\dfrac{d}{dx}\\left\\{\\displaystyle\\int f(x)\\,dx\\right\\}$와 $\\displaystyle\\int\\left\\{\\dfrac{d}{dx}f(x)\\right\\}dx$는 같을까요? $f(x)=x^{2}+3$으로 직접 계산해 비교하고, 차이가 생기는 이유를 ‘미분하면 사라지는 것’과 연결해 설명해 보세요."
 });
 
 lab({
@@ -1799,7 +1800,7 @@ lab({
     slider(R2,{label:"위끝 $b$ (아래끝은 $0$)",min:.5,max:4.5,step:.5,value:b2,onInput:v=>{b2=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const neg=Math.min(b2,2),Sneg=-(F2(neg)-F2(0)),Spos=b2>2?F2(b2)-F2(2):0;
-      setRO(o2,`$f(x)=2x-2$ 에서 $\\displaystyle\\int_{0}^{${tnum(b2)}}(2x-2)\\,dx=${tnum(F2(b2)-F2(0))}$<br>$x$ 축 위쪽 넓이 $${tnum(Spos)}$, 아래쪽 넓이 $${tnum(Sneg)}$<br>정적분 $=$ (위쪽 넓이) $-$ (아래쪽 넓이) $=${tnum(Spos-Sneg)}$`); }
+      setRO(o2,`$f(x)=2x-2$에서 $\\displaystyle\\int_{0}^{${tnum(b2)}}(2x-2)\\,dx=${tnum(F2(b2)-F2(0))}$<br>$x$축 위쪽 넓이 $${tnum(Spos)}$, 아래쪽 넓이 $${tnum(Sneg)}$<br>정적분 $=$ (위쪽 넓이) $-$ (아래쪽 넓이) $=${tnum(Spos-Sneg)}$`); }
     u2();
     /* ③ */
     let pa=0,pc=1,pb=3;
@@ -1815,18 +1816,18 @@ lab({
     slider(R3,{label:"$b$",min:-.5,max:3.5,step:.5,value:pb,onInput:v=>{pb=v;u3();}});
     const o3=ro(); R3.append(o3);
     function u3(){ P3.render();
-      setRO(o3,`$f(x)=-x^{2}+3x+1$<br>$\\displaystyle\\int_{a}^{c}f\\,dx=${fmt(I(pa,pc),3)}$, $\\displaystyle\\int_{c}^{b}f\\,dx=${fmt(I(pc,pb),3)}$<br>합 $=${fmt(I(pa,pc)+I(pc,pb),3)}$, $\\displaystyle\\int_{a}^{b}f\\,dx=${fmt(I(pa,pb),3)}$ <span class="ok">같아요</span><br>$\\displaystyle\\int_{b}^{a}f\\,dx=${fmt(I(pb,pa),3)}$ (부호만 반대)<br><span class="hint">$c$ 가 $a,\\ b$ 사이에 있지 않아도 성립할까요?</span>`); }
+      setRO(o3,`$f(x)=-x^{2}+3x+1$<br>$\\displaystyle\\int_{a}^{c}f\\,dx=${fmt(I(pa,pc),3)}$, $\\displaystyle\\int_{c}^{b}f\\,dx=${fmt(I(pc,pb),3)}$<br>합 $=${fmt(I(pa,pc)+I(pc,pb),3)}$, $\\displaystyle\\int_{a}^{b}f\\,dx=${fmt(I(pa,pb),3)}$ <span class="ok">같아요</span><br>$\\displaystyle\\int_{b}^{a}f\\,dx=${fmt(I(pb,pa),3)}$ (부호만 반대)<br><span class="hint">$c$가 $a,\\ b$ 사이에 있지 않아도 성립할까요?</span>`); }
     u3();
   },
   concept:String.raw`<h4>정적분의 뜻</h4>
-  <p>닫힌구간 $[a,\ b]$ 에서 연속이고 $f(x)\ge0$ 인 함수 $y=f(x)$ 의 그래프와 $x$ 축 및 두 직선 $x=a,\ x=b$ 로 둘러싸인 도형의 넓이를 $f(x)$ 의 $a$ 에서 $b$ 까지의 <b>정적분</b>이라 하고 다음과 같이 나타내요.</p>
+  <p>닫힌구간 $[a,\ b]$에서 연속이고 $f(x)\ge0$인 함수 $y=f(x)$의 그래프와 $x$축 및 두 직선 $x=a,\ x=b$로 둘러싸인 도형의 넓이를 $f(x)$의 $a$에서 $b$까지의 <b>정적분</b>이라 하고 다음과 같이 나타내요.</p>
   <div class="box">$\displaystyle\int_{a}^{b}f(x)\,dx$ ($a$: 아래끝, $b$: 위끝, $f(x)$: 피적분함수)</div>
   <h4>일반적인 연속함수로 넓히기</h4>
-  <p>$f(x)$ 가 음수인 부분이 있으면, $x$ 축 위쪽 넓이는 $+$, 아래쪽 넓이는 $-$ 로 계산한 값을 정적분으로 정해요. 그래서 정적분은 ‘부호가 있는 넓이’이고, 넓이 자체와는 다를 수 있어요.</p>
-  <p>또 $\displaystyle\int_{a}^{a}f(x)\,dx=0$, $\displaystyle\int_{b}^{a}f(x)\,dx=-\int_{a}^{b}f(x)\,dx$ 로 약속해요.</p>
+  <p>$f(x)$가 음수인 부분이 있으면, $x$축 위쪽 넓이는 $+$, 아래쪽 넓이는 $-$로 계산한 값을 정적분으로 정해요. 그래서 정적분은 ‘부호가 있는 넓이’이고, 넓이 자체와는 다를 수 있어요.</p>
+  <p>또 $\displaystyle\int_{a}^{a}f(x)\,dx=0$, $\displaystyle\int_{b}^{a}f(x)\,dx=-\int_{a}^{b}f(x)\,dx$로 약속해요.</p>
   <h4>정적분의 성질</h4>
   <div class="box">① $\displaystyle\int_{a}^{b}kf(x)\,dx=k\int_{a}^{b}f(x)\,dx$<br>② $\displaystyle\int_{a}^{b}\{f(x)\pm g(x)\}\,dx=\int_{a}^{b}f(x)\,dx\pm\int_{a}^{b}g(x)\,dx$<br>③ $\displaystyle\int_{a}^{c}f(x)\,dx+\int_{c}^{b}f(x)\,dx=\int_{a}^{b}f(x)\,dx$</div>`,
-  deeper:"정적분 $\\displaystyle\\int_{0}^{3}(2x-2)\\,dx$ 와 직선 $y=2x-2$, $x$ 축, $x=3$, $y$ 축으로 둘러싸인 부분의 넓이는 같지 않아요. 두 값이 같아지려면 함수에 어떤 조건이 있어야 할까요? ‘정적분 = 넓이’라는 말이 언제 맞고 언제 틀리는지 정리해 보세요."
+  deeper:"정적분 $\\displaystyle\\int_{0}^{3}(2x-2)\\,dx$와 직선 $y=2x-2$, $x$축, $x=3$, $y$축으로 둘러싸인 부분의 넓이는 같지 않아요. 두 값이 같아지려면 함수에 어떤 조건이 있어야 할까요? ‘정적분 = 넓이’라는 말이 언제 맞고 언제 틀리는지 정리해 보세요."
 });
 
 lab({
@@ -1844,25 +1845,25 @@ lab({
       P.axes({}); P.fn(S,P.col.green,2.6); const m=f(x);
       P.fn(t=>S(x)+m*(t-x),P.col.amber,1.8,{dash:[6,4]}); P.pt(x,S(x),P.col.magenta,6,"S(x)","nw");
     }});
-    legend(L,[["var(--lab-blue)","$y=f(t)$"],["var(--lab-green)","$S(x)=\\displaystyle\\int_{a}^{x}f(t)\\,dt$"],["var(--lab-amber)","$S(x)$ 의 접선"]]);
+    legend(L,[["var(--lab-blue)","$y=f(t)$"],["var(--lab-green)","$S(x)=\\displaystyle\\int_{a}^{x}f(t)\\,dt$"],["var(--lab-amber)","$S(x)$의 접선"]]);
     seg(R,{label:"$f(t)$",options:[["A","$t$"],["B","$-t^{2}+4$"],["C","$t^{2}-2t$"]],value:key,onChange:v=>{key=v;upd();}});
     slider(R,{label:"아래끝 $a$",min:-2,max:1,step:.5,value:a,onInput:v=>{a=v;upd();}});
     const xs=slider(R,{label:"위끝 $x$",min:-2.5,max:3.5,step:.05,value:x,onInput:v=>{x=v;upd();}});
     playBtn(R,"x 움직이기",dt=>{ x+=dt*.7; if(x>3.5)x=3.5; xs.set(x); upd(); return x<3.5; },api);
     const out=ro(); R.append(out);
     function upd(){ P1.render(); P2.render(); const hh=.001,sl=(S(x+hh)-S(x))/hh;
-      setRO(out,`$S(${fmt(x,2)})=\\displaystyle\\int_{${tnum(a)}}^{${fmt(x,2)}}(${FS[key].tex})\\,dt=${fmt(S(x),3)}$<br>$S(x)$ 의 기울기 $\\dfrac{S(x+h)-S(x)}{h}\\approx${fmt(sl,3)}$<br>$f(${fmt(x,2)})=${fmt(f(x),3)}$ <span class="ok">← 같아요</span><br>$F(t)=${ptex(pint(FS[key].c),"t")}$ 이면 $S(x)=F(x)-F(${tnum(a)})$`); }
+      setRO(out,`$S(${fmt(x,2)})=\\displaystyle\\int_{${tnum(a)}}^{${fmt(x,2)}}(${FS[key].tex})\\,dt=${fmt(S(x),3)}$<br>$S(x)$의 기울기 $\\dfrac{S(x+h)-S(x)}{h}\\approx${fmt(sl,3)}$<br>$f(${fmt(x,2)})=${fmt(f(x),3)}$ <span class="ok">← 같아요</span><br>$F(t)=${ptex(pint(FS[key].c),"t")}$이면 $S(x)=F(x)-F(${tnum(a)})$`); }
     upd();
   },
   concept:String.raw`<h4>넓이 함수와 미분</h4>
-  <p>함수 $f(t)$ 가 닫힌구간 $[a,\ b]$ 에서 연속일 때 $S(x)=\displaystyle\int_{a}^{x}f(t)\,dt\ (a\le x\le b)$ 라 하면</p>
+  <p>함수 $f(t)$가 닫힌구간 $[a,\ b]$에서 연속일 때 $S(x)=\displaystyle\int_{a}^{x}f(t)\,dt\ (a\le x\le b)$라 하면</p>
   <div class="box">$\dfrac{d}{dx}\displaystyle\int_{a}^{x}f(t)\,dt=f(x)$</div>
-  <p>$x$ 가 $h$ 만큼 늘면 넓이는 폭이 $h$, 높이가 거의 $f(x)$ 인 띠만큼 늘어나요. 그래서 $\dfrac{S(x+h)-S(x)}{h}\to f(x)$ 이고, $S(x)$ 는 $f(x)$ 의 부정적분 중 하나예요.</p>
+  <p>$x$가 $h$만큼 늘면 넓이는 폭이 $h$, 높이가 거의 $f(x)$인 띠만큼 늘어나요. 그래서 $\dfrac{S(x+h)-S(x)}{h}\to f(x)$이고, $S(x)$는 $f(x)$의 부정적분 중 하나예요.</p>
   <h4>정적분과 부정적분의 관계 (미적분의 기본정리)</h4>
-  <p>$F(x)$ 를 $f(x)$ 의 한 부정적분이라 하면 $S(x)=F(x)+C$ 이고, $S(a)=0$ 에서 $C=-F(a)$ 예요. 따라서</p>
+  <p>$F(x)$를 $f(x)$의 한 부정적분이라 하면 $S(x)=F(x)+C$이고, $S(a)=0$에서 $C=-F(a)$예요. 따라서</p>
   <div class="box">$\displaystyle\int_{a}^{b}f(x)\,dx=\Big[F(x)\Big]_{a}^{b}=F(b)-F(a)$</div>
   <p>넓이를 구하는 문제(적분)가 기울기를 다루는 문제(미분)의 역과정으로 풀린다는 놀라운 연결이에요.</p>`,
-  deeper:"$\\displaystyle\\int_{a}^{b}f(x)\\,dx=F(b)-F(a)$ 를 계산할 때 적분상수 $C$ 를 쓰지 않아도 되는 이유를 설명해 보세요. 또 $\\dfrac{d}{dx}\\displaystyle\\int_{1}^{x}(t^{3}-2t)\\,dt$ 를 적분하지 않고 바로 구하는 방법을 탐색 결과와 연결해 설명해 보세요."
+  deeper:"$\\displaystyle\\int_{a}^{b}f(x)\\,dx=F(b)-F(a)$를 계산할 때 적분상수 $C$를 쓰지 않아도 되는 이유를 설명해 보세요. 또 $\\dfrac{d}{dx}\\displaystyle\\int_{1}^{x}(t^{3}-2t)\\,dt$를 적분하지 않고 바로 구하는 방법을 탐색 결과와 연결해 설명해 보세요."
 });
 
 /* =========================================================
@@ -1881,10 +1882,10 @@ lab({
       P.axes({}); shade(P,x=>Math.max(0,f1(x)),0,b1,P.col.blueSoft); shade(P,x=>Math.min(0,f1(x)),0,b1,P.col.magentaSoft);
       P.fn(f1,P.col.blue,2.6); P.vline(b1,P.col.muted,1,[3,3]);
     }});
-    slider(R1,{label:"구간 $[0,\\ b]$ 의 $b$",min:1,max:4,step:.5,value:b1,onInput:v=>{b1=v;u1();}});
+    slider(R1,{label:"구간 $[0,\\ b]$의 $b$",min:1,max:4,step:.5,value:b1,onInput:v=>{b1=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const I=F1(b1)-F1(0),neg=Math.min(b1,3),An=-(F1(neg)-F1(0)),Ap=b1>3?F1(b1)-F1(3):0;
-      setRO(o1,`$\\displaystyle\\int_{0}^{${tnum(b1)}}(x^{3}-3x^{2})\\,dx=${tnum(I)}$<br>넓이 $\\displaystyle\\int_{0}^{${tnum(b1)}}|x^{3}-3x^{2}|\\,dx=${tnum(An)}${b1>3?"+"+tnum(Ap):""}=${tnum(An+Ap)}$<br><span class="hint">넓이는 $x$ 축 아래 부분의 부호를 바꾸어 더해요.</span>`); }
+      setRO(o1,`$\\displaystyle\\int_{0}^{${tnum(b1)}}(x^{3}-3x^{2})\\,dx=${tnum(I)}$<br>넓이 $\\displaystyle\\int_{0}^{${tnum(b1)}}|x^{3}-3x^{2}|\\,dx=${tnum(An)}${b1>3?"+"+tnum(Ap):""}=${tnum(An+Ap)}$<br><span class="hint">넓이는 $x$축 아래 부분의 부호를 바꾸어 더해요.</span>`); }
     u1();
     /* ② */
     let m=1,k=2;
@@ -1895,23 +1896,23 @@ lab({
       if(r.length===2) shade(P,g,r[0],r[1],P.col.amberSoft,f);
       P.fn(f,P.col.blue,2.6); P.fn(g,P.col.magenta,2.2); r.forEach(x=>P.pt(x,f(x),P.col.ink,5));
     }});
-    slider(R2,{label:"직선 $y=mx+k$ 의 $m$",min:-3,max:3,step:.5,value:m,onInput:v=>{m=v;u2();}});
+    slider(R2,{label:"직선 $y=mx+k$의 $m$",min:-3,max:3,step:.5,value:m,onInput:v=>{m=v;u2();}});
     slider(R2,{label:"$k$",min:-2,max:5,step:.5,value:k,onInput:v=>{k=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const r=findRoots(x=>g(x)-f(x),-6,6);
       if(r.length<2){ setRO(o2,`<span class="bad">두 그래프가 두 점에서 만나지 않아 둘러싸인 부분이 없어요.</span>`); return; }
       const [al,be]=r,A=simpson(x=>g(x)-f(x),al,be);
-      setRO(o2,`교점의 $x$ 좌표: $x^{2}=${ptex([m,k])}$ 에서 $\\alpha\\approx${fmt(al,3)},\\ \\beta\\approx${fmt(be,3)}$<br>$\\alpha\\le x\\le\\beta$ 에서 직선이 위쪽<br>넓이 $\\displaystyle\\int_{\\alpha}^{\\beta}\\{(${ptex([m,k])})-x^{2}\\}\\,dx\\approx${fmt(A,4)}$<br><span class="hint">$\\dfrac{(\\beta-\\alpha)^{3}}{6}=${fmt(Math.pow(be-al,3)/6,4)}$ 과 비교해 보세요.</span>`); }
+      setRO(o2,`교점의 $x$좌표: $x^{2}=${ptex([m,k])}$에서 $\\alpha\\approx${fmt(al,3)},\\ \\beta\\approx${fmt(be,3)}$<br>$\\alpha\\le x\\le\\beta$에서 직선이 위쪽<br>넓이 $\\displaystyle\\int_{\\alpha}^{\\beta}\\{(${ptex([m,k])})-x^{2}\\}\\,dx\\approx${fmt(A,4)}$<br><span class="hint">$\\dfrac{(\\beta-\\alpha)^{3}}{6}=${fmt(Math.pow(be-al,3)/6,4)}$과 비교해 보세요.</span>`); }
     u2();
   },
-  concept:String.raw`<h4>곡선과 $x$ 축 사이의 넓이</h4>
-  <p>함수 $f(x)$ 가 닫힌구간 $[a,\ b]$ 에서 연속일 때, 곡선 $y=f(x)$ 와 $x$ 축 및 두 직선 $x=a,\ x=b$ 로 둘러싸인 도형의 넓이 $S$ 는</p>
+  concept:String.raw`<h4>곡선과 $x$축 사이의 넓이</h4>
+  <p>함수 $f(x)$가 닫힌구간 $[a,\ b]$에서 연속일 때, 곡선 $y=f(x)$와 $x$축 및 두 직선 $x=a,\ x=b$로 둘러싸인 도형의 넓이 $S$는</p>
   <div class="box">$S=\displaystyle\int_{a}^{b}|f(x)|\,dx$</div>
-  <p>$f(x)$ 의 부호가 바뀌는 점에서 구간을 나누고, 음수인 구간은 부호를 바꾸어 더해요.</p>
+  <p>$f(x)$의 부호가 바뀌는 점에서 구간을 나누고, 음수인 구간은 부호를 바꾸어 더해요.</p>
   <h4>두 곡선 사이의 넓이</h4>
   <div class="box">$S=\displaystyle\int_{a}^{b}|f(x)-g(x)|\,dx$</div>
-  <p>두 곡선의 교점의 $x$ 좌표로 구간을 정하고, 각 구간에서 (위쪽 함수) $-$ (아래쪽 함수)를 적분해요. 두 그래프를 함께 위아래로 평행이동해도 차 $f(x)-g(x)$ 는 그대로이므로 넓이는 변하지 않아요. 그래서 두 곡선이 모두 $x$ 축 아래에 있어도 같은 방법이 통해요.</p>`,
-  deeper:"포물선 $y=x^{2}$ 과 직선으로 둘러싸인 넓이가 항상 $\\dfrac{(\\beta-\\alpha)^{3}}{6}$ 이 되는 것처럼 보여요. 탐색 도구에서 직선을 바꾸며 확인하고, 왜 넓이가 두 교점 사이의 거리 $\\beta-\\alpha$ 에만 관계되는지 설명해 보세요."
+  <p>두 곡선의 교점의 $x$좌표로 구간을 정하고, 각 구간에서 (위쪽 함수) $-$ (아래쪽 함수)를 적분해요. 두 그래프를 함께 위아래로 평행이동해도 차 $f(x)-g(x)$는 그대로이므로 넓이는 변하지 않아요. 그래서 두 곡선이 모두 $x$축 아래에 있어도 같은 방법이 통해요.</p>`,
+  deeper:"포물선 $y=x^{2}$과 직선으로 둘러싸인 넓이가 항상 $\\dfrac{(\\beta-\\alpha)^{3}}{6}$이 되는 것처럼 보여요. 탐색 도구에서 직선을 바꾸며 확인하고, 왜 넓이가 두 교점 사이의 거리 $\\beta-\\alpha$에만 관계되는지 설명해 보세요."
 });
 
 lab({
@@ -1937,12 +1938,12 @@ lab({
     playBtn(R,"처음부터 움직이기",dt=>{ if(T>=5) T=0; T=Math.min(5,T+dt*.8); ts.set(T); upd(); return T<5; },api);
     const out=ro(); R.append(out);
     function upd(){ NL.render(); P.render(); const disp=X(T)-x0,dist=simpson(t=>Math.abs(v(t)),0,T,800);
-      setRO(out,`$v(t)=${VS[key].tex}$, 처음 위치 $0$<br>위치의 변화량 $\\displaystyle\\int_{0}^{${fmt(T,2)}}v(t)\\,dt=${fmt(disp,3)}$<br>시각 $T$ 에서의 위치 $x(T)=0+${fmt(disp,3)}=${fmt(X(T),3)}$<br>움직인 거리 $\\displaystyle\\int_{0}^{${fmt(T,2)}}|v(t)|\\,dt=${fmt(dist,3)}$`); }
+      setRO(out,`$v(t)=${VS[key].tex}$, 처음 위치 $0$<br>위치의 변화량 $\\displaystyle\\int_{0}^{${fmt(T,2)}}v(t)\\,dt=${fmt(disp,3)}$<br>시각 $T$에서의 위치 $x(T)=0+${fmt(disp,3)}=${fmt(X(T),3)}$<br>움직인 거리 $\\displaystyle\\int_{0}^{${fmt(T,2)}}|v(t)|\\,dt=${fmt(dist,3)}$`); }
     upd();
   },
   concept:String.raw`<h4>속도와 위치, 거리</h4>
-  <p>수직선 위를 움직이는 점 P의 시각 $t$ 에서의 속도가 $v(t)$, 시각 $t=a$ 에서의 위치가 $x(a)$ 일 때</p>
-  <div class="box">① 시각 $t$ 에서의 위치: $x(t)=x(a)+\displaystyle\int_{a}^{t}v(s)\,ds$<br>② $t=a$ 에서 $t=b$ 까지 위치의 변화량: $\displaystyle\int_{a}^{b}v(t)\,dt$<br>③ $t=a$ 에서 $t=b$ 까지 움직인 거리: $\displaystyle\int_{a}^{b}|v(t)|\,dt$</div>
+  <p>수직선 위를 움직이는 점 P의 시각 $t$에서의 속도가 $v(t)$, 시각 $t=a$에서의 위치가 $x(a)$일 때</p>
+  <div class="box">① 시각 $t$에서의 위치: $x(t)=x(a)+\displaystyle\int_{a}^{t}v(s)\,ds$<br>② $t=a$에서 $t=b$까지 위치의 변화량: $\displaystyle\int_{a}^{b}v(t)\,dt$<br>③ $t=a$에서 $t=b$까지 움직인 거리: $\displaystyle\int_{a}^{b}|v(t)|\,dt$</div>
   <p>위치를 미분하면 속도이므로, 속도를 적분하면 위치의 변화량이 돼요. 운동 방향이 바뀌면 되돌아온 만큼 위치의 변화량은 줄지만 움직인 거리는 계속 늘어요. 그래서 ②와 ③은 운동 방향이 한 번도 바뀌지 않을 때만 크기가 같아요.</p>
   <p>속도 그래프에서 위치의 변화량은 ‘부호가 있는 넓이’, 움직인 거리는 ‘넓이’예요.</p>`,
   deeper:"지하철이 출발역에서 다음 역까지 가는 동안의 속도 그래프를 대략 그려 보세요(가속, 일정한 속도, 감속). 두 역 사이의 거리를 속도 그래프에서 어떻게 읽을 수 있는지 설명하고, 출발 후 2분 동안의 속도 그래프만으로 지하철의 ‘위치’를 알 수 없는 이유도 말해 보세요."
@@ -2383,7 +2384,7 @@ function mathField(ta,opt={}){
   palBox.hidden=!open;if(open)renderPal();
   let t;const upd=()=>{clearTimeout(t);t=setTimeout(()=>{prev.textContent=ta.value;prev.classList.toggle('empty',!ta.value.trim());if(ta.value.trim())typeset(prev);},280);};
   ta.addEventListener('input',upd);upd();
-  const w=h('div',{class:'mfield'+(opt.big?' big':'')},h('div',{class:'mbar'},toggle,h('span',{class:'mhint'},'수식은 $와 $ 사이에 LaTeX로 써요. 기호 단추를 누르면 자동으로 넣어 줘요.')),palBox,ta,h('div',{class:'mprev-l'},'미리보기'),prev);
+  const w=h('div',{class:'mfield'+(opt.big?' big':'')},h('div',{class:'mbar'},toggle,h('span',{class:'mhint'},'수식은 ',h('code',{},'$ … $'),'로 감싸 LaTeX로 써요. 기호 단추를 누르면 달러 기호까지 자동으로 넣어 줘요.')),palBox,ta,h('div',{class:'mprev-l'},'미리보기'),prev);
   w.ta=ta;return w;}
 
 /* ---------- 수학 노트 (수식 편집기) ---------- */
@@ -2401,7 +2402,7 @@ $$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$$
   const pdfMsg=h('p',{class:'muted',style:'margin:8px 0 0'});const pdfBtn=h('button',{class:'btn',type:'button'},'이 노트 PDF로 저장');
   pdfBtn.onclick=()=>{const doc=buildReport({scope:'none',docs:[cur]});const holder=h('div',{class:'offscreen'},doc);document.body.append(holder);typeset(doc);makePDF(doc,`${cur.title||'수학 노트'}.pdf`,pdfBtn,pdfMsg).finally(()=>holder.remove());};
   main.className='k1';
-  main.replaceChildren(h('h1',{},'✏️ 수학 노트'),h('p',{class:'lens'},'글과 수식을 함께 쓰는 수식 편집기예요. 수식은 $와 $ 사이(한 줄 가운데 수식은 $$와 $$ 사이)에 LaTeX로 쓰고, 기호 단추로 쉽게 넣을 수 있어요.'),
+  main.replaceChildren(h('h1',{},'✏️ 수학 노트'),h('p',{class:'lens'},'글과 수식을 함께 쓰는 수식 편집기예요. 문장 속 수식은 ',h('code',{},'$ … $'),'로, 한 줄을 따로 차지하는 수식은 ',h('code',{},'$$ … $$'),'로 감싸 LaTeX로 써요. 기호 단추를 누르면 쉽게 넣을 수 있어요.'),
     h('div',{class:'edgrid'},h('aside',{class:'sheet docside'},h('button',{class:'btn',type:'button',style:'width:100%;justify-content:center',onclick:()=>{newDoc();renderEditor();}},'+ 새 노트'),list),
       h('div',{},h('section',{class:'sheet'},title,field,h('div',{class:'row'},pdfBtn,h('a',{class:'btn ghost',href:'#report'},'모든 기록 모아 저장'),del),pdfMsg),
         h('section',{class:'sheet'},h('h3',{},'📘 자주 쓰는 LaTeX'),h('div',{class:'tbl-wrap'},h('table',{class:'map ref'},h('tr',{},h('th',{},'쓰는 법 (LaTeX)'),h('th',{},'보이는 모양'),h('th',{},'뜻')),REF.map(([c,m])=>h('tr',{},h('td',{},h('code',{},'$'+c+'$')),h('td',{},'$'+c+'$'),h('td',{},m)))))))));
@@ -2645,7 +2646,7 @@ function updateAICtx(){const l=curLesson();$('#aiCtx').replaceChildren(l?h('span
 function renderChat(){const c=$('#chat'),hist=chats[route]||[];c.replaceChildren();
   const mode=mentorMode();$('#aiMode').textContent=mode==='claude'?'claude.ai 연결':mode==='key'?'내 API 키 연결':'API 키 필요';$('#aiMode').className='aimode '+mode;
   if(mode==='none'){c.append(h('p',{class:'empty'},'G-Man 멘토를 쓰려면 내 API 키가 필요해요. 키가 없어도 각 단계의 질문과 힌트로 탐구를 이어갈 수 있어요.'),mentorSetup({compact:true,onChange:renderChat}));return;}
-  if(!hist.length)c.append(h('p',{class:'empty'},'탐색하며 알게 된 것, 헷갈리는 것, 내 추측을 말해 주세요. 수식은 $x^{2}$처럼 달러 기호로 감싸 써도 돼요.'));
+  if(!hist.length)c.append(h('p',{class:'empty'},'탐색하며 알게 된 것, 헷갈리는 것, 내 추측을 말해 주세요. 수식은 ',h('code',{},'$x^{2}$'),'처럼 달러 기호로 감싸 쓰면 수식으로 보여요.'));
   hist.forEach(m=>c.append(h('div',{class:'msg '+m.role},m.content)));c.scrollTop=c.scrollHeight;typeset(c);}
 function openAI(prefill){$('#ai').classList.add('open');$('#scrim').classList.add('on');if(prefill){$('#aiInput').value=`“${prefill}”에 대해 내 생각은 `;}$('#aiInput').focus();}
 function closeAI(){$('#ai').classList.remove('open');$('#scrim').classList.remove('on');}
