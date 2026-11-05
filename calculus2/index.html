@@ -537,6 +537,12 @@ body.pm-open{overflow:hidden}
 :root{--teal:#C23A5B;--teal-soft:#FCE8EE}
 .u1{--uc:#0FA396;--us:#DDF5F2}
 .brand .logo{background:var(--teal)}
+.home-btn{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper,#fff);color:var(--ink);font-weight:700;font-size:.92rem;text-decoration:none;flex:0 0 auto;transition:background .15s,border-color .15s}
+.home-btn:hover{background:var(--teal-soft);border-color:var(--teal);color:var(--teal)}
+.home-btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.home-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:560px){.home-btn span{display:none}.home-btn{padding:0 10px}}
+@media print{.home-btn{display:none}}
 </style>
 <script>
 window.MathJax={
@@ -558,6 +564,7 @@ window.MathJax={
 </head>
 <body>
 <header class="top">
+  <a class="home-btn" href="https://gabrielmath.kr/" aria-label="Gabriel Math 홈으로 가기" title="Gabriel Math 홈으로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v11h13V9"/><path d="M10 20v-6h4v6"/></svg><span>홈</span></a>
   <button class="btn ghost menu-btn" type="button" id="menuBtn" aria-label="차시 목록 열기">목차</button>
   <a class="brand" href="#home"><span class="logo">∫</span><span>미적분Ⅱ 개념 탐구 실험실<br><small>2022 개정 교육과정 미적분Ⅱ</small></span></a>
   <div class="prog" id="prog"></div>
@@ -949,7 +956,7 @@ const STD = {
   "12미적Ⅱ-02-09":"함수의 그래프의 개형을 그릴 수 있다.",
   "12미적Ⅱ-02-10":"방정식과 부등식에 대한 문제를 해결할 수 있다.",
   "12미적Ⅱ-02-11":"미분을 속도와 가속도에 대한 문제에 활용하고, 그 유용성을 인식할 수 있다.",
-  "12미적Ⅱ-03-01":"$y=x^{n}$ ($n$ 은 실수), 지수함수, 삼각함수의 부정적분과 정적분을 구할 수 있다.",
+  "12미적Ⅱ-03-01":"$y=x^{n}$ ($n$은 실수), 지수함수, 삼각함수의 부정적분과 정적분을 구할 수 있다.",
   "12미적Ⅱ-03-02":"치환적분법을 이해하고, 이를 활용할 수 있다.",
   "12미적Ⅱ-03-03":"부분적분법을 이해하고, 이를 활용할 수 있다.",
   "12미적Ⅱ-03-04":"정적분과 급수의 합 사이의 관계를 탐구하고 이해한다.",
@@ -1024,7 +1031,7 @@ lab({
       P.axes({xstep:N>80?20:(N>30?10:5),xl:"n",yl:"aₙ"});
       dots(P,S.a,N,(n,y)=>Math.abs(y-Lc)<w?P.col.green:P.col.magenta,N>100?2.4:3.6,1,true);
     }});
-    legend(L,[["var(--lab-amber)","후보 극한값 $L$ 과 띠 $L-d\\lt a_n\\lt L+d$"],["var(--lab-green)","띠 안의 항"],["var(--lab-magenta)","띠 밖의 항"]]);
+    legend(L,[["var(--lab-amber)","후보 극한값 $L$과 띠 $L-d\\lt a_n\\lt L+d$"],["var(--lab-green)","띠 안의 항"],["var(--lab-magenta)","띠 밖의 항"]]);
     seg(R,{label:"수열 고르기",options:[["A","①"],["B","②"],["C","③"],["D","④"],["E","⑤"],["F","⑥"]],value:key,onChange:v=>{key=v;Lc=SQ[v].L0;ls.set(Lc);fit();upd();}});
     const ft=ro(); R.append(ft);
     const ns=slider(R,{label:"보여 줄 항의 개수 $N$",min:10,max:200,step:5,value:N,onInput:v=>{N=v;fit();upd();}});
@@ -1036,18 +1043,18 @@ lab({
       for(let n=1;n<=M;n++){ if(Math.abs(S.a(n)-Lc)>=w) last=n; }
       setRO(ft,`$${S.tex}$`);
       const tb=tblHTML(["$n$","10","100","1000","10000"],[["$a_n$",...[10,100,1000,10000].map(n=>fmt(S.a(n),4))]]);
-      const msg=last===0?`모든 항이 띠 안에 있어요.`:last>=M-1?`<span class="bad">$n=${M}$ 까지 살펴도 띠 밖의 항이 계속 나와요.</span>`:`띠 밖에 있는 마지막 항은 $a_{${last}}$ 이에요. <b>$n>${last}$ 인 모든 항은 띠 안</b>에 있어요.`;
-      setRO(out,`${msg}<br>${tb}<span class="hint">$d$ 를 아무리 작게 해도 ‘어느 번호부터는 모두 띠 안’이 되는 $L$ 이 있으면, 그 $L$ 이 극한값이에요.</span>`); }
+      const msg=last===0?`모든 항이 띠 안에 있어요.`:last>=M-1?`<span class="bad">$n=${M}$까지 살펴도 띠 밖의 항이 계속 나와요.</span>`:`띠 밖에 있는 마지막 항은 $a_{${last}}$이에요. <b>$n>${last}$인 모든 항은 띠 안</b>에 있어요.`;
+      setRO(out,`${msg}<br>${tb}<span class="hint">$d$를 아무리 작게 해도 ‘어느 번호부터는 모두 띠 안’이 되는 $L$이 있으면, 그 $L$이 극한값이에요.</span>`); }
     fit(); upd();
   },
   concept:String.raw`<h4>수열의 수렴</h4>
-  <p>수열 $\{a_n\}$ 에서 $n$ 이 한없이 커질 때 $a_n$ 의 값이 일정한 값 $L$ 에 한없이 가까워지면 수열 $\{a_n\}$ 은 $L$ 에 <b>수렴</b>한다고 하고, $L$ 을 수열 $\{a_n\}$ 의 <b>극한값</b> 또는 <b>극한</b>이라고 해요.</p>
-  <div class="box">$\displaystyle\lim_{n\to\infty}a_n=L$ 또는 $n\to\infty$ 일 때 $a_n\to L$</div>
+  <p>수열 $\{a_n\}$에서 $n$이 한없이 커질 때 $a_n$의 값이 일정한 값 $L$에 한없이 가까워지면 수열 $\{a_n\}$은 $L$에 <b>수렴</b>한다고 하고, $L$을 수열 $\{a_n\}$의 <b>극한값</b> 또는 <b>극한</b>이라고 해요.</p>
+  <div class="box">$\displaystyle\lim_{n\to\infty}a_n=L$ 또는 $n\to\infty$일 때 $a_n\to L$</div>
   <h4>수열의 발산</h4>
   <p>수렴하지 않는 수열은 <b>발산</b>한다고 해요. 발산에는 세 가지 모습이 있어요.</p>
-  <div class="box">① 양의 무한대로 발산: $\displaystyle\lim_{n\to\infty}a_n=\infty$<br>② 음의 무한대로 발산: $\displaystyle\lim_{n\to\infty}a_n=-\infty$<br>③ 진동: 수렴하지도 않고 $\pm\infty$ 로 발산하지도 않음 (예: $(-1)^{n}$)</div>
-  <p>탐색 도구의 띠는 ‘한없이 가까워진다’를 눈으로 확인하는 장치예요. 띠의 폭을 아무리 좁혀도 어느 번호부터는 모든 항이 띠 안에 들어온다면 수렴하는 거예요. ⑥처럼 두 값 근처를 번갈아 가면 어떤 $L$ 을 골라도 띠 밖의 항이 끝없이 나오므로 진동해요.</p>`,
-  deeper:"‘0.999…= 1’이라는 주장을 수열 $0.9,\\ 0.99,\\ 0.999,\\ \\cdots$ 의 극한으로 설명해 보세요. 이 수열의 어떤 항도 $1$ 이 아닌데, 극한이 $1$ 이라는 말은 정확히 무슨 뜻인지 띠의 그림을 이용해 친구에게 설명하는 글을 써 보세요."
+  <div class="box">① 양의 무한대로 발산: $\displaystyle\lim_{n\to\infty}a_n=\infty$<br>② 음의 무한대로 발산: $\displaystyle\lim_{n\to\infty}a_n=-\infty$<br>③ 진동: 수렴하지도 않고 $\pm\infty$로 발산하지도 않음 (예: $(-1)^{n}$)</div>
+  <p>탐색 도구의 띠는 ‘한없이 가까워진다’를 눈으로 확인하는 장치예요. 띠의 폭을 아무리 좁혀도 어느 번호부터는 모든 항이 띠 안에 들어온다면 수렴하는 거예요. ⑥처럼 두 값 근처를 번갈아 가면 어떤 $L$을 골라도 띠 밖의 항이 끝없이 나오므로 진동해요.</p>`,
+  deeper:"‘0.999…= 1’이라는 주장을 수열 $0.9,\\ 0.99,\\ 0.999,\\ \\cdots$의 극한으로 설명해 보세요. 이 수열의 어떤 항도 $1$이 아닌데, 극한이 $1$이라는 말은 정확히 무슨 뜻인지 띠의 그림을 이용해 친구에게 설명하는 글을 써 보세요."
 });
 
 lab({
@@ -1072,7 +1079,7 @@ lab({
       P1.setView(-2,62,Math.max(lo,-8),Math.min(hi,8));
       const T=`a_n=\\dfrac{${p===1?"":p===-1?"-":p}n^{${dN}}-1}{${q===1?"":q}n^{${dD}}+2}`;
       const ans=dN<dD?"0":dN===dD?tnum(p/q):(p>0?"\\infty":"-\\infty");
-      setRO(o1,`$${T}$<br>${tblHTML(["$n$","10","100","1000"],[["$a_n$",...ys.map(y=>fmt(y,4))]])}분모의 최고차항 $n^{${dD}}$ 으로 분자, 분모를 나누면 $\\displaystyle\\lim_{n\\to\\infty}a_n=${ans}$<br><span class="hint">차수가 같으면 최고차항의 계수의 비, 분모의 차수가 크면 $0$ 이에요.</span>`); }
+      setRO(o1,`$${T}$<br>${tblHTML(["$n$","10","100","1000"],[["$a_n$",...ys.map(y=>fmt(y,4))]])}분모의 최고차항 $n^{${dD}}$으로 분자, 분모를 나누면 $\\displaystyle\\lim_{n\\to\\infty}a_n=${ans}$<br><span class="hint">차수가 같으면 최고차항의 계수의 비, 분모의 차수가 크면 $0$이에요.</span>`); }
     u1();
     /* ② */
     let A=4;
@@ -1082,7 +1089,7 @@ lab({
     slider(R2,{label:"$a$",min:-4,max:6,step:1,value:A,onInput:v=>{A=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const ns=[10,100,1000,100000];
-      setRO(o2,`$b_n=\\sqrt{n^{2}${A<0?"":"+"}${A}n}-n$<br>${tblHTML(["$n$","10","100","1000","100000"],[["$b_n$",...ns.map(n=>fmt(b(n),5))]])}$\\sqrt{n^{2}+an}$ 과 $n$ 은 둘 다 $\\infty$ 로 가지만 차는 $\\dfrac{a}{2}=${tnum(A/2)}$ 에 가까워져요.<br><span class="hint">분자를 유리화하면 $b_n=\\dfrac{an}{\\sqrt{n^{2}+an}+n}$ 이 돼요.</span>`); }
+      setRO(o2,`$b_n=\\sqrt{n^{2}${A<0?"":"+"}${A}n}-n$<br>${tblHTML(["$n$","10","100","1000","100000"],[["$b_n$",...ns.map(n=>fmt(b(n),5))]])}$\\sqrt{n^{2}+an}$과 $n$은 둘 다 $\\infty$로 가지만 차는 $\\dfrac{a}{2}=${tnum(A/2)}$에 가까워져요.<br><span class="hint">분자를 유리화하면 $b_n=\\dfrac{an}{\\sqrt{n^{2}+an}+n}$이 돼요.</span>`); }
     u2();
     /* ③ */
     let N3=60;
@@ -1095,16 +1102,16 @@ lab({
     legend(L3,[["var(--lab-magenta)","$\\dfrac{3n+1}{n}$"],["var(--lab-blue)","$c_n=\\dfrac{3n+\\cos n}{n}$"],["var(--lab-green)","$\\dfrac{3n-1}{n}$"]]);
     slider(R3,{label:"항의 개수 $N$",min:10,max:200,step:10,value:N3,onInput:v=>{N3=v;P3.setView(-N3*.03,N3*1.05,1.8,4.2);u3();}});
     const o3=ro(); R3.append(o3);
-    function u3(){ P3.render(); setRO(o3,`$-1\\le\\cos n\\le1$ 이므로 $\\dfrac{3n-1}{n}\\le c_n\\le\\dfrac{3n+1}{n}$<br>양쪽 수열이 모두 $3$ 에 수렴하므로 $\\displaystyle\\lim_{n\\to\\infty}c_n=3$<br><span class="hint">$c_n$ 의 값은 들쭉날쭉하지만 두 수열 사이에 갇혀 있어요.</span>`); }
+    function u3(){ P3.render(); setRO(o3,`$-1\\le\\cos n\\le1$이므로 $\\dfrac{3n-1}{n}\\le c_n\\le\\dfrac{3n+1}{n}$<br>양쪽 수열이 모두 $3$에 수렴하므로 $\\displaystyle\\lim_{n\\to\\infty}c_n=3$<br><span class="hint">$c_n$의 값은 들쭉날쭉하지만 두 수열 사이에 갇혀 있어요.</span>`); }
     u3();
   },
   concept:String.raw`<h4>수열의 극한에 대한 성질</h4>
-  <p>두 수열 $\{a_n\},\ \{b_n\}$ 이 수렴하고 $\displaystyle\lim_{n\to\infty}a_n=\alpha,\ \lim_{n\to\infty}b_n=\beta$ 일 때</p>
-  <div class="box">① $\displaystyle\lim_{n\to\infty}ca_n=c\alpha$ ($c$ 는 상수)<br>② $\displaystyle\lim_{n\to\infty}(a_n\pm b_n)=\alpha\pm\beta$<br>③ $\displaystyle\lim_{n\to\infty}a_nb_n=\alpha\beta$<br>④ $\displaystyle\lim_{n\to\infty}\frac{a_n}{b_n}=\frac{\alpha}{\beta}$ (단, $b_n\ne0,\ \beta\ne0$)</div>
+  <p>두 수열 $\{a_n\},\ \{b_n\}$이 수렴하고 $\displaystyle\lim_{n\to\infty}a_n=\alpha,\ \lim_{n\to\infty}b_n=\beta$일 때</p>
+  <div class="box">① $\displaystyle\lim_{n\to\infty}ca_n=c\alpha$ ($c$는 상수)<br>② $\displaystyle\lim_{n\to\infty}(a_n\pm b_n)=\alpha\pm\beta$<br>③ $\displaystyle\lim_{n\to\infty}a_nb_n=\alpha\beta$<br>④ $\displaystyle\lim_{n\to\infty}\frac{a_n}{b_n}=\frac{\alpha}{\beta}$ (단, $b_n\ne0,\ \beta\ne0$)</div>
   <p>이 성질은 두 수열이 <b>수렴할 때만</b> 쓸 수 있어요. $\dfrac{\infty}{\infty}$ 꼴은 분모의 최고차항으로 나누어 수렴하는 수열들의 식으로 바꾸고, $\infty-\infty$ 꼴은 유리화나 인수분해로 모양을 바꾼 뒤 성질을 써요.</p>
   <h4>수열의 극한의 대소 관계</h4>
-  <div class="box">모든 자연수 $n$ 에 대하여 $a_n\le c_n\le b_n$ 이고 $\displaystyle\lim_{n\to\infty}a_n=\lim_{n\to\infty}b_n=\alpha$ 이면 $\displaystyle\lim_{n\to\infty}c_n=\alpha$</div>`,
-  deeper:"‘$\\infty-\\infty=0$ 이고 $\\dfrac{\\infty}{\\infty}=1$ 이다’라고 주장하는 친구가 있어요. 탐색 도구 ①, ②에서 서로 다른 극한값이 나오는 예를 세 가지 이상 찾아, 이 주장이 왜 틀렸는지, 그리고 극한의 성질을 쓸 수 있는 조건이 무엇인지 설명해 보세요."
+  <div class="box">모든 자연수 $n$에 대하여 $a_n\le c_n\le b_n$이고 $\displaystyle\lim_{n\to\infty}a_n=\lim_{n\to\infty}b_n=\alpha$이면 $\displaystyle\lim_{n\to\infty}c_n=\alpha$</div>`,
+  deeper:"‘$\\infty-\\infty=0$이고 $\\dfrac{\\infty}{\\infty}=1$이다’라고 주장하는 친구가 있어요. 탐색 도구 ①, ②에서 서로 다른 극한값이 나오는 예를 세 가지 이상 찾아, 이 주장이 왜 틀렸는지, 그리고 극한의 성질을 쓸 수 있는 조건이 무엇인지 설명해 보세요."
 });
 
 lab({
@@ -1127,15 +1134,15 @@ lab({
     slider(R,{label:"공비 $r$",min:-1.5,max:1.5,step:.05,value:r,onInput:v=>{r=Math.round(v*100)/100;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); NL.render();
-      const cls=r>1?`$\\infty$ 로 발산`:Math.abs(r-1)<1e-9?`$1$ 에 수렴`:Math.abs(r)<1?`$0$ 에 수렴`:`진동 (발산)`;
-      setRO(out,`$r=${fmt(r,2)}$ 일 때 수열 $\\{r^{n}\\}$ 은 ${cls}<br>${tblHTML(["$n$","5","10","20","50"],[["$r^{n}$",...[5,10,20,50].map(n=>fmt(Math.pow(r,n),5))]])}<span class="hint">$|r|$ 이 $1$ 보다 작으면 곱할 때마다 크기가 일정한 비율로 줄어들어요.</span>`); }
+      const cls=r>1?`$\\infty$로 발산`:Math.abs(r-1)<1e-9?`$1$에 수렴`:Math.abs(r)<1?`$0$에 수렴`:`진동 (발산)`;
+      setRO(out,`$r=${fmt(r,2)}$일 때 수열 $\\{r^{n}\\}$은 ${cls}<br>${tblHTML(["$n$","5","10","20","50"],[["$r^{n}$",...[5,10,20,50].map(n=>fmt(Math.pow(r,n),5))]])}<span class="hint">$|r|$이 $1$보다 작으면 곱할 때마다 크기가 일정한 비율로 줄어들어요.</span>`); }
     upd();
   },
-  concept:String.raw`<h4>등비수열 $\{r^{n}\}$ 의 수렴과 발산</h4>
-  <div class="box">① $r>1$ 일 때 $\displaystyle\lim_{n\to\infty}r^{n}=\infty$ (발산)<br>② $r=1$ 일 때 $\displaystyle\lim_{n\to\infty}r^{n}=1$ (수렴)<br>③ $-1\lt r\lt 1$ 일 때 $\displaystyle\lim_{n\to\infty}r^{n}=0$ (수렴)<br>④ $r\le-1$ 일 때 진동 (발산)</div>
-  <p>따라서 등비수열 $\{r^{n}\}$ 이 수렴하기 위한 조건은 $-1\lt r\le1$ 이에요. 첫째항이 $a\ (a\ne0)$ 인 등비수열 $\{ar^{n-1}\}$ 도 같은 조건에서 수렴해요.</p>
-  <p>$r^{n}$ 이 들어 있는 식의 극한은 $|r|$ 과 $1$ 의 크기를 비교해 경우를 나누어 구해요. 예를 들어 $\displaystyle\lim_{n\to\infty}\frac{r^{n}}{1+r^{n}}$ 은 $|r|<1,\ r=1,\ |r|>1$ 일 때 각각 $0,\ \dfrac12,\ 1$ 이에요.</p>`,
-  deeper:"매년 일정한 비율로 개체 수가 변하는 생물 집단을 등비수열로 나타낼 수 있어요. 멸종 위기종을 보호하기 위해 ‘개체 수가 장기적으로 0에 가까워지지 않을 조건’을 공비 $r$ 로 나타내고, 이 모델이 현실과 맞지 않을 수 있는 이유도 함께 생각해 보세요."
+  concept:String.raw`<h4>등비수열 $\{r^{n}\}$의 수렴과 발산</h4>
+  <div class="box">① $r>1$일 때 $\displaystyle\lim_{n\to\infty}r^{n}=\infty$ (발산)<br>② $r=1$일 때 $\displaystyle\lim_{n\to\infty}r^{n}=1$ (수렴)<br>③ $-1\lt r\lt 1$일 때 $\displaystyle\lim_{n\to\infty}r^{n}=0$ (수렴)<br>④ $r\le-1$일 때 진동 (발산)</div>
+  <p>따라서 등비수열 $\{r^{n}\}$이 수렴하기 위한 조건은 $-1\lt r\le1$이에요. 첫째항이 $a\ (a\ne0)$인 등비수열 $\{ar^{n-1}\}$도 같은 조건에서 수렴해요.</p>
+  <p>$r^{n}$이 들어 있는 식의 극한은 $|r|$과 $1$의 크기를 비교해 경우를 나누어 구해요. 예를 들어 $\displaystyle\lim_{n\to\infty}\frac{r^{n}}{1+r^{n}}$은 $|r|<1,\ r=1,\ |r|>1$일 때 각각 $0,\ \dfrac12,\ 1$이에요.</p>`,
+  deeper:"매년 일정한 비율로 개체 수가 변하는 생물 집단을 등비수열로 나타낼 수 있어요. 멸종 위기종을 보호하기 위해 ‘개체 수가 장기적으로 0에 가까워지지 않을 조건’을 공비 $r$으로 나타내고, 이 모델이 현실과 맞지 않을 수 있는 이유도 함께 생각해 보세요."
 });
 
 lab({
@@ -1165,19 +1172,19 @@ lab({
       const ns=[10,100,1000,100000],vals=ns.map(n=>S(key,n));
       let note="";
       if(key==="A") note=`부분분수로 나누면 $S_n=\\left(1-\\dfrac12\\right)+\\left(\\dfrac12-\\dfrac13\\right)+\\cdots=1-\\dfrac{1}{n+1}\\to1$`;
-      if(key==="B") note=`항 $a_n\\to0$ 인데도 $S_n$ 은 한없이 커져요. $S_{2^{k}}\\ge1+\\dfrac{k}{2}$ 이므로 발산해요.<br>${tblHTML(["$k$","2","5","10","15"],[["$S_{2^{k}}$",...[2,5,10,15].map(k=>fmt(S("B",2**k),3))],["$1+\\frac{k}{2}$",...[2,5,10,15].map(k=>fmt(1+k/2,2))]])}`;
-      if(key==="C") note=`$S_n$ 이 $1,\\ 0,\\ 1,\\ 0,\\ \\cdots$ 으로 진동하므로 발산해요.`;
-      if(key==="D") note=`$\\displaystyle\\lim_{n\\to\\infty}a_n=1\\ne0$ 이므로 발산해요.`;
+      if(key==="B") note=`항 $a_n\\to0$인데도 $S_n$은 한없이 커져요. $S_{2^{k}}\\ge1+\\dfrac{k}{2}$이므로 발산해요.<br>${tblHTML(["$k$","2","5","10","15"],[["$S_{2^{k}}$",...[2,5,10,15].map(k=>fmt(S("B",2**k),3))],["$1+\\frac{k}{2}$",...[2,5,10,15].map(k=>fmt(1+k/2,2))]])}`;
+      if(key==="C") note=`$S_n$이 $1,\\ 0,\\ 1,\\ 0,\\ \\cdots$으로 진동하므로 발산해요.`;
+      if(key==="D") note=`$\\displaystyle\\lim_{n\\to\\infty}a_n=1\\ne0$이므로 발산해요.`;
       if(key==="E") note=`부분합이 어떤 값 아래에서 멈추듯 가까워져요. 이 값을 정확히 구하는 방법은 이 과목 범위를 넘지만, 수렴한다는 것은 표로 짐작할 수 있어요.`;
       setRO(out,`${tblHTML(["$n$","10","100","1000","100000"],[["$S_n$",...vals.map(v=>fmt(v,5))]])}${note}`); }
     fit(); upd();
   },
   concept:String.raw`<h4>급수와 부분합</h4>
-  <p>수열 $\{a_n\}$ 의 각 항을 차례로 더한 식 $a_1+a_2+a_3+\cdots$ 을 <b>급수</b>라 하고 $\displaystyle\sum_{n=1}^{\infty}a_n$ 으로 나타내요. 첫째항부터 제$n$항까지의 합 $S_n=\displaystyle\sum_{k=1}^{n}a_k$ 를 <b>부분합</b>이라고 해요.</p>
-  <div class="box">부분합의 수열 $\{S_n\}$ 이 $S$ 에 수렴하면 급수는 수렴하고, 그 합은 $S$ 예요. $\displaystyle\sum_{n=1}^{\infty}a_n=\lim_{n\to\infty}S_n=S$<br>$\{S_n\}$ 이 발산하면 급수는 발산해요.</div>
+  <p>수열 $\{a_n\}$의 각 항을 차례로 더한 식 $a_1+a_2+a_3+\cdots$을 <b>급수</b>라 하고 $\displaystyle\sum_{n=1}^{\infty}a_n$으로 나타내요. 첫째항부터 제$n$항까지의 합 $S_n=\displaystyle\sum_{k=1}^{n}a_k$를 <b>부분합</b>이라고 해요.</p>
+  <div class="box">부분합의 수열 $\{S_n\}$이 $S$에 수렴하면 급수는 수렴하고, 그 합은 $S$예요. $\displaystyle\sum_{n=1}^{\infty}a_n=\lim_{n\to\infty}S_n=S$<br>$\{S_n\}$이 발산하면 급수는 발산해요.</div>
   <h4>급수와 일반항의 관계</h4>
-  <div class="box">급수 $\displaystyle\sum_{n=1}^{\infty}a_n$ 이 수렴하면 $\displaystyle\lim_{n\to\infty}a_n=0$<br>(대우) $\displaystyle\lim_{n\to\infty}a_n\ne0$ 이면 급수 $\displaystyle\sum_{n=1}^{\infty}a_n$ 은 발산</div>
-  <p>$a_n=S_n-S_{n-1}$ 이고 $S_n,\ S_{n-1}$ 이 같은 값 $S$ 에 수렴하기 때문이에요. 그러나 거꾸로 $a_n\to0$ 이라고 급수가 수렴하는 것은 아니에요. 급수 ②($\displaystyle\sum\frac1n$)가 그 반례예요.</p>`,
+  <div class="box">급수 $\displaystyle\sum_{n=1}^{\infty}a_n$이 수렴하면 $\displaystyle\lim_{n\to\infty}a_n=0$<br>(대우) $\displaystyle\lim_{n\to\infty}a_n\ne0$이면 급수 $\displaystyle\sum_{n=1}^{\infty}a_n$은 발산</div>
+  <p>$a_n=S_n-S_{n-1}$이고 $S_n,\ S_{n-1}$이 같은 값 $S$에 수렴하기 때문이에요. 그러나 거꾸로 $a_n\to0$이라고 급수가 수렴하는 것은 아니에요. 급수 ②($\displaystyle\sum\frac1n$)가 그 반례예요.</p>`,
   deeper:"‘아킬레우스와 거북’ 역설에서 아킬레우스는 거북이 있던 곳에 도착할 때마다 거북이 조금 앞서 있으므로 영원히 따라잡지 못한다고 해요. 이 논리에서 ‘무한히 많은 단계’와 ‘무한히 긴 시간’이 같은지 급수의 수렴을 이용해 반박해 보세요."
 });
 
@@ -1197,7 +1204,7 @@ lab({
     const o1=ro(); R1.append(o1);
     function u1(){ const lim=Math.abs(r)<1?a/(1-r):NaN; const ys=[...Array(30)].map((_,i)=>Sn(i+1)).filter(isFinite);
       P1.setView(-1,31,Math.max(-6,Math.min(-1,...ys)-.5),Math.min(12,Math.max(3,...ys,isFinite(lim)?lim:0)+.8));
-      setRO(o1,`$S_n=${Math.abs(r-1)<1e-12?"na":"\\dfrac{a(1-r^{n})}{1-r}"}$<br>${tblHTML(["$n$","5","10","30"],[["$S_n$",...[5,10,30].map(n=>fmt(Sn(n),5))]])}`+(Math.abs(r)<1?`$|r|<1$ 이므로 $r^{n}\\to0$, 합은 $\\dfrac{a}{1-r}=${tnum(lim)}$`:`<span class="bad">$|r|\\ge1$ 이므로 발산해요.</span>`)); }
+      setRO(o1,`$S_n=${Math.abs(r-1)<1e-12?"na":"\\dfrac{a(1-r^{n})}{1-r}"}$<br>${tblHTML(["$n$","5","10","30"],[["$S_n$",...[5,10,30].map(n=>fmt(Sn(n),5))]])}`+(Math.abs(r)<1?`$|r|<1$이므로 $r^{n}\\to0$, 합은 $\\dfrac{a}{1-r}=${tnum(lim)}$`:`<span class="bad">$|r|\\ge1$이므로 발산해요.</span>`)); }
     u1();
     let r2=.5,n2=1;
     const [L2,R2]=grid2(panes[1]);
@@ -1215,15 +1222,15 @@ lab({
     const ns=slider(R2,{label:"더한 항의 개수 $n$",min:1,max:20,step:1,value:n2,onInput:v=>{n2=v;u2();}});
     playBtn(R2,"한 번씩 더하기",dt=>{ api._acc=(api._acc||0)+dt; if(api._acc<.45) return true; api._acc=0; if(n2>=20){n2=1;} else n2++; ns.set(n2); u2(); return n2<20; },api);
     const o2=ro(); R2.append(o2);
-    function u2(){ P2.render(); const S=(1-Math.pow(r2,n2))/(1-r2); setRO(o2,`$S_{${n2}}=${fmt(S,5)}$, 합 $\\dfrac{1}{1-r}=${fmt(1/(1-r2),5)}$<br>남은 거리 $\\dfrac{1}{1-r}-S_n=\\dfrac{r^{n}}{1-r}=${fmt(Math.pow(r2,n2)/(1-r2),5)}$<br><span class="hint">${r2<0?"공비가 음수이면 합을 넘었다가 모자랐다가를 반복하며 가까워져요.":"남은 거리가 매번 $r$ 배로 줄어들어요."}</span>`); }
+    function u2(){ P2.render(); const S=(1-Math.pow(r2,n2))/(1-r2); setRO(o2,`$S_{${n2}}=${fmt(S,5)}$, 합 $\\dfrac{1}{1-r}=${fmt(1/(1-r2),5)}$<br>남은 거리 $\\dfrac{1}{1-r}-S_n=\\dfrac{r^{n}}{1-r}=${fmt(Math.pow(r2,n2)/(1-r2),5)}$<br><span class="hint">${r2<0?"공비가 음수이면 합을 넘었다가 모자랐다가를 반복하며 가까워져요.":"남은 거리가 매번 $r$배로 줄어들어요."}</span>`); }
     u2();
   },
   concept:String.raw`<h4>등비급수</h4>
-  <p>첫째항이 $a\ (a\ne0)$, 공비가 $r$ 인 등비수열로 만든 급수 $\displaystyle\sum_{n=1}^{\infty}ar^{n-1}=a+ar+ar^{2}+\cdots$ 을 <b>등비급수</b>라고 해요.</p>
-  <div class="box">① $|r|<1$ 이면 수렴하고, 그 합은 $\dfrac{a}{1-r}$<br>② $|r|\ge1$ 이면 발산</div>
-  <p>$r\ne1$ 일 때 부분합은 $S_n=\dfrac{a(1-r^{n})}{1-r}$ 이에요. $|r|<1$ 이면 $r^{n}\to0$ 이므로 $S_n\to\dfrac{a}{1-r}$ 이고, $|r|\ge1$ 이면 $r^{n}$ 이 수렴하지 않거나($r\ne1$) $S_n=na$ 가 발산해요($r=1$).</p>
-  <p>수직선 그림에서 합까지 남은 거리는 $\dfrac{ar^{n}}{1-r}$ 로, 한 항을 더할 때마다 $r$ 배가 돼요. 그래서 남은 거리가 $0$ 에 가까워지는 조건과 $r^{n}\to0$ 인 조건이 같아요.</p>`,
-  deeper:"순환소수 $0.\\dot{3}\\dot{6}$ 을 등비급수로 나타내어 분수로 바꾸어 보세요. 중학교에서 배운 ‘$100x-x$’ 방법과 등비급수의 합 공식은 어떤 점에서 같은 생각인지, 두 방법을 나란히 놓고 설명해 보세요."
+  <p>첫째항이 $a\ (a\ne0)$, 공비가 $r$인 등비수열로 만든 급수 $\displaystyle\sum_{n=1}^{\infty}ar^{n-1}=a+ar+ar^{2}+\cdots$을 <b>등비급수</b>라고 해요.</p>
+  <div class="box">① $|r|<1$이면 수렴하고, 그 합은 $\dfrac{a}{1-r}$<br>② $|r|\ge1$이면 발산</div>
+  <p>$r\ne1$일 때 부분합은 $S_n=\dfrac{a(1-r^{n})}{1-r}$이에요. $|r|<1$이면 $r^{n}\to0$이므로 $S_n\to\dfrac{a}{1-r}$이고, $|r|\ge1$이면 $r^{n}$이 수렴하지 않거나($r\ne1$) $S_n=na$가 발산해요($r=1$).</p>
+  <p>수직선 그림에서 합까지 남은 거리는 $\dfrac{ar^{n}}{1-r}$로, 한 항을 더할 때마다 $r$배가 돼요. 그래서 남은 거리가 $0$에 가까워지는 조건과 $r^{n}\to0$인 조건이 같아요.</p>`,
+  deeper:"순환소수 $0.\\dot{3}\\dot{6}$을 등비급수로 나타내어 분수로 바꾸어 보세요. 중학교에서 배운 ‘$100x-x$’ 방법과 등비급수의 합 공식은 어떤 점에서 같은 생각인지, 두 방법을 나란히 놓고 설명해 보세요."
 });
 
 lab({
@@ -1247,7 +1254,7 @@ lab({
     slider(R1,{label:"그릴 튀는 횟수",min:1,max:15,step:1,value:nb,onInput:v=>{nb=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); let part=h0; for(let i=1;i<=nb;i++) part+=2*h0*Math.pow(r,i); const tot=h0+2*h0*r/(1-r);
-      setRO(o1,`$${nb}$ 번 튈 때까지 움직인 거리: $${fmt(part,4)}$ m<br>멈출 때까지 움직인 전체 거리<br>$h+2(hr+hr^{2}+\\cdots)$<br>$=h+\\dfrac{2hr}{1-r}=${fmt(tot,4)}$ m<br><span class="hint">튀는 횟수는 끝이 없지만 움직인 거리의 합은 유한해요.</span>`); }
+      setRO(o1,`$${nb}$번 튈 때까지 움직인 거리: $${fmt(part,4)}$ m<br>멈출 때까지 움직인 전체 거리<br>$h+2(hr+hr^{2}+\\cdots)$<br>$=h+\\dfrac{2hr}{1-r}=${fmt(tot,4)}$ m<br><span class="hint">튀는 횟수는 끝이 없지만 움직인 거리의 합은 유한해요.</span>`); }
     u1();
     let ns=4;
     const [L2,R2]=grid2(panes[1]);
@@ -1259,14 +1266,14 @@ lab({
     slider(R2,{label:"정사각형의 개수 (처음 것 포함)",min:1,max:12,step:1,value:ns+1,onInput:v=>{ns=v-1;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); let A=0,Pm=0; for(let i=0;i<=ns;i++){A+=16*Math.pow(.5,i);Pm+=16*Math.pow(Math.SQRT1_2,i);}
-      setRO(o2,`처음 정사각형: 한 변 $4$, 넓이 $16$, 둘레 $16$<br>다음 정사각형은 한 변이 $\\dfrac{1}{\\sqrt2}$ 배, 넓이가 $\\dfrac12$ 배<br>그린 정사각형 넓이의 합 $=${fmt(A,4)}$ → 끝없이 그리면 $\\dfrac{16}{1-\\frac12}=32$<br>둘레의 합 $=${fmt(Pm,4)}$ → $\\dfrac{16}{1-\\frac{1}{\\sqrt2}}=16(2+\\sqrt2)\\approx${fmt(16*(2+Math.SQRT2),4)}$`); }
+      setRO(o2,`처음 정사각형: 한 변 $4$, 넓이 $16$, 둘레 $16$<br>다음 정사각형은 한 변이 $\\dfrac{1}{\\sqrt2}$배, 넓이가 $\\dfrac12$배<br>그린 정사각형 넓이의 합 $=${fmt(A,4)}$ → 끝없이 그리면 $\\dfrac{16}{1-\\frac12}=32$<br>둘레의 합 $=${fmt(Pm,4)}$ → $\\dfrac{16}{1-\\frac{1}{\\sqrt2}}=16(2+\\sqrt2)\\approx${fmt(16*(2+Math.SQRT2),4)}$`); }
     u2();
   },
   concept:String.raw`<h4>등비급수의 활용</h4>
   <p>같은 비율로 줄어드는 과정이 끝없이 반복되면, 각 단계의 양은 등비수열을 이루고 전체의 양은 등비급수의 합이 돼요.</p>
-  <div class="box">① 공비 $r$ 를 찾는다: 다음 단계의 양 $\div$ 이번 단계의 양<br>② 첫째항 $a$ 를 찾는다: 첫 단계의 양 (모양이 다른 첫 단계는 따로 더한다)<br>③ $|r|<1$ 인지 확인하고 $\dfrac{a}{1-r}$ 로 합을 구한다</div>
-  <p>도형이 닮음비 $k$ 로 반복될 때 길이(둘레)의 공비는 $k$, 넓이의 공비는 $k^{2}$ 이에요. 공이 튀어 오를 때는 처음 떨어지는 거리만 한 번이고, 그 뒤로는 올라갔다 내려오므로 각 높이를 두 번씩 더해요.</p>`,
-  deeper:"한 변의 길이가 $1$ 인 정삼각형에서 시작해 각 변을 삼등분한 가운데에 작은 정삼각형을 붙이는 과정을 끝없이 반복하면 ‘코흐 눈송이’가 돼요. 단계마다 둘레와 넓이가 어떻게 변하는지 등비수열로 나타내고, ‘넓이는 유한한데 둘레는 무한한’ 도형이 가능한 이유를 설명해 보세요."
+  <div class="box">① 공비 $r$을 찾는다: 다음 단계의 양 $\div$ 이번 단계의 양<br>② 첫째항 $a$를 찾는다: 첫 단계의 양 (모양이 다른 첫 단계는 따로 더한다)<br>③ $|r|<1$인지 확인하고 $\dfrac{a}{1-r}$로 합을 구한다</div>
+  <p>도형이 닮음비 $k$로 반복될 때 길이(둘레)의 공비는 $k$, 넓이의 공비는 $k^{2}$이에요. 공이 튀어 오를 때는 처음 떨어지는 거리만 한 번이고, 그 뒤로는 올라갔다 내려오므로 각 높이를 두 번씩 더해요.</p>`,
+  deeper:"한 변의 길이가 $1$인 정삼각형에서 시작해 각 변을 삼등분한 가운데에 작은 정삼각형을 붙이는 과정을 끝없이 반복하면 ‘코흐 눈송이’가 돼요. 단계마다 둘레와 넓이가 어떻게 변하는지 등비수열로 나타내고, ‘넓이는 유한한데 둘레는 무한한’ 도형이 가능한 이유를 설명해 보세요."
 });
 
 /* =========================================================
@@ -1287,7 +1294,7 @@ function slopeTraceLab(el,api,FS,first,opt={}){
   }});
   legend(L,[["var(--lab-magenta)","접점과 접선의 기울기"],["var(--lab-amber)","지나온 기울기의 자취"],["var(--lab-green)","도함수의 그래프(켰을 때)"]]);
   seg(R,{label:"함수 고르기",options:Object.keys(FS).map(k=>[k,FS[k].btn]),value:key,onChange:v=>{key=v;trail=[];x0=FS[v].x0;fit();xs.input.min=FS[v].xr[0];xs.input.max=FS[v].xr[1];xs.set(x0);upd();}});
-  const xs=slider(R,{label:"접점의 $x$ 좌표",min:FS[key].xr[0],max:FS[key].xr[1],step:.01,value:x0,onInput:v=>{x0=v;trail.push([v,FS[key].d(v)]);upd();}});
+  const xs=slider(R,{label:"접점의 $x$좌표",min:FS[key].xr[0],max:FS[key].xr[1],step:.01,value:x0,onInput:v=>{x0=v;trail.push([v,FS[key].d(v)]);upd();}});
   playBtn(R,"접점 움직이기",dt=>{const F=FS[key];x0+=dt*(F.xr[1]-F.xr[0])/5;if(x0>F.xr[1]){x0=F.xr[1];xs.set(x0);upd();return false;}trail.push([x0,F.d(x0)]);xs.set(x0);upd();return true;},api);
   check(R,"도함수의 그래프 겹쳐 보기",showD,v=>{showD=v;upd();});
   R.append(h("button",{class:"btn ghost",type:"button",onclick:()=>{trail=[];upd();}},"자취 지우기"));
@@ -1300,7 +1307,7 @@ function slopeTraceLab(el,api,FS,first,opt={}){
 lab({
   id:"euler",
   mount(el){
-    const panes=paneSet(el,["① $\\left(1+\\frac1n\\right)^{n}$ 과 복리","② 밑에 따라 달라지는 기울기"]);
+    const panes=paneSet(el,["① $\\left(1+\\frac1n\\right)^{n}$과 복리","② 밑에 따라 달라지는 기울기"]);
     let k=1;
     const [L1,R1]=grid2(panes[0]);
     const g=n=>Math.pow(1+1/n,n);
@@ -1308,10 +1315,10 @@ lab({
       P.axes({xstep:10,ystep:.2,xl:"n"}); P.hline(E,P.col.amber,1.6,[5,4]); P.text("e ≈ 2.71828",P.xmax,E,P.col.amber,"nw",4,12);
       dots(P,g,50,P.col.blue,3.2,1,true); const n=Math.round(Math.pow(10,k)); if(n<=50) P.pt(n,g(n),P.col.magenta,6);
     }});
-    slider(R1,{label:"$n=10^{k}$ 의 $k$",min:0,max:7,step:.25,value:k,fmt:v=>"n = "+Math.round(Math.pow(10,v)).toLocaleString("ko-KR"),onInput:v=>{k=v;u1();}});
+    slider(R1,{label:"$n=10^{k}$의 $k$",min:0,max:7,step:.25,value:k,fmt:v=>"n = "+Math.round(Math.pow(10,v)).toLocaleString("ko-KR"),onInput:v=>{k=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const n=Math.round(Math.pow(10,k));
-      setRO(o1,`$n=${n.toLocaleString("ko-KR")}$ 일 때 $\\left(1+\\dfrac{1}{n}\\right)^{n}\\approx${fmt(g(n),6)}$<br>${tblHTML(["$n$","1","2","12","365","8760"],[["값",...[1,2,12,365,8760].map(n=>fmt(g(n),5))]])}<span class="hint">원금 1, 연이율 100%를 1년에 $n$ 번 나누어 복리로 계산한 원리합계예요. 횟수를 늘려도 끝없이 커지지 않아요.</span>`); }
+      setRO(o1,`$n=${n.toLocaleString("ko-KR")}$일 때 $\\left(1+\\dfrac{1}{n}\\right)^{n}\\approx${fmt(g(n),6)}$<br>${tblHTML(["$n$","1","2","12","365","8760"],[["값",...[1,2,12,365,8760].map(n=>fmt(g(n),5))]])}<span class="hint">원금 1, 연이율 100%를 1년에 $n$번 나누어 복리로 계산한 원리합계예요. 횟수를 늘려도 끝없이 커지지 않아요.</span>`); }
     u1();
     let base="e",kk=1;
     const BS={"2":2,"e":E,"3":3};
@@ -1321,41 +1328,41 @@ lab({
       P.fn(x=>Math.pow(a,x),P.col.blue,2.6); P.fn(x=>1+x,P.col.muted,1.2,{dash:[4,4]});
       const m=(Math.pow(a,hh)-1)/hh; P.fn(x=>1+m*x,P.col.magenta,1.8); P.pt(0,1,P.col.ink,5); P.pt(hh,Math.pow(a,hh),P.col.magenta,5);
     }});
-    legend(L2,[["var(--lab-blue)","$y=a^{x}$"],["var(--lab-magenta)","두 점 $(0,1),\\ (h,a^{h})$ 를 지나는 직선"],["var(--lab-muted, #8796AD)","기울기 $1$ 인 직선 $y=x+1$"]]);
+    legend(L2,[["var(--lab-blue)","$y=a^{x}$"],["var(--lab-magenta)","두 점 $(0,1),\\ (h,a^{h})$을 지나는 직선"],["var(--lab-muted, #8796AD)","기울기 $1$인 직선 $y=x+1$"]]);
     seg(R2,{label:"밑 $a$",options:[["2","$2$"],["e","$e$"],["3","$3$"]],value:base,onChange:v=>{base=v;u2();}});
-    slider(R2,{label:"$h=10^{-k}$ 의 $k$",min:0,max:5,step:.25,value:kk,fmt:v=>"h = "+fmt(Math.pow(10,-v),5),onInput:v=>{kk=v;u2();}});
+    slider(R2,{label:"$h=10^{-k}$의 $k$",min:0,max:5,step:.25,value:kk,fmt:v=>"h = "+fmt(Math.pow(10,-v),5),onInput:v=>{kk=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const a=BS[base],hh=Math.pow(10,-kk);
-      setRO(o2,`$\\dfrac{a^{h}-1}{h}=${fmt((Math.pow(a,hh)-1)/hh,6)}$ → $\\ln a=${fmt(Math.log(a),6)}$<br>$\\dfrac{\\ln(1+h)}{h}=${fmt(Math.log(1+hh)/hh,6)}$ → $1$<br><span class="hint">${base==="e"?"밑이 $e$ 일 때만 $x=0$ 에서의 접선의 기울기가 정확히 $1$ 이에요.":"$a=2$ 이면 $1$ 보다 작고, $a=3$ 이면 $1$ 보다 커요. 그 사이 어딘가에 기울기가 $1$ 이 되는 밑이 있어요."}</span>`); }
+      setRO(o2,`$\\dfrac{a^{h}-1}{h}=${fmt((Math.pow(a,hh)-1)/hh,6)}$ → $\\ln a=${fmt(Math.log(a),6)}$<br>$\\dfrac{\\ln(1+h)}{h}=${fmt(Math.log(1+hh)/hh,6)}$ → $1$<br><span class="hint">${base==="e"?"밑이 $e$일 때만 $x=0$에서의 접선의 기울기가 정확히 $1$이에요.":"$a=2$이면 $1$보다 작고, $a=3$이면 $1$보다 커요. 그 사이 어딘가에 기울기가 $1$이 되는 밑이 있어요."}</span>`); }
     u2();
   },
-  concept:String.raw`<h4>무리수 $e$ 와 자연로그</h4>
+  concept:String.raw`<h4>무리수 $e$와 자연로그</h4>
   <div class="box">$\displaystyle\lim_{x\to0}(1+x)^{\frac1x}=\lim_{n\to\infty}\left(1+\frac1n\right)^{n}=e=2.71828\cdots$</div>
-  <p>$e$ 를 밑으로 하는 로그 $\log_e x$ 를 <b>자연로그</b>라 하고 $\ln x$ 로 나타내요.</p>
+  <p>$e$를 밑으로 하는 로그 $\log_e x$를 <b>자연로그</b>라 하고 $\ln x$로 나타내요.</p>
   <h4>지수함수와 로그함수의 극한</h4>
   <div class="box">① $\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1$ &nbsp;&nbsp; ② $\displaystyle\lim_{x\to0}\frac{e^{x}-1}{x}=1$<br>③ $\displaystyle\lim_{x\to0}\frac{a^{x}-1}{x}=\ln a$ $(a>0,\ a\ne1)$</div>
-  <p>①은 $\dfrac{\ln(1+x)}{x}=\ln(1+x)^{\frac1x}$ 이고 $(1+x)^{\frac1x}\to e$ 이기 때문이에요. ②는 $e^{x}-1=t$ 로 놓으면 $x=\ln(1+t)$ 가 되어 ①로 바뀌어요. ②는 곡선 $y=e^{x}$ 의 $x=0$ 에서의 접선의 기울기가 $1$ 이라는 뜻이고, 이것이 $e$ 가 미적분에서 특별한 이유예요.</p>`,
-  deeper:"은행 A는 연이율 $6\\%$ 를 1년에 한 번, 은행 B는 같은 연이율을 매일 나누어 복리로 계산해 준다고 해요. 원금이 같을 때 10년 뒤 두 은행의 원리합계 차이를 $e$ 를 이용해 어림하고, ‘복리 계산 횟수를 무한히 늘리면 돈도 무한히 늘어날까?’라는 질문에 답해 보세요."
+  <p>①은 $\dfrac{\ln(1+x)}{x}=\ln(1+x)^{\frac1x}$이고 $(1+x)^{\frac1x}\to e$이기 때문이에요. ②는 $e^{x}-1=t$로 놓으면 $x=\ln(1+t)$가 되어 ①로 바뀌어요. ②는 곡선 $y=e^{x}$의 $x=0$에서의 접선의 기울기가 $1$이라는 뜻이고, 이것이 $e$가 미적분에서 특별한 이유예요.</p>`,
+  deeper:"은행 A는 연이율 $6\\%$를 1년에 한 번, 은행 B는 같은 연이율을 매일 나누어 복리로 계산해 준다고 해요. 원금이 같을 때 10년 뒤 두 은행의 원리합계 차이를 $e$를 이용해 어림하고, ‘복리 계산 횟수를 무한히 늘리면 돈도 무한히 늘어날까?’라는 질문에 답해 보세요."
 });
 
 lab({
   id:"expder",
   mount(el,api){
     const FS={
-      A:{btn:"$e^{x}$",f:x=>Math.exp(x),d:x=>Math.exp(x),x0:-1.5,xr:[-2.5,1.6],view:[-2.8,2,-1,5.5],read:x=>`$f(x)=e^{x}$<br>접점 $x=${fmt(x,2)}$ 에서 $f(x)=${fmt(Math.exp(x),4)}$, 기울기 $f'(x)=${fmt(Math.exp(x),4)}$<br>$\\dfrac{f'(x)}{f(x)}=1$ : 높이와 기울기가 언제나 같아요.`},
+      A:{btn:"$e^{x}$",f:x=>Math.exp(x),d:x=>Math.exp(x),x0:-1.5,xr:[-2.5,1.6],view:[-2.8,2,-1,5.5],read:x=>`$f(x)=e^{x}$<br>접점 $x=${fmt(x,2)}$에서 $f(x)=${fmt(Math.exp(x),4)}$, 기울기 $f'(x)=${fmt(Math.exp(x),4)}$<br>$\\dfrac{f'(x)}{f(x)}=1$ : 높이와 기울기가 언제나 같아요.`},
       B:{btn:"$2^{x}$",f:x=>Math.pow(2,x),d:x=>Math.pow(2,x)*Math.LN2,x0:-1.5,xr:[-2.5,2.3],view:[-2.8,2.6,-1,5.5],read:x=>`$f(x)=2^{x}$<br>기울기 $f'(x)\\approx${fmt(Math.pow(2,x)*Math.LN2,4)}$, 높이 $f(x)=${fmt(Math.pow(2,x),4)}$<br>$\\dfrac{f'(x)}{f(x)}\\approx${fmt(Math.LN2,4)}=\\ln2$ : 비가 일정해요.`},
-      C:{btn:"$\\ln x$",f:x=>Math.log(x),d:x=>1/x,x0:.4,xr:[.25,4.5],dom:[.001,6],view:[-.5,5,-2.5,2.5],dview:[-.5,5,-.5,4.5],read:x=>`$f(x)=\\ln x$<br>기울기 $f'(x)\\approx${fmt(1/x,4)}$<br>$x\\cdot f'(x)=1$ 이므로 $f'(x)=\\dfrac{1}{x}$ 처럼 보여요.`},
+      C:{btn:"$\\ln x$",f:x=>Math.log(x),d:x=>1/x,x0:.4,xr:[.25,4.5],dom:[.001,6],view:[-.5,5,-2.5,2.5],dview:[-.5,5,-.5,4.5],read:x=>`$f(x)=\\ln x$<br>기울기 $f'(x)\\approx${fmt(1/x,4)}$<br>$x\\cdot f'(x)=1$이므로 $f'(x)=\\dfrac{1}{x}$처럼 보여요.`},
       D:{btn:"$\\log_{2}x$",f:x=>Math.log2(x),d:x=>1/(x*Math.LN2),x0:.4,xr:[.25,4.5],dom:[.001,6],view:[-.5,5,-2.5,2.5],dview:[-.5,5,-.5,4.5],read:x=>`$f(x)=\\log_{2}x$<br>기울기 $f'(x)\\approx${fmt(1/(x*Math.LN2),4)}$<br>$x\\cdot f'(x)\\approx${fmt(1/Math.LN2,4)}=\\dfrac{1}{\\ln2}$`}
     };
     slopeTraceLab(el,api,FS,"A");
   },
   concept:String.raw`<h4>지수함수의 도함수</h4>
   <div class="box">① $(e^{x})'=e^{x}$ &nbsp;&nbsp; ② $(a^{x})'=a^{x}\ln a$ $(a>0,\ a\ne1)$</div>
-  <p>$f(x)=e^{x}$ 에서 $\dfrac{f(x+h)-f(x)}{h}=e^{x}\cdot\dfrac{e^{h}-1}{h}\to e^{x}\cdot1$ 이에요. 즉 $e^{x}$ 는 모든 점에서 ‘높이 = 기울기’인 함수예요. $a^{x}=e^{x\ln a}$ 이므로 기울기는 높이의 $\ln a$ 배가 돼요.</p>
+  <p>$f(x)=e^{x}$에서 $\dfrac{f(x+h)-f(x)}{h}=e^{x}\cdot\dfrac{e^{h}-1}{h}\to e^{x}\cdot1$이에요. 즉 $e^{x}$은 모든 점에서 ‘높이 = 기울기’인 함수예요. $a^{x}=e^{x\ln a}$이므로 기울기는 높이의 $\ln a$배가 돼요.</p>
   <h4>로그함수의 도함수</h4>
   <div class="box">③ $(\ln x)'=\dfrac{1}{x}$ &nbsp;&nbsp; ④ $(\log_{a}x)'=\dfrac{1}{x\ln a}$ $(x>0)$</div>
-  <p>$\dfrac{\ln(x+h)-\ln x}{h}=\dfrac1x\cdot\dfrac{\ln\left(1+\frac hx\right)}{\frac hx}\to\dfrac1x\cdot1$ 이에요. $\log_{a}x=\dfrac{\ln x}{\ln a}$ 이므로 ④가 나와요.</p>`,
-  deeper:"‘변화율이 현재의 양에 비례한다’는 성질은 세균의 증식, 방사성 물질의 붕괴, 복리 이자 등에서 나타나요. 이 성질을 식 $f'(x)=kf(x)$ 로 쓸 때 $f(x)=Ce^{kx}$ 가 이 식을 만족하는 이유를 설명하고, 탐색 도구의 ‘높이와 기울기의 비’와 연결해 보세요."
+  <p>$\dfrac{\ln(x+h)-\ln x}{h}=\dfrac1x\cdot\dfrac{\ln\left(1+\frac hx\right)}{\frac hx}\to\dfrac1x\cdot1$이에요. $\log_{a}x=\dfrac{\ln x}{\ln a}$이므로 ④가 나와요.</p>`,
+  deeper:"‘변화율이 현재의 양에 비례한다’는 성질은 세균의 증식, 방사성 물질의 붕괴, 복리 이자 등에서 나타나요. 이 성질을 식 $f'(x)=kf(x)$로 쓸 때 $f(x)=Ce^{kx}$이 이 식을 만족하는 이유를 설명하고, 탐색 도구의 ‘높이와 기울기의 비’와 연결해 보세요."
 });
 
 lab({
@@ -1373,7 +1380,7 @@ lab({
       P.arc(0,0,.22,0,rad(be),C.green,2); P.arc(0,0,.34,0,rad(al),C.blue,1.6);
       P.pt(px,py,C.blue,6,"P(α)","ne"); P.pt(qx,qy,C.green,6,"Q(β)","ne"); P.pt(rx,ry,C.magenta,6,"P′(α−β)","ne"); P.pt(1,0,C.magenta,6,"A","se");
     }});
-    legend(L1,[["var(--lab-blue)","선분 $\\mathrm{PQ}$"],["var(--lab-magenta)","두 점을 $-\\beta$ 만큼 회전한 선분 $\\mathrm{P'A}$"]]);
+    legend(L1,[["var(--lab-blue)","선분 $\\mathrm{PQ}$"],["var(--lab-magenta)","두 점을 $-\\beta$만큼 회전한 선분 $\\mathrm{P'A}$"]]);
     slider(R1,{label:"$\\alpha$ (도)",min:0,max:360,step:1,value:al,onInput:v=>{al=v;u1();}});
     slider(R1,{label:"$\\beta$ (도)",min:0,max:360,step:1,value:be,onInput:v=>{be=v;u1();}});
     const o1=ro(); R1.append(o1);
@@ -1387,16 +1394,16 @@ lab({
       const t1=Math.atan(m1),t2=Math.atan(m2); P.arc(0,0,.7,Math.min(t1,t2),Math.max(t1,t2),C.magenta,2.4);
       P.text("y="+fmt(m1,2)+"x",2.2/Math.max(1,Math.abs(m1)),m1*2.2/Math.max(1,Math.abs(m1)),C.blue,"e",4);
     }});
-    slider(R2,{label:"직선 ① 의 기울기 $m_1=\\tan\\theta_1$",min:-3,max:3,step:.1,value:m1,onInput:v=>{m1=v;u2();}});
-    slider(R2,{label:"직선 ② 의 기울기 $m_2=\\tan\\theta_2$",min:-3,max:3,step:.1,value:m2,onInput:v=>{m2=v;u2();}});
+    slider(R2,{label:"직선 ①의 기울기 $m_1=\\tan\\theta_1$",min:-3,max:3,step:.1,value:m1,onInput:v=>{m1=v;u2();}});
+    slider(R2,{label:"직선 ②의 기울기 $m_2=\\tan\\theta_2$",min:-3,max:3,step:.1,value:m2,onInput:v=>{m2=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const t=Math.abs(Math.atan(m1)-Math.atan(m2)),den=1+m1*m2;
-      setRO(o2,`두 직선이 이루는 각 중 빨간 각 $\\theta\\approx${fmt(deg(t),2)}^{\\circ}$<br>$\\tan(\\theta_1-\\theta_2)=\\dfrac{m_1-m_2}{1+m_1m_2}=${Math.abs(den)<1e-9?"\\text{정의 안 됨 (수직)}":fmt((m1-m2)/den,4)}$<br>${Math.abs(den)<1e-9?"$m_1m_2=-1$ 이면 두 직선은 수직이에요.":`예각을 $\\theta$ 라 하면 $\\tan\\theta=\\left|\\dfrac{m_1-m_2}{1+m_1m_2}\\right|=${fmt(Math.abs((m1-m2)/den),4)}$`}`); }
+      setRO(o2,`두 직선이 이루는 각 중 빨간 각 $\\theta\\approx${fmt(deg(t),2)}^{\\circ}$<br>$\\tan(\\theta_1-\\theta_2)=\\dfrac{m_1-m_2}{1+m_1m_2}=${Math.abs(den)<1e-9?"\\text{정의 안 됨 (수직)}":fmt((m1-m2)/den,4)}$<br>${Math.abs(den)<1e-9?"$m_1m_2=-1$이면 두 직선은 수직이에요.":`예각을 $\\theta$라 하면 $\\tan\\theta=\\left|\\dfrac{m_1-m_2}{1+m_1m_2}\\right|=${fmt(Math.abs((m1-m2)/den),4)}$`}`); }
     u2();
   },
   concept:String.raw`<h4>삼각함수의 덧셈정리</h4>
   <div class="box">① $\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta$<br>② $\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$<br>③ $\tan(\alpha\pm\beta)=\dfrac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$</div>
-  <p>단위원 위의 두 점 $P(\cos\alpha,\sin\alpha),\ Q(\cos\beta,\sin\beta)$ 를 원점을 중심으로 $-\beta$ 만큼 회전해도 두 점 사이의 거리는 그대로예요. 두 거리의 제곱을 같다고 놓으면 $\cos(\alpha-\beta)=\cos\alpha\cos\beta+\sin\alpha\sin\beta$ 가 나오고, $\beta$ 대신 $-\beta$, $\alpha$ 대신 $\dfrac{\pi}{2}-\alpha$ 를 넣어 나머지 공식을 얻어요.</p>
+  <p>단위원 위의 두 점 $P(\cos\alpha,\sin\alpha),\ Q(\cos\beta,\sin\beta)$를 원점을 중심으로 $-\beta$만큼 회전해도 두 점 사이의 거리는 그대로예요. 두 거리의 제곱을 같다고 놓으면 $\cos(\alpha-\beta)=\cos\alpha\cos\beta+\sin\alpha\sin\beta$가 나오고, $\beta$ 대신 $-\beta$, $\alpha$ 대신 $\dfrac{\pi}{2}-\alpha$를 넣어 나머지 공식을 얻어요.</p>
   <h4>새로운 삼각함수</h4>
   <div class="box">$\csc\theta=\dfrac{1}{\sin\theta},\quad\sec\theta=\dfrac{1}{\cos\theta},\quad\cot\theta=\dfrac{1}{\tan\theta}$<br>$1+\tan^{2}\theta=\sec^{2}\theta,\quad1+\cot^{2}\theta=\csc^{2}\theta$</div>`,
   deeper:"두 사람이 같은 높이의 탑을 서로 다른 지점에서 올려다본 각도를 알 때, 덧셈정리를 이용하면 탑까지의 거리를 직접 재지 않고도 구할 수 있어요. 측량에서 덧셈정리가 어떻게 쓰일 수 있는지 상황을 하나 만들어 문제와 풀이를 써 보세요."
@@ -1415,20 +1422,20 @@ lab({
       P.poly([[0,0],[1,0],[c,s]],C.blueSoft,C.blue,2);
       P.line(c,s,c,0,C.blue,1.4,[4,3]); P.pt(0,0,C.ink,4,"O","sw"); P.pt(1,0,C.ink,4,"A","se"); P.pt(c,s,C.blue,5,"P","nw"); if(t<4) P.pt(1,t,C.magenta,5,"T","e");
     }});
-    legend(L,[["var(--lab-blue)","△OAP 의 넓이 $\\frac12\\sin x$"],["var(--lab-amber)","부채꼴 OAP 의 넓이 $\\frac12x$"],["var(--lab-magenta)","△OAT 의 넓이 $\\frac12\\tan x$"]]);
+    legend(L,[["var(--lab-blue)","$\\triangle\\mathrm{OAP}$의 넓이 $\\frac12\\sin x$"],["var(--lab-amber)","부채꼴 $\\mathrm{OAP}$의 넓이 $\\frac12x$"],["var(--lab-magenta)","$\\triangle\\mathrm{OAT}$의 넓이 $\\frac12\\tan x$"]]);
     slider(R,{label:"중심각 $x$ (라디안)",min:.02,max:1.4,step:.01,value:x,onInput:v=>{x=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const s=Math.sin(x),t=Math.tan(x);
-      setRO(out,`$\\triangle OAP<$ 부채꼴 $<\\triangle OAT$ 에서<br>$${fmt(s/2,4)}<${fmt(x/2,4)}<${fmt(t/2,4)}$<br>각 변을 $\\frac12\\sin x$ 로 나누어 역수를 취하면<br>$\\cos x<\\dfrac{\\sin x}{x}<1$ : $${fmt(Math.cos(x),4)}<${fmt(s/x,4)}<1$<br><span class="hint">$x\\to0+$ 일 때 $\\cos x\\to1$ 이므로 가운데 값도 $1$ 로 갇혀요.</span>`); }
+      setRO(out,`$\\triangle OAP<$ 부채꼴 $<\\triangle OAT$에서<br>$${fmt(s/2,4)}<${fmt(x/2,4)}<${fmt(t/2,4)}$<br>각 변을 $\\frac12\\sin x$로 나누어 역수를 취하면<br>$\\cos x<\\dfrac{\\sin x}{x}<1$ : $${fmt(Math.cos(x),4)}<${fmt(s/x,4)}<1$<br><span class="hint">$x\\to0+$일 때 $\\cos x\\to1$이므로 가운데 값도 $1$로 갇혀요.</span>`); }
     upd();
   },
   concept:String.raw`<h4>삼각함수의 극한</h4>
-  <div class="box">$\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$ ($x$ 의 단위는 라디안)</div>
-  <p>$0\lt x\lt \dfrac{\pi}{2}$ 일 때 넓이를 비교하면 $\dfrac12\sin x<\dfrac12x<\dfrac12\tan x$ 이고, 이로부터 $\cos x<\dfrac{\sin x}{x}<1$ 이에요. $x\to0+$ 일 때 $\cos x\to1$ 이므로 대소 관계에 의해 $\dfrac{\sin x}{x}\to1$ 이에요. $\dfrac{\sin x}{x}$ 는 우함수이므로 $x\to0-$ 일 때도 같아요.</p>
+  <div class="box">$\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$ ($x$의 단위는 라디안)</div>
+  <p>$0\lt x\lt \dfrac{\pi}{2}$일 때 넓이를 비교하면 $\dfrac12\sin x<\dfrac12x<\dfrac12\tan x$이고, 이로부터 $\cos x<\dfrac{\sin x}{x}<1$이에요. $x\to0+$일 때 $\cos x\to1$이므로 대소 관계에 의해 $\dfrac{\sin x}{x}\to1$이에요. $\dfrac{\sin x}{x}$는 우함수이므로 $x\to0-$일 때도 같아요.</p>
   <p>이 결과를 이용하면 다음 극한도 구할 수 있어요.</p>
   <div class="box">$\displaystyle\lim_{x\to0}\frac{\tan x}{x}=1,\quad\lim_{x\to0}\frac{1-\cos x}{x}=0,\quad\lim_{x\to0}\frac{\sin ax}{bx}=\frac ab$</div>
-  <p>$x$ 를 도($^{\circ}$)로 재면 $\dfrac{\sin x^{\circ}}{x}\to\dfrac{\pi}{180}$ 이 되어 $1$ 이 아니에요. 라디안을 쓰는 이유가 여기에 있어요.</p>`,
-  deeper:"진자의 진동을 다룰 때 물리학에서는 각이 작으면 $\\sin\\theta\\approx\\theta$ 로 바꾸어 계산해요. 이 근사가 $\\displaystyle\\lim_{\\theta\\to0}\\frac{\\sin\\theta}{\\theta}=1$ 과 어떻게 연결되는지 설명하고, 각이 몇 도 정도일 때까지 오차가 $1\\%$ 보다 작은지 탐색 도구로 어림해 보세요."
+  <p>$x$를 도($^{\circ}$)로 재면 $\dfrac{\sin x^{\circ}}{x}\to\dfrac{\pi}{180}$가 되어 $1$이 아니에요. 라디안을 쓰는 이유가 여기에 있어요.</p>`,
+  deeper:"진자의 진동을 다룰 때 물리학에서는 각이 작으면 $\\sin\\theta\\approx\\theta$로 바꾸어 계산해요. 이 근사가 $\\displaystyle\\lim_{\\theta\\to0}\\frac{\\sin\\theta}{\\theta}=1$과 어떻게 연결되는지 설명하고, 각이 몇 도 정도일 때까지 오차가 $1\\%$보다 작은지 탐색 도구로 어림해 보세요."
 });
 
 lab({
@@ -1437,8 +1444,8 @@ lab({
     const panes=paneSet(el,["① 기울기의 자취","② 덧셈정리로 본 평균변화율"]);
     const PI=Math.PI;
     const FS={
-      S:{btn:"$\\sin x$",f:Math.sin,d:Math.cos,x0:-PI,xr:[-PI,2*PI],view:[-3.6,6.6,-1.7,1.7],axes:{piX:true,piDiv:2,ystep:1},read:x=>`$f(x)=\\sin x$<br>접점 $x\\approx${fmt(x,2)}$ 에서 기울기 $\\approx${fmt(Math.cos(x),4)}$<br>$\\cos x=${fmt(Math.cos(x),4)}$ 와 비교해 보세요.`},
-      C:{btn:"$\\cos x$",f:Math.cos,d:x=>-Math.sin(x),x0:-PI,xr:[-PI,2*PI],view:[-3.6,6.6,-1.7,1.7],axes:{piX:true,piDiv:2,ystep:1},read:x=>`$f(x)=\\cos x$<br>접점 $x\\approx${fmt(x,2)}$ 에서 기울기 $\\approx${fmt(-Math.sin(x),4)}$<br>$-\\sin x=${fmt(-Math.sin(x),4)}$ 와 비교해 보세요.`}
+      S:{btn:"$\\sin x$",f:Math.sin,d:Math.cos,x0:-PI,xr:[-PI,2*PI],view:[-3.6,6.6,-1.7,1.7],axes:{piX:true,piDiv:2,ystep:1},read:x=>`$f(x)=\\sin x$<br>접점 $x\\approx${fmt(x,2)}$에서 기울기 $\\approx${fmt(Math.cos(x),4)}$<br>$\\cos x=${fmt(Math.cos(x),4)}$와 비교해 보세요.`},
+      C:{btn:"$\\cos x$",f:Math.cos,d:x=>-Math.sin(x),x0:-PI,xr:[-PI,2*PI],view:[-3.6,6.6,-1.7,1.7],axes:{piX:true,piDiv:2,ystep:1},read:x=>`$f(x)=\\cos x$<br>접점 $x\\approx${fmt(x,2)}$에서 기울기 $\\approx${fmt(-Math.sin(x),4)}$<br>$-\\sin x=${fmt(-Math.sin(x),4)}$와 비교해 보세요.`}
     };
     slopeTraceLab(panes[0],api,FS,"S");
     let x0=.8,k=1;
@@ -1448,19 +1455,19 @@ lab({
       const m=(Math.sin(x0+hh)-Math.sin(x0))/hh; P.fn(x=>Math.sin(x0)+m*(x-x0),P.col.magenta,1.6); P.pt(x0,Math.sin(x0),P.col.ink,5); P.pt(x0+hh,Math.sin(x0+hh),P.col.magenta,5);
     }});
     slider(R2,{label:"$x$",min:-.5,max:3,step:.01,value:x0,onInput:v=>{x0=v;u2();}});
-    slider(R2,{label:"$h=10^{-k}$ 의 $k$",min:0,max:4,step:.25,value:k,fmt:v=>"h = "+fmt(Math.pow(10,-v),4),onInput:v=>{k=v;u2();}});
+    slider(R2,{label:"$h=10^{-k}$의 $k$",min:0,max:4,step:.25,value:k,fmt:v=>"h = "+fmt(Math.pow(10,-v),4),onInput:v=>{k=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const hh=Math.pow(10,-k),A=Math.sin(x0)*(Math.cos(hh)-1)/hh,B=Math.cos(x0)*Math.sin(hh)/hh;
-      setRO(o2,`$\\dfrac{\\sin(x+h)-\\sin x}{h}=\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}$<br>$=${fmt(A,5)}+${fmt(B,5)}=${fmt(A+B,5)}$<br>$h\\to0$ 이면 첫째 항 $\\to\\sin x\\cdot0$, 둘째 항 $\\to\\cos x\\cdot1=${fmt(Math.cos(x0),5)}$`); }
+      setRO(o2,`$\\dfrac{\\sin(x+h)-\\sin x}{h}=\\sin x\\cdot\\dfrac{\\cos h-1}{h}+\\cos x\\cdot\\dfrac{\\sin h}{h}$<br>$=${fmt(A,5)}+${fmt(B,5)}=${fmt(A+B,5)}$<br>$h\\to0$이면 첫째 항 $\\to\\sin x\\cdot0$, 둘째 항 $\\to\\cos x\\cdot1=${fmt(Math.cos(x0),5)}$`); }
     u2();
   },
   concept:String.raw`<h4>사인함수와 코사인함수의 도함수</h4>
   <div class="box">① $(\sin x)'=\cos x$ &nbsp;&nbsp; ② $(\cos x)'=-\sin x$</div>
-  <p>덧셈정리로 $\sin(x+h)=\sin x\cos h+\cos x\sin h$ 이므로</p>
+  <p>덧셈정리로 $\sin(x+h)=\sin x\cos h+\cos x\sin h$이므로</p>
   <div class="box">$\dfrac{\sin(x+h)-\sin x}{h}=\sin x\cdot\dfrac{\cos h-1}{h}+\cos x\cdot\dfrac{\sin h}{h}\to\sin x\cdot0+\cos x\cdot1$</div>
-  <p>같은 방법으로 $(\cos x)'=-\sin x$ 를 얻어요. 그래프로 보면 $y=\sin x$ 의 기울기는 꼭대기와 바닥에서 $0$, 원점에서 $1$ 로 가장 커요. 이 기울기들을 이으면 사인 곡선을 왼쪽으로 $\dfrac{\pi}{2}$ 만큼 평행이동한 $y=\cos x$ 가 돼요.</p>
-  <p>이 공식은 $x$ 가 라디안일 때 성립해요. 도($^{\circ}$)를 쓰면 $\dfrac{\pi}{180}$ 이라는 상수가 붙어요.</p>`,
-  deeper:"$\\sin x$ 를 네 번 미분하면 다시 $\\sin x$ 가 돼요. 이 ‘미분의 순환’을 그래프의 평행이동으로 설명하고, 용수철에 매달린 물체처럼 ‘가속도가 위치와 반대 방향으로 비례하는’ 운동이 사인함수로 나타나는 이유와 연결해 보세요."
+  <p>같은 방법으로 $(\cos x)'=-\sin x$를 얻어요. 그래프로 보면 $y=\sin x$의 기울기는 꼭대기와 바닥에서 $0$, 원점에서 $1$로 가장 커요. 이 기울기들을 이으면 사인 곡선을 왼쪽으로 $\dfrac{\pi}{2}$만큼 평행이동한 $y=\cos x$가 돼요.</p>
+  <p>이 공식은 $x$가 라디안일 때 성립해요. 도($^{\circ}$)를 쓰면 $\dfrac{\pi}{180}$이라는 상수가 붙어요.</p>`,
+  deeper:"$\\sin x$를 네 번 미분하면 다시 $\\sin x$가 돼요. 이 ‘미분의 순환’을 그래프의 평행이동으로 설명하고, 용수철에 매달린 물체처럼 ‘가속도가 위치와 반대 방향으로 비례하는’ 운동이 사인함수로 나타나는 이유와 연결해 보세요."
 });
 
 /* =========================================================
@@ -1485,7 +1492,7 @@ lab({
       P.fn(x=>y(x0)+m*(x-x0),P.col.green,2); if(isFinite(w)&&Math.abs(w)<50) P.fn(x=>y(x0)+w*(x-x0),P.col.magenta,1.4,{dash:[6,4]});
       P.pt(x0,y(x0),P.col.ink,6);
     }});
-    legend(L,[["var(--lab-green)","기울기 $\\dfrac{f'g-fg'}{g^{2}}$ 인 직선"],["var(--lab-magenta)","기울기 $\\dfrac{f'}{g'}$ 인 직선 (잘못된 추측)"]]);
+    legend(L,[["var(--lab-green)","기울기 $\\dfrac{f'g-fg'}{g^{2}}$인 직선"],["var(--lab-magenta)","기울기 $\\dfrac{f'}{g'}$인 직선 (잘못된 추측)"]]);
     seg(R,{label:"함수 $y=\\dfrac{f(x)}{g(x)}$",options:Object.keys(QS).map(k=>[k,QS[k].btn]),value:key,onChange:v=>{key=v;x0=QS[v].x0;xs.input.min=QS[v].xr[0];xs.input.max=QS[v].xr[1];xs.set(x0);P.setView(...QS[v].view);upd();}});
     const xs=slider(R,{label:"$x$",min:QS.A.xr[0],max:QS.A.xr[1],step:.01,value:x0,onInput:v=>{x0=v;upd();}});
     const out=ro(); R.append(out);
@@ -1494,12 +1501,12 @@ lab({
     P.setView(...QS.A.view); upd();
   },
   concept:String.raw`<h4>함수의 몫의 미분법</h4>
-  <p>두 함수 $f(x),\ g(x)\ (g(x)\ne0)$ 가 미분가능할 때</p>
+  <p>두 함수 $f(x),\ g(x)\ (g(x)\ne0)$가 미분가능할 때</p>
   <div class="box">① $\left\{\dfrac{1}{g(x)}\right\}'=-\dfrac{g'(x)}{\{g(x)\}^{2}}$<br>② $\left\{\dfrac{f(x)}{g(x)}\right\}'=\dfrac{f'(x)g(x)-f(x)g'(x)}{\{g(x)\}^{2}}$</div>
-  <p>$q(x)=\dfrac{f(x)}{g(x)}$ 로 놓으면 $f(x)=q(x)g(x)$ 이고, 곱의 미분법으로 $f'=q'g+qg'$ 이에요. 이것을 $q'$ 에 대해 풀면 ②가 나와요. 분자의 순서(‘분자의 미분 × 분모’가 먼저)를 바꾸면 부호가 반대가 되니 주의해요.</p>
+  <p>$q(x)=\dfrac{f(x)}{g(x)}$로 놓으면 $f(x)=q(x)g(x)$이고, 곱의 미분법으로 $f'=q'g+qg'$ 이에요. 이것을 $q'$ 에 대해 풀면 ②가 나와요. 분자의 순서(‘분자의 미분 × 분모’가 먼저)를 바꾸면 부호가 반대가 되니 주의해요.</p>
   <h4>몫의 미분법으로 얻는 공식</h4>
-  <div class="box">③ $(x^{n})'=nx^{n-1}$ ($n$ 은 정수) &nbsp;&nbsp; ④ $(\tan x)'=\sec^{2}x$<br>⑤ $(\sec x)'=\sec x\tan x$ &nbsp;&nbsp; ⑥ $(\csc x)'=-\csc x\cot x$ &nbsp;&nbsp; ⑦ $(\cot x)'=-\csc^{2}x$</div>`,
-  deeper:"어떤 도시의 총생산이 $P(t)$, 인구가 $N(t)$ 일 때 1인당 생산은 $\\dfrac{P(t)}{N(t)}$ 예요. 총생산이 늘어나는데도 1인당 생산이 줄어들 수 있는 조건을 몫의 미분법으로 나타내고, 그 의미를 말로 설명해 보세요."
+  <div class="box">③ $(x^{n})'=nx^{n-1}$ ($n$은 정수) &nbsp;&nbsp; ④ $(\tan x)'=\sec^{2}x$<br>⑤ $(\sec x)'=\sec x\tan x$ &nbsp;&nbsp; ⑥ $(\csc x)'=-\csc x\cot x$ &nbsp;&nbsp; ⑦ $(\cot x)'=-\csc^{2}x$</div>`,
+  deeper:"어떤 도시의 총생산이 $P(t)$, 인구가 $N(t)$일 때 1인당 생산은 $\\dfrac{P(t)}{N(t)}$예요. 총생산이 늘어나는데도 1인당 생산이 줄어들 수 있는 조건을 몫의 미분법으로 나타내고, 그 의미를 말로 설명해 보세요."
 });
 
 lab({
@@ -1529,17 +1536,17 @@ lab({
     slider(R,{label:"$\\Delta x$",min:.005,max:.5,step:.005,value:dx,onInput:v=>{dx=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Q=CS[key],u0=Q.g(x0),du=Q.g(x0+dx)-u0,dy=Q.f(u0+du)-Q.f(u0);
-      setRO(out,`$${Q.gt},\\ ${Q.ft}$<br>$\\dfrac{\\Delta u}{\\Delta x}=${fmt(du/dx,4)}$, $\\dfrac{\\Delta y}{\\Delta u}=${Math.abs(du)<1e-12?"\\text{—}":fmt(dy/du,4)}$, 곱 $\\dfrac{\\Delta y}{\\Delta x}=${fmt(dy/dx,4)}$<br>$\\Delta x\\to0$ 이면 $\\dfrac{du}{dx}=${fmt(Q.dg(x0),4)}$, $\\dfrac{dy}{du}=${fmt(Q.df(u0),4)}$<br>$\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\cdot\\dfrac{du}{dx}=${fmt(Q.df(u0)*Q.dg(x0),4)}$<br><span class="hint">각 수직선은 같은 비율로 그렸어요. 막대 길이의 비가 늘어나는 배율이에요.</span>`); }
+      setRO(out,`$${Q.gt},\\ ${Q.ft}$<br>$\\dfrac{\\Delta u}{\\Delta x}=${fmt(du/dx,4)}$, $\\dfrac{\\Delta y}{\\Delta u}=${Math.abs(du)<1e-12?"\\text{—}":fmt(dy/du,4)}$, 곱 $\\dfrac{\\Delta y}{\\Delta x}=${fmt(dy/dx,4)}$<br>$\\Delta x\\to0$이면 $\\dfrac{du}{dx}=${fmt(Q.dg(x0),4)}$, $\\dfrac{dy}{du}=${fmt(Q.df(u0),4)}$<br>$\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\cdot\\dfrac{du}{dx}=${fmt(Q.df(u0)*Q.dg(x0),4)}$<br><span class="hint">각 수직선은 같은 비율로 그렸어요. 막대 길이의 비가 늘어나는 배율이에요.</span>`); }
     upd();
   },
   concept:String.raw`<h4>합성함수의 미분법</h4>
-  <p>미분가능한 두 함수 $y=f(u),\ u=g(x)$ 에 대하여 합성함수 $y=f(g(x))$ 의 도함수는</p>
+  <p>미분가능한 두 함수 $y=f(u),\ u=g(x)$에 대하여 합성함수 $y=f(g(x))$의 도함수는</p>
   <div class="box">$\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$ 또는 $\{f(g(x))\}'=f'(g(x))\,g'(x)$</div>
-  <p>$x$ 가 조금 변하면 $u$ 는 그 $g'(x)$ 배만큼, $y$ 는 다시 $u$ 의 변화의 $f'(u)$ 배만큼 변해요. 그래서 전체 배율은 두 배율의 곱이에요. 톱니바퀴 두 개가 맞물려 돌 때 회전 속도가 곱해지는 것과 같아요.</p>
+  <p>$x$가 조금 변하면 $u$는 그 $g'(x)$배만큼, $y$는 다시 $u$의 변화의 $f'(u)$배만큼 변해요. 그래서 전체 배율은 두 배율의 곱이에요. 톱니바퀴 두 개가 맞물려 돌 때 회전 속도가 곱해지는 것과 같아요.</p>
   <h4>합성함수의 미분법으로 얻는 공식</h4>
-  <div class="box">① $(x^{r})'=rx^{r-1}$ ($r$ 는 실수, $x>0$)<br>② $(\ln|x|)'=\dfrac{1}{x}$, $\ \{\ln|f(x)|\}'=\dfrac{f'(x)}{f(x)}$<br>③ $\{e^{f(x)}\}'=e^{f(x)}f'(x)$</div>
-  <p>①은 $x^{r}=e^{r\ln x}$ 로 바꾸어 미분하면 얻을 수 있어요.</p>`,
-  deeper:"풍선에 공기를 넣으면 반지름 $r$ 가 시간 $t$ 에 따라 커지고, 부피 $V$ 는 $r$ 에 따라 커져요. 반지름이 일정한 빠르기로 커질 때 부피가 커지는 빠르기는 일정할까요? 합성함수의 미분법으로 $\\dfrac{dV}{dt}$ 를 나타내고, 풍선이 클수록 같은 반지름 변화에도 공기가 더 많이 필요한 이유를 설명해 보세요."
+  <div class="box">① $(x^{r})'=rx^{r-1}$ ($r$은 실수, $x>0$)<br>② $(\ln|x|)'=\dfrac{1}{x}$, $\ \{\ln|f(x)|\}'=\dfrac{f'(x)}{f(x)}$<br>③ $\{e^{f(x)}\}'=e^{f(x)}f'(x)$</div>
+  <p>①은 $x^{r}=e^{r\ln x}$으로 바꾸어 미분하면 얻을 수 있어요.</p>`,
+  deeper:"풍선에 공기를 넣으면 반지름 $r$이 시간 $t$에 따라 커지고, 부피 $V$는 $r$에 따라 커져요. 반지름이 일정한 빠르기로 커질 때 부피가 커지는 빠르기는 일정할까요? 합성함수의 미분법으로 $\\dfrac{dV}{dt}$를 나타내고, 풍선이 클수록 같은 반지름 변화에도 공기가 더 많이 필요한 이유를 설명해 보세요."
 });
 
 lab({
@@ -1568,15 +1575,15 @@ lab({
     playBtn(R,"점 움직이기",dt=>{const Q=CS[key];t+=dt*(Q.tr[1]-Q.tr[0])/8;if(t>Q.tr[1])t=Q.tr[0];ts.set(t);upd();return true;},api);
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Q=CS[key],dx=Q.dX(t),dy=Q.dY(t);
-      const sl=Math.abs(dx)<1e-6?(Math.abs(dy)<1e-6?`<span class="bad">$\\dfrac{dx}{dt}=\\dfrac{dy}{dt}=0$ : 점이 순간적으로 멈추어 접선이 정해지지 않을 수 있어요.</span>`:`$\\dfrac{dx}{dt}=0$ 이므로 접선이 $y$ 축에 평행해요.`):`$\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}=${fmt(dy/dx,4)}$`;
+      const sl=Math.abs(dx)<1e-6?(Math.abs(dy)<1e-6?`<span class="bad">$\\dfrac{dx}{dt}=\\dfrac{dy}{dt}=0$ : 점이 순간적으로 멈추어 접선이 정해지지 않을 수 있어요.</span>`:`$\\dfrac{dx}{dt}=0$이므로 접선이 $y$축에 평행해요.`):`$\\dfrac{dy}{dx}=\\dfrac{dy/dt}{dx/dt}=${fmt(dy/dx,4)}$`;
       setRO(out,`$x=${Q.xt},\\ y=${Q.yt}$<br>점 $(${fmt(Q.X(t),3)},\\ ${fmt(Q.Y(t),3)})$<br>$\\dfrac{dx}{dt}=${fmt(dx,4)}$, $\\dfrac{dy}{dt}=${fmt(dy,4)}$<br>${sl}`); }
     P.setView(...CS.B.view); upd();
   },
   concept:String.raw`<h4>매개변수로 나타낸 함수</h4>
-  <p>두 변수 $x,\ y$ 사이의 관계를 다른 변수 $t$ 를 이용하여 $x=f(t),\ y=g(t)$ 로 나타낼 때, $t$ 를 <b>매개변수</b>라고 해요. 시각 $t$ 에 따라 움직이는 점의 자취를 나타낼 때 편리해요.</p>
+  <p>두 변수 $x,\ y$ 사이의 관계를 다른 변수 $t$를 이용하여 $x=f(t),\ y=g(t)$로 나타낼 때, $t$를 <b>매개변수</b>라고 해요. 시각 $t$에 따라 움직이는 점의 자취를 나타낼 때 편리해요.</p>
   <h4>매개변수로 나타낸 함수의 미분법</h4>
-  <div class="box">$x=f(t),\ y=g(t)$ 가 $t$ 에 대하여 미분가능하고 $f'(t)\ne0$ 이면<br>$\dfrac{dy}{dx}=\dfrac{\dfrac{dy}{dt}}{\dfrac{dx}{dt}}=\dfrac{g'(t)}{f'(t)}$</div>
-  <p>짧은 시간 동안 점이 $x$ 방향으로 $\Delta x$, $y$ 방향으로 $\Delta y$ 만큼 움직이면 그 방향의 기울기는 $\dfrac{\Delta y}{\Delta x}=\dfrac{\Delta y/\Delta t}{\Delta x/\Delta t}$ 이에요. $\Delta t\to0$ 으로 보내면 위의 공식이 돼요. $\dfrac{dx}{dt}=0$ 이고 $\dfrac{dy}{dt}\ne0$ 인 곳에서는 접선이 $y$ 축에 평행해요.</p>`,
+  <div class="box">$x=f(t),\ y=g(t)$가 $t$에 대하여 미분가능하고 $f'(t)\ne0$이면<br>$\dfrac{dy}{dx}=\dfrac{\dfrac{dy}{dt}}{\dfrac{dx}{dt}}=\dfrac{g'(t)}{f'(t)}$</div>
+  <p>짧은 시간 동안 점이 $x$ 방향으로 $\Delta x$, $y$ 방향으로 $\Delta y$만큼 움직이면 그 방향의 기울기는 $\dfrac{\Delta y}{\Delta x}=\dfrac{\Delta y/\Delta t}{\Delta x/\Delta t}$이에요. $\Delta t\to0$으로 보내면 위의 공식이 돼요. $\dfrac{dx}{dt}=0$이고 $\dfrac{dy}{dt}\ne0$인 곳에서는 접선이 $y$축에 평행해요.</p>`,
   deeper:"자전거 바퀴의 테두리에 붙은 반사판이 그리는 곡선이 사이클로이드예요. 바퀴가 땅에 닿는 순간 반사판은 잠깐 멈추는 걸까요? 탐색 도구의 $\\dfrac{dx}{dt},\\ \\dfrac{dy}{dt}$ 값을 근거로 설명하고, 이때 접선이 어떻게 되는지도 말해 보세요."
 });
 
@@ -1604,7 +1611,7 @@ lab({
     check(R1,"원을 두 함수의 그래프로 나누어 보기",branch,v=>{branch=v;u1();});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const Q=CS[key],x=Q.X(th),y=Q.Y(th),m=Q.sl(x,y);
-      setRO(o1,`$${Q.tex}$ 의 양변을 $x$ 에 대하여 미분하면 $\\dfrac{dy}{dx}=${Q.dtex}$<br>점 $(${fmt(x,3)},\\ ${fmt(y,3)})$ 에서 $\\dfrac{dy}{dx}=${isFinite(m)&&Math.abs(m)<1e4?fmt(m,4):"\\text{정의 안 됨 (}y\\text{ 축에 평행)}"}$${key==="A"&&branch?`<br><span class="hint">원은 $y=\\sqrt{25-x^{2}}$ (파랑)과 $y=-\\sqrt{25-x^{2}}$ (초록) 두 함수로 나뉘지만, 음함수의 미분법은 나누지 않고 한 번에 기울기를 줘요.</span>`:""}`); }
+      setRO(o1,`$${Q.tex}$의 양변을 $x$에 대하여 미분하면 $\\dfrac{dy}{dx}=${Q.dtex}$<br>점 $(${fmt(x,3)},\\ ${fmt(y,3)})$에서 $\\dfrac{dy}{dx}=${isFinite(m)&&Math.abs(m)<1e4?fmt(m,4):"\\text{정의 안 됨 (}y\\text{ 축에 평행)}"}$${key==="A"&&branch?`<br><span class="hint">원은 $y=\\sqrt{25-x^{2}}$ (파랑)과 $y=-\\sqrt{25-x^{2}}$ (초록) 두 함수로 나뉘지만, 음함수의 미분법은 나누지 않고 한 번에 기울기를 줘요.</span>`:""}`); }
     P1.setView(...CS.A.view); u1();
     const FS={
       A:{btn:"$x^{3}+x$",f:x=>x*x*x+x,d:x=>3*x*x+1,inv:y=>{let lo=-5,hi=5;for(let i=0;i<60;i++){const m=(lo+hi)/2;if(m*m*m+m<y)lo=m;else hi=m;}return (lo+hi)/2;},ar:[-1.3,1.3],tex:"f(x)=x^{3}+x"},
@@ -1623,16 +1630,16 @@ lab({
     const as=slider(R2,{label:"$a$",min:FS.A.ar[0],max:FS.A.ar[1],step:.01,value:a,onInput:v=>{a=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const F=FS[fk],b=F.f(a),m=F.d(a);
-      setRO(o2,`$${F.tex}$<br>$b=f(a)=${fmt(b,4)}$<br>$y=f(x)$ 의 $(a,b)$ 에서 기울기 $f'(a)=${fmt(m,4)}$<br>$y=f^{-1}(x)$ 의 $(b,a)$ 에서 기울기 $\\approx${fmt(nd(F.inv,b),4)}$<br>$\\dfrac{1}{f'(a)}=${fmt(1/m,4)}$ : 직선 $y=x$ 에 대칭이면 기울기가 역수가 돼요.`); }
+      setRO(o2,`$${F.tex}$<br>$b=f(a)=${fmt(b,4)}$<br>$y=f(x)$의 $(a,b)$에서 기울기 $f'(a)=${fmt(m,4)}$<br>$y=f^{-1}(x)$의 $(b,a)$에서 기울기 $\\approx${fmt(nd(F.inv,b),4)}$<br>$\\dfrac{1}{f'(a)}=${fmt(1/m,4)}$ : 직선 $y=x$에 대칭이면 기울기가 역수가 돼요.`); }
     u2();
   },
   concept:String.raw`<h4>음함수의 미분법</h4>
-  <p>$x$ 와 $y$ 사이의 관계가 $f(x,y)=0$ 꼴로 주어질 때, $y$ 를 $x$ 의 함수로 보고 양변을 $x$ 에 대하여 미분한 뒤 $\dfrac{dy}{dx}$ 를 구해요. $y$ 가 들어 있는 항을 미분할 때는 합성함수의 미분법에 의해 $\dfrac{dy}{dx}$ 가 곱해져요.</p>
-  <div class="box">예: $x^{2}+y^{2}=25$ 에서 $2x+2y\dfrac{dy}{dx}=0$, $\ \dfrac{dy}{dx}=-\dfrac{x}{y}\ (y\ne0)$</div>
+  <p>$x$와 $y$ 사이의 관계가 $f(x,y)=0$ 꼴로 주어질 때, $y$를 $x$의 함수로 보고 양변을 $x$에 대하여 미분한 뒤 $\dfrac{dy}{dx}$를 구해요. $y$가 들어 있는 항을 미분할 때는 합성함수의 미분법에 의해 $\dfrac{dy}{dx}$가 곱해져요.</p>
+  <div class="box">예: $x^{2}+y^{2}=25$에서 $2x+2y\dfrac{dy}{dx}=0$, $\ \dfrac{dy}{dx}=-\dfrac{x}{y}\ (y\ne0)$</div>
   <h4>역함수의 미분법</h4>
-  <div class="box">미분가능한 함수 $f(x)$ 의 역함수 $g(x)$ 가 존재하고 미분가능할 때<br>$g'(x)=\dfrac{1}{f'(g(x))}$ (단, $f'(g(x))\ne0$), 즉 $\dfrac{dx}{dy}=\dfrac{1}{\dfrac{dy}{dx}}$</div>
-  <p>$f(g(x))=x$ 의 양변을 미분하면 $f'(g(x))g'(x)=1$ 이에요. 그래프로는 직선 $y=x$ 에 대칭인 두 접선의 기울기가 서로 역수예요.</p>`,
-  deeper:"$y=\\ln x$ 의 도함수 $\\dfrac1x$ 를, $e^{x}$ 의 도함수와 역함수의 미분법만 이용해서 다시 얻어 보세요. 그리고 탐색 도구 ②에서 $f'(a)=0$ 이 되는 함수를 상상해 보고, 그 점에서 역함수의 그래프가 어떻게 생겼을지 설명해 보세요."
+  <div class="box">미분가능한 함수 $f(x)$의 역함수 $g(x)$가 존재하고 미분가능할 때<br>$g'(x)=\dfrac{1}{f'(g(x))}$ (단, $f'(g(x))\ne0$), 즉 $\dfrac{dx}{dy}=\dfrac{1}{\dfrac{dy}{dx}}$</div>
+  <p>$f(g(x))=x$의 양변을 미분하면 $f'(g(x))g'(x)=1$이에요. 그래프로는 직선 $y=x$에 대칭인 두 접선의 기울기가 서로 역수예요.</p>`,
+  deeper:"$y=\\ln x$의 도함수 $\\dfrac1x$을, $e^{x}$의 도함수와 역함수의 미분법만 이용해서 다시 얻어 보세요. 그리고 탐색 도구 ②에서 $f'(a)=0$이 되는 함수를 상상해 보고, 그 점에서 역함수의 그래프가 어떻게 생겼을지 설명해 보세요."
 });
 
 lab({
@@ -1654,7 +1661,7 @@ lab({
     }});
     legend(L1,[["var(--lab-magenta)","접선"],["var(--lab-green)","접점에서 접선에 수직인 직선"]]);
     seg(R1,{label:"곡선",options:Object.keys(FS).map(k=>[k,FS[k].btn]),value:key,onChange:v=>{key=v;as.input.min=FS[v].ar[0];as.input.max=FS[v].ar[1];a=v==="B"?1:0;as.set(a);P1.setView(...FS[v].view);u1();}});
-    const as=slider(R1,{label:"접점의 $x$ 좌표 $a$",min:FS.A.ar[0],max:FS.A.ar[1],step:.01,value:a,onInput:v=>{a=v;u1();}});
+    const as=slider(R1,{label:"접점의 $x$좌표 $a$",min:FS.A.ar[0],max:FS.A.ar[1],step:.01,value:a,onInput:v=>{a=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const F=FS[key],m=F.d(a),b=F.f(a)-m*a;
       setRO(o1,`$${F.tex}$ 위의 점 $(${fmt(a,3)},\\ ${fmt(F.f(a),3)})$<br>기울기 $f'(a)=${fmt(m,4)}$<br>접선: $y-f(a)=f'(a)(x-a)$<br>$\\Rightarrow\\ ${lineTex(m,b)}$`); }
@@ -1671,20 +1678,20 @@ lab({
       P.pt(t,G.f(t),C.magenta,6); P.pt(0,0,C.ink,6,"O","se"); P.pt(0,y0,C.amber,5);
     }});
     seg(R2,{label:"곡선",options:Object.keys(GS).map(k=>[k,GS[k].btn]),value:gk,onChange:v=>{gk=v;t=GS[v].t0;ts.input.min=GS[v].tr[0];ts.input.max=GS[v].tr[1];ts.set(t);P2.setView(...GS[v].view);u2();}});
-    const ts=slider(R2,{label:"접점의 $x$ 좌표 $t$",min:GS.A.tr[0],max:GS.A.tr[1],step:.01,value:t,onInput:v=>{t=v;u2();}});
+    const ts=slider(R2,{label:"접점의 $x$좌표 $t$",min:GS.A.tr[0],max:GS.A.tr[1],step:.01,value:t,onInput:v=>{t=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const G=GS[gk],m=G.d(t),y0=G.f(t)-t*m;
-      setRO(o2,`접점 $(t,\\ f(t))$ 에서 그은 접선이 $y$ 축과 만나는 점의 $y$ 좌표 $f(t)-tf'(t)=${fmt(y0,4)}$<br>${Math.abs(y0)<.02?`<span class="good">원점을 지나요!</span> 접점 $t\\approx${fmt(t,3)}$`:`원점을 지나려면 $f(t)-tf'(t)=0$ 이어야 해요.`}<br><span class="hint">곡선 밖의 점에서 접선을 그을 때는 접점을 $(t,f(t))$ 로 놓고 그 점이 접선 위에 있다는 조건으로 $t$ 를 구해요.</span>`); }
+      setRO(o2,`접점 $(t,\\ f(t))$에서 그은 접선이 $y$축과 만나는 점의 $y$좌표 $f(t)-tf'(t)=${fmt(y0,4)}$<br>${Math.abs(y0)<.02?`<span class="good">원점을 지나요!</span> 접점 $t\\approx${fmt(t,3)}$`:`원점을 지나려면 $f(t)-tf'(t)=0$이어야 해요.`}<br><span class="hint">곡선 밖의 점에서 접선을 그을 때는 접점을 $(t,f(t))$로 놓고 그 점이 접선 위에 있다는 조건으로 $t$를 구해요.</span>`); }
     P2.setView(...GS.A.view); u2();
   },
   concept:String.raw`<h4>접선의 방정식</h4>
-  <p>곡선 $y=f(x)$ 위의 점 $(a,f(a))$ 에서의 접선의 방정식은</p>
+  <p>곡선 $y=f(x)$ 위의 점 $(a,f(a))$에서의 접선의 방정식은</p>
   <div class="box">$y-f(a)=f'(a)(x-a)$</div>
-  <p>곡선이 음함수나 매개변수로 주어져도 같은 생각이에요. 음함수의 미분법이나 매개변수의 미분법으로 접점에서의 $\dfrac{dy}{dx}$ 를 구해 기울기로 써요.</p>
+  <p>곡선이 음함수나 매개변수로 주어져도 같은 생각이에요. 음함수의 미분법이나 매개변수의 미분법으로 접점에서의 $\dfrac{dy}{dx}$를 구해 기울기로 써요.</p>
   <h4>여러 가지 접선 문제</h4>
-  <div class="box">① 접점이 주어질 때: 기울기 $f'(a)$ 를 구해 바로 쓴다.<br>② 기울기 $m$ 이 주어질 때: $f'(t)=m$ 인 $t$ 를 구해 접점을 찾는다.<br>③ 곡선 밖의 점 $(p,q)$ 를 지날 때: 접점을 $(t,f(t))$ 로 놓고 $q-f(t)=f'(t)(p-t)$ 를 풀어 $t$ 를 구한다.</div>
-  <p>접점에서 접선에 수직인 직선(법선)의 기울기는 $-\dfrac{1}{f'(a)}$ 이에요 ($f'(a)\ne0$).</p>`,
-  deeper:"원점에서 곡선 $y=e^{x}$ 에 그은 접선은 하나뿐인데, 곡선 $y=x^{3}-3x$ 에는 점에 따라 접선을 세 개까지 그을 수 있어요. 어떤 점에서 그은 접선의 개수가 곡선의 어떤 성질(볼록한 방향 등)과 관계있을지 탐색 도구에서 관찰한 것을 바탕으로 추측해 보세요."
+  <div class="box">① 접점이 주어질 때: 기울기 $f'(a)$를 구해 바로 쓴다.<br>② 기울기 $m$이 주어질 때: $f'(t)=m$인 $t$를 구해 접점을 찾는다.<br>③ 곡선 밖의 점 $(p,q)$를 지날 때: 접점을 $(t,f(t))$로 놓고 $q-f(t)=f'(t)(p-t)$를 풀어 $t$를 구한다.</div>
+  <p>접점에서 접선에 수직인 직선(법선)의 기울기는 $-\dfrac{1}{f'(a)}$이에요 ($f'(a)\ne0$).</p>`,
+  deeper:"원점에서 곡선 $y=e^{x}$에 그은 접선은 하나뿐인데, 곡선 $y=x^{3}-3x$에는 점에 따라 접선을 세 개까지 그을 수 있어요. 어떤 점에서 그은 접선의 개수가 곡선의 어떤 성질(볼록한 방향 등)과 관계있을지 탐색 도구에서 관찰한 것을 바탕으로 추측해 보세요."
 });
 
 /* =========================================================
@@ -1715,22 +1722,22 @@ lab({
     }});
     legend(L,[["var(--lab-blue)","아래로 볼록 ($f''>0$)"],["var(--lab-magenta)","위로 볼록 ($f''<0$)"],["var(--lab-amber)","접점과 접선 (아래 그래프: $f'$ 의 접선)"]]);
     seg(R,{label:"함수",options:Object.keys(FS).map(k=>[k,FS[k].btn]),value:key,onChange:v=>{key=v;const F=FS[v];x0=F.xr[0]+.3;xs.input.min=F.xr[0];xs.input.max=F.xr[1];xs.set(x0);P.setView(...F.view);Q.setView(...F.dview);upd();}});
-    const xs=slider(R,{label:"접점의 $x$ 좌표",min:FS.A.xr[0],max:FS.A.xr[1],step:.01,value:x0,onInput:v=>{x0=v;upd();}});
+    const xs=slider(R,{label:"접점의 $x$좌표",min:FS.A.xr[0],max:FS.A.xr[1],step:.01,value:x0,onInput:v=>{x0=v;upd();}});
     playBtn(R,"접선 굴리기",dt=>{const F=FS[key];x0+=dt*(F.xr[1]-F.xr[0])/6;if(x0>F.xr[1]){x0=F.xr[1];xs.set(x0);upd();return false;}xs.set(x0);upd();return true;},api);
     const out=ro(); R.append(out);
     function upd(){ P.render(); Q.render(); const F=FS[key],s=F.d2(x0);
       const st=Math.abs(s)<1e-6?"$f''(x)=0$ : 이것만으로는 변곡점인지 알 수 없어요.":s>0?"아래로 볼록: 접선이 곡선 아래에 있고, 기울기가 커지는 중":"위로 볼록: 접선이 곡선 위에 있고, 기울기가 작아지는 중";
-      setRO(out,`$f(x)=${F.tex}$<br>$f'(x)=${fmt(F.d(x0),4)}$, $f''(x)=${fmt(s,4)}$<br>${st}${key==="D"?`<br><span class="hint">$x=0$ 에서 $f''(0)=0$ 이지만 좌우 모두 아래로 볼록이라 변곡점이 아니에요.</span>`:""}`); }
+      setRO(out,`$f(x)=${F.tex}$<br>$f'(x)=${fmt(F.d(x0),4)}$, $f''(x)=${fmt(s,4)}$<br>${st}${key==="D"?`<br><span class="hint">$x=0$에서 $f''(0)=0$이지만 좌우 모두 아래로 볼록이라 변곡점이 아니에요.</span>`:""}`); }
     P.setView(...FS.A.view); Q.setView(...FS.A.dview); upd();
   },
   concept:String.raw`<h4>이계도함수</h4>
-  <p>함수 $f(x)$ 의 도함수 $f'(x)$ 가 미분가능할 때, $f'(x)$ 의 도함수를 $f(x)$ 의 <b>이계도함수</b>라 하고 $f''(x),\ y'',\ \dfrac{d^{2}y}{dx^{2}}$ 등으로 나타내요.</p>
+  <p>함수 $f(x)$의 도함수 $f'(x)$가 미분가능할 때, $f'(x)$의 도함수를 $f(x)$의 <b>이계도함수</b>라 하고 $f''(x),\ y'',\ \dfrac{d^{2}y}{dx^{2}}$ 등으로 나타내요.</p>
   <h4>곡선의 오목과 볼록</h4>
-  <div class="box">어떤 구간에서 $f''(x)>0$ 이면 곡선 $y=f(x)$ 는 그 구간에서 <b>아래로 볼록</b><br>어떤 구간에서 $f''(x)<0$ 이면 곡선 $y=f(x)$ 는 그 구간에서 <b>위로 볼록</b></div>
-  <p>$f''(x)>0$ 이면 $f'(x)$ 가 증가하므로 접선의 기울기가 점점 커지고, 곡선은 접선보다 위쪽으로 휘어요. 그래서 이계도함수의 부호는 ‘기울기가 변하는 방향’, 즉 곡선이 휘는 방향을 알려 줘요.</p>
+  <div class="box">어떤 구간에서 $f''(x)>0$이면 곡선 $y=f(x)$는 그 구간에서 <b>아래로 볼록</b><br>어떤 구간에서 $f''(x)<0$이면 곡선 $y=f(x)$는 그 구간에서 <b>위로 볼록</b></div>
+  <p>$f''(x)>0$이면 $f'(x)$가 증가하므로 접선의 기울기가 점점 커지고, 곡선은 접선보다 위쪽으로 휘어요. 그래서 이계도함수의 부호는 ‘기울기가 변하는 방향’, 즉 곡선이 휘는 방향을 알려 줘요.</p>
   <h4>변곡점</h4>
-  <div class="box">곡선의 볼록한 방향이 바뀌는 점을 <b>변곡점</b>이라고 해요. $f''(a)=0$ 이고 $x=a$ 의 좌우에서 $f''(x)$ 의 부호가 바뀌면 점 $(a,f(a))$ 는 변곡점이에요.</div>
-  <p>$f''(a)=0$ 이라는 조건만으로는 부족해요. $f(x)=x^{4}$ 은 $f''(0)=0$ 이지만 변곡점이 없어요.</p>`,
+  <div class="box">곡선의 볼록한 방향이 바뀌는 점을 <b>변곡점</b>이라고 해요. $f''(a)=0$이고 $x=a$의 좌우에서 $f''(x)$의 부호가 바뀌면 점 $(a,f(a))$는 변곡점이에요.</div>
+  <p>$f''(a)=0$이라는 조건만으로는 부족해요. $f(x)=x^{4}$은 $f''(0)=0$이지만 변곡점이 없어요.</p>`,
   deeper:"어떤 감염병의 누적 확진자 수 그래프를 보고 ‘확산이 꺾이기 시작했다’고 말하려면 그래프에서 무엇을 확인해야 할까요? 누적 확진자 수, 하루 확진자 수, 하루 확진자 수의 변화를 각각 $f,\\ f',\\ f''$ 과 연결하고, 변곡점이 갖는 의미를 설명해 보세요."
 });
 
@@ -1739,9 +1746,9 @@ lab({
   mount(el){
     const PI=Math.PI;
     const FS={
-      A:{btn:"$xe^{-x}$",f:x=>x*Math.exp(-x),d:x=>(1-x)*Math.exp(-x),d2:x=>(x-2)*Math.exp(-x),dom:[-1,6],view:[-1.2,6.5,-1.2,.7],tex:"f(x)=xe^{-x}",asym:"$\\displaystyle\\lim_{x\\to\\infty}xe^{-x}=0$ 이므로 $x$ 축이 점근선 ($x\\to\\infty$)",hl:[0]},
-      B:{btn:"$\\frac{\\ln x}{x}$",f:x=>Math.log(x)/x,d:x=>(1-Math.log(x))/(x*x),d2:x=>(2*Math.log(x)-3)/(x*x*x),dom:[.3,12],view:[-.5,12,-1.5,.7],tex:"f(x)=\\dfrac{\\ln x}{x}\\ (x>0)",asym:"$x\\to0+$ 일 때 $-\\infty$ ($y$ 축이 점근선), $x\\to\\infty$ 일 때 $0$ ($x$ 축이 점근선)",hl:[0],vl:0},
-      C:{btn:"$e^{-x^{2}}$",f:x=>Math.exp(-x*x),d:x=>-2*x*Math.exp(-x*x),d2:x=>(4*x*x-2)*Math.exp(-x*x),dom:[-3,3],view:[-3.2,3.2,-.3,1.3],tex:"f(x)=e^{-x^{2}}",asym:"$x\\to\\pm\\infty$ 일 때 $0$ 이므로 $x$ 축이 점근선",hl:[0]},
+      A:{btn:"$xe^{-x}$",f:x=>x*Math.exp(-x),d:x=>(1-x)*Math.exp(-x),d2:x=>(x-2)*Math.exp(-x),dom:[-1,6],view:[-1.2,6.5,-1.2,.7],tex:"f(x)=xe^{-x}",asym:"$\\displaystyle\\lim_{x\\to\\infty}xe^{-x}=0$이므로 $x$축이 점근선 ($x\\to\\infty$)",hl:[0]},
+      B:{btn:"$\\frac{\\ln x}{x}$",f:x=>Math.log(x)/x,d:x=>(1-Math.log(x))/(x*x),d2:x=>(2*Math.log(x)-3)/(x*x*x),dom:[.3,12],view:[-.5,12,-1.5,.7],tex:"f(x)=\\dfrac{\\ln x}{x}\\ (x>0)",asym:"$x\\to0+$일 때 $-\\infty$ ($y$축이 점근선), $x\\to\\infty$일 때 $0$ ($x$축이 점근선)",hl:[0],vl:0},
+      C:{btn:"$e^{-x^{2}}$",f:x=>Math.exp(-x*x),d:x=>-2*x*Math.exp(-x*x),d2:x=>(4*x*x-2)*Math.exp(-x*x),dom:[-3,3],view:[-3.2,3.2,-.3,1.3],tex:"f(x)=e^{-x^{2}}",asym:"$x\\to\\pm\\infty$일 때 $0$이므로 $x$축이 점근선",hl:[0]},
       D:{btn:"$x-2\\sin x$",f:x=>x-2*Math.sin(x),d:x=>1-2*Math.cos(x),d2:x=>2*Math.sin(x),dom:[0,2*PI],view:[-.4,6.7,-1.2,7.5],tex:"f(x)=x-2\\sin x\\ (0\\le x\\le2\\pi)",asym:"닫힌구간에서 정의되어 점근선이 없어요.",pi:true}
     };
     let key="A",s1=true,s2=false,s3=false;
@@ -1775,12 +1782,12 @@ lab({
     P.setView(...FS.A.view); upd();
   },
   concept:String.raw`<h4>함수의 그래프의 개형 그리기</h4>
-  <p>다음을 차례로 조사하면 함수 $y=f(x)$ 의 그래프의 개형을 그릴 수 있어요.</p>
-  <div class="box">① 정의역과 치역, 대칭성, 주기<br>② 좌표축과의 교점<br>③ $f'(x)$ 의 부호: 증가·감소, 극대·극소<br>④ $f''(x)$ 의 부호: 볼록한 방향, 변곡점<br>⑤ $\displaystyle\lim_{x\to\infty}f(x),\ \lim_{x\to-\infty}f(x)$, 정의되지 않는 점 근처의 극한: 점근선</div>
+  <p>다음을 차례로 조사하면 함수 $y=f(x)$의 그래프의 개형을 그릴 수 있어요.</p>
+  <div class="box">① 정의역과 치역, 대칭성, 주기<br>② 좌표축과의 교점<br>③ $f'(x)$의 부호: 증가·감소, 극대·극소<br>④ $f''(x)$의 부호: 볼록한 방향, 변곡점<br>⑤ $\displaystyle\lim_{x\to\infty}f(x),\ \lim_{x\to-\infty}f(x)$, 정의되지 않는 점 근처의 극한: 점근선</div>
   <p>$f'$ 과 $f''$ 의 부호를 한 표에 모으면 각 구간에서 곡선이 ‘올라가며 아래로 볼록’, ‘올라가며 위로 볼록’ 등 네 가지 모양 중 무엇인지 정해져요. 극점과 변곡점은 이 모양이 바뀌는 경계예요.</p>
   <h4>이계도함수를 이용한 극대·극소의 판정</h4>
-  <div class="box">$f'(a)=0$ 이고 $f''(a)<0$ 이면 $f(a)$ 는 극댓값, $f''(a)>0$ 이면 $f(a)$ 는 극솟값</div>`,
-  deeper:"$y=e^{-x^{2}}$ 의 그래프는 통계에서 쓰는 정규분포 곡선과 모양이 같아요. 이 곡선의 변곡점의 $x$ 좌표가 $\\pm\\dfrac{1}{\\sqrt2}$ 인 것을 확인하고, 정규분포에서 ‘표준편차’가 곡선의 변곡점과 어떤 관계가 있을지 추측해 보세요."
+  <div class="box">$f'(a)=0$이고 $f''(a)<0$이면 $f(a)$는 극댓값, $f''(a)>0$이면 $f(a)$는 극솟값</div>`,
+  deeper:"$y=e^{-x^{2}}$의 그래프는 통계에서 쓰는 정규분포 곡선과 모양이 같아요. 이 곡선의 변곡점의 $x$좌표가 $\\pm\\dfrac{1}{\\sqrt2}$인 것을 확인하고, 정규분포에서 ‘표준편차’가 곡선의 변곡점과 어떤 관계가 있을지 추측해 보세요."
 });
 
 lab({
@@ -1788,8 +1795,8 @@ lab({
   mount(el){
     const panes=paneSet(el,["① 방정식의 실근의 개수","② 부등식이 항상 성립할 조건"]);
     const GS={
-      A:{btn:"$\\frac{\\ln x}{x}=k$",g:x=>Math.log(x)/x,dom:[.02,2000],rng:"0\\lt x\\le2000",view:[-.5,10,-1,.8],tex:"\\dfrac{\\ln x}{x}=k",note:"최댓값 $\\dfrac1e\\approx0.368$ ($x=e$), $x\\to0+$ 이면 $-\\infty$, $x\\to\\infty$ 이면 $0$ 에 가까워져요."},
-      B:{btn:"$x^{2}e^{-x}=k$",g:x=>x*x*Math.exp(-x),dom:[-1.6,40],rng:"-1.6\\le x\\le40",view:[-1.6,9,-.3,1.2],tex:"x^{2}e^{-x}=k",note:"극솟값 $0$ ($x=0$), 극댓값 $\\dfrac{4}{e^{2}}\\approx0.541$ ($x=2$), $x\\to\\infty$ 이면 $0$, $x\\to-\\infty$ 이면 $\\infty$ 예요."}
+      A:{btn:"$\\frac{\\ln x}{x}=k$",g:x=>Math.log(x)/x,dom:[.02,2000],rng:"0\\lt x\\le2000",view:[-.5,10,-1,.8],tex:"\\dfrac{\\ln x}{x}=k",note:"최댓값 $\\dfrac1e\\approx0.368$ ($x=e$), $x\\to0+$이면 $-\\infty$, $x\\to\\infty$이면 $0$에 가까워져요."},
+      B:{btn:"$x^{2}e^{-x}=k$",g:x=>x*x*Math.exp(-x),dom:[-1.6,40],rng:"-1.6\\le x\\le40",view:[-1.6,9,-.3,1.2],tex:"x^{2}e^{-x}=k",note:"극솟값 $0$ ($x=0$), 극댓값 $\\dfrac{4}{e^{2}}\\approx0.541$ ($x=2$), $x\\to\\infty$이면 $0$, $x\\to-\\infty$이면 $\\infty$예요."}
     };
     let gk="A",k=.2;
     const [L1,R1]=grid2(panes[0]);
@@ -1801,7 +1808,7 @@ lab({
     slider(R1,{label:"$k$",min:-.6,max:1,step:.01,value:k,onInput:v=>{k=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const G=GS[gk],r=findRoots(x=>G.g(x)-k,G.dom[0],G.dom[1],40000);
-      setRO(o1,`$${G.tex}$ 의 실근의 개수 = 곡선 $y=${G.tex.split("=")[0]}$ 과 직선 $y=k$ 의 교점의 개수<br>$k=${fmt(k,2)}$ 일 때 <b>${r.length}개</b> ($${G.rng}$ 에서 셈)<br>${G.note}`); }
+      setRO(o1,`$${G.tex}$의 실근의 개수 = 곡선 $y=${G.tex.split("=")[0]}$과 직선 $y=k$의 교점의 개수<br>$k=${fmt(k,2)}$일 때 <b>${r.length}개</b> ($${G.rng}$에서 셈)<br>${G.note}`); }
     P1.setView(...GS.A.view); u1();
     let a=2;
     const [L2,R2]=grid2(panes[1]);
@@ -1813,17 +1820,17 @@ lab({
     slider(R2,{label:"$a$",min:-1,max:4,step:.01,value:a,onInput:v=>{a=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const ok=a>=0&&a<=E+1e-9;
-      const minTxt=a>0?`$h(x)=e^{x}-ax$ 는 $x=\\ln a$ 에서 최소, 최솟값 $a-a\\ln a=${fmt(a-a*Math.log(a),4)}$`:a===0?`$h(x)=e^{x}>0$`:`$a<0$ 이면 $x\\to-\\infty$ 일 때 $ax\\to\\infty$ 라 $h(x)<0$ 인 $x$ 가 있어요.`;
-      setRO(o2,`모든 실수 $x$ 에 대하여 $e^{x}\\ge ax$ 일까?<br>${minTxt}<br>${ok?`<span class="good">성립해요.</span>`:`<span class="bad">성립하지 않아요.</span>`} 조건은 $0\\le a\\le e$<br><span class="hint">$a=e$ 일 때 직선 $y=ex$ 는 곡선 $y=e^{x}$ 의 $x=1$ 에서의 접선이에요.</span>`); }
+      const minTxt=a>0?`$h(x)=e^{x}-ax$는 $x=\\ln a$에서 최소, 최솟값 $a-a\\ln a=${fmt(a-a*Math.log(a),4)}$`:a===0?`$h(x)=e^{x}>0$`:`$a<0$이면 $x\\to-\\infty$일 때 $ax\\to\\infty$라 $h(x)<0$인 $x$가 있어요.`;
+      setRO(o2,`모든 실수 $x$에 대하여 $e^{x}\\ge ax$일까?<br>${minTxt}<br>${ok?`<span class="good">성립해요.</span>`:`<span class="bad">성립하지 않아요.</span>`} 조건은 $0\\le a\\le e$<br><span class="hint">$a=e$일 때 직선 $y=ex$는 곡선 $y=e^{x}$의 $x=1$에서의 접선이에요.</span>`); }
     u2();
   },
   concept:String.raw`<h4>방정식의 실근의 개수</h4>
-  <p>방정식 $f(x)=k$ 의 실근의 개수는 곡선 $y=f(x)$ 와 직선 $y=k$ 의 교점의 개수와 같아요. 상수 $k$ 를 분리해 한쪽으로 모으면, 움직이는 것은 수평선 하나뿐이라 개수를 세기 쉬워요.</p>
-  <div class="box">① $f(x)=k$ 꼴로 정리한다 ② $f'(x)$ 로 증감과 극값을 조사한다 ③ 정의역의 끝에서의 극한을 구한다 ④ 직선 $y=k$ 를 위아래로 움직이며 교점을 센다</div>
+  <p>방정식 $f(x)=k$의 실근의 개수는 곡선 $y=f(x)$와 직선 $y=k$의 교점의 개수와 같아요. 상수 $k$를 분리해 한쪽으로 모으면, 움직이는 것은 수평선 하나뿐이라 개수를 세기 쉬워요.</p>
+  <div class="box">① $f(x)=k$ 꼴로 정리한다 ② $f'(x)$로 증감과 극값을 조사한다 ③ 정의역의 끝에서의 극한을 구한다 ④ 직선 $y=k$를 위아래로 움직이며 교점을 센다</div>
   <h4>부등식의 증명</h4>
-  <div class="box">어떤 구간에서 $f(x)\ge g(x)$ 를 보이려면 $h(x)=f(x)-g(x)$ 로 놓고, 그 구간에서 $h(x)$ 의 최솟값이 $0$ 이상임을 보인다.</div>
-  <p>예를 들어 $e^{x}\ge x+1$ 은 $h(x)=e^{x}-x-1$ 의 최솟값이 $h(0)=0$ 이라는 것으로 증명돼요. 곡선 $y=e^{x}$ 가 아래로 볼록이라 접선 $y=x+1$ 보다 항상 위에 있다는 것과 같은 뜻이에요.</p>`,
-  deeper:"$e^{x}\\ge x+1$ 의 양변에 로그를 취하거나 $x$ 대신 다른 식을 넣으면 새로운 부등식을 얻을 수 있어요. 이 부등식에서 $\\ln x\\le x-1\\ (x>0)$ 을 이끌어 내고, 두 부등식이 그래프에서 어떤 대칭 관계로 보이는지 설명해 보세요."
+  <div class="box">어떤 구간에서 $f(x)\ge g(x)$를 보이려면 $h(x)=f(x)-g(x)$로 놓고, 그 구간에서 $h(x)$의 최솟값이 $0$ 이상임을 보인다.</div>
+  <p>예를 들어 $e^{x}\ge x+1$은 $h(x)=e^{x}-x-1$의 최솟값이 $h(0)=0$이라는 것으로 증명돼요. 곡선 $y=e^{x}$이 아래로 볼록이라 접선 $y=x+1$보다 항상 위에 있다는 것과 같은 뜻이에요.</p>`,
+  deeper:"$e^{x}\\ge x+1$의 양변에 로그를 취하거나 $x$ 대신 다른 식을 넣으면 새로운 부등식을 얻을 수 있어요. 이 부등식에서 $\\ln x\\le x-1\\ (x>0)$을 이끌어 내고, 두 부등식이 그래프에서 어떤 대칭 관계로 보이는지 설명해 보세요."
 });
 
 lab({
@@ -1855,17 +1862,17 @@ lab({
     function fit(){ const M=MS[key]; G.setView(-.3,M.T*1.04,M.yr[0],M.yr[1]); NL.setView(key==="C"?-1.2:-3,key==="C"?3:3,-1,1); }
     function upd(){ NL.render(); G.render(); const M=MS[key],v=M.v(t),a=M.a(t);
       const dir=Math.abs(v)<1e-3?"순간 정지 (운동 방향이 바뀔 수 있어요)":v>0?"양의 방향으로 움직임":"음의 방향으로 움직임";
-      const sp=Math.abs(v)<1e-3||Math.abs(a)<1e-3?"":(v*a>0?"속력이 커지는 중 ($v$ 와 $a$ 의 부호가 같음)":"속력이 작아지는 중 ($v$ 와 $a$ 의 부호가 다름)");
+      const sp=Math.abs(v)<1e-3||Math.abs(a)<1e-3?"":(v*a>0?"속력이 커지는 중 ($v$와 $a$의 부호가 같음)":"속력이 작아지는 중 ($v$와 $a$의 부호가 다름)");
       setRO(out,`$${M.tex}$<br>$t=${fmt(t,2)}$: 위치 $${fmt(M.x(t),3)}$, 속도 $${fmt(v,3)}$, 가속도 $${fmt(a,3)}$<br>${dir}<br>${sp}${key==="A"?`<br><span class="hint">$a=-x$ : 가속도가 항상 원점 쪽을 향해요 (단진동).</span>`:""}`); }
     fit(); upd();
   },
   concept:String.raw`<h4>수직선 위를 움직이는 점의 속도와 가속도</h4>
-  <p>수직선 위를 움직이는 점 P의 시각 $t$ 에서의 위치가 $x=f(t)$ 일 때</p>
+  <p>수직선 위를 움직이는 점 P의 시각 $t$에서의 위치가 $x=f(t)$일 때</p>
   <div class="box">속도 $v=\dfrac{dx}{dt}=f'(t)$, &nbsp; 가속도 $a=\dfrac{dv}{dt}=f''(t)$</div>
   <p>지수함수, 로그함수, 삼각함수의 미분법을 이용하면 진동하는 용수철, 점점 약해지는 진동, 저항을 받는 운동처럼 다항함수로 나타내기 어려운 운동도 분석할 수 있어요.</p>
-  <div class="box">① $v>0$ 이면 양의 방향, $v<0$ 이면 음의 방향으로 움직인다<br>② $v=0$ 이고 그 전후로 $v$ 의 부호가 바뀌면 운동 방향이 바뀐다<br>③ $v$ 와 $a$ 의 부호가 같으면 속력이 커지고, 다르면 속력이 작아진다</div>
-  <p>$x=A\sin\omega t$ 로 움직이면 $a=-\omega^{2}x$ 로, 가속도가 위치와 반대 방향이고 크기가 위치에 비례해요. 이런 운동을 단진동이라고 해요.</p>`,
-  deeper:"자동차의 충격 흡수 장치(쇼크 업소버)는 진동이 빨리 줄어들도록 설계돼요. 위치 함수 $x=2e^{-kt}\\cos2t$ 에서 $k$ 가 커지면 운동이 어떻게 달라질지 예상하고, 속도와 가속도의 식에 $e^{-kt}$ 가 곱해지는 이유를 미분법으로 설명해 보세요."
+  <div class="box">① $v>0$이면 양의 방향, $v<0$이면 음의 방향으로 움직인다<br>② $v=0$이고 그 전후로 $v$의 부호가 바뀌면 운동 방향이 바뀐다<br>③ $v$와 $a$의 부호가 같으면 속력이 커지고, 다르면 속력이 작아진다</div>
+  <p>$x=A\sin\omega t$로 움직이면 $a=-\omega^{2}x$로, 가속도가 위치와 반대 방향이고 크기가 위치에 비례해요. 이런 운동을 단진동이라고 해요.</p>`,
+  deeper:"자동차의 충격 흡수 장치(쇼크 업소버)는 진동이 빨리 줄어들도록 설계돼요. 위치 함수 $x=2e^{-kt}\\cos2t$에서 $k$가 커지면 운동이 어떻게 달라질지 예상하고, 속도와 가속도의 식에 $e^{-kt}$이 곱해지는 이유를 미분법으로 설명해 보세요."
 });
 
 /* =========================================================
@@ -1874,7 +1881,7 @@ lab({
 lab({
   id:"antider2",
   mount(el){
-    const panes=paneSet(el,["① $y=\\frac1x$ 아래의 넓이","② 넓이로 보는 로그의 성질","③ $x^{r}$ 의 부정적분과 $r=-1$"]);
+    const panes=paneSet(el,["① $y=\\frac1x$ 아래의 넓이","② 넓이로 보는 로그의 성질","③ $x^{r}$의 부정적분과 $r=-1$"]);
     let X=3;
     const [L1,R1]=grid2(panes[0]);
     const P1=Plot(L1,{xmin:-.3,xmax:6.3,ymin:-.4,ymax:3.2,ratio:.6,label:"y=1/t 의 그래프 아래 넓이",draw:P=>{
@@ -1882,7 +1889,7 @@ lab({
     }});
     slider(R1,{label:"$x$",min:.2,max:6,step:.01,value:X,onInput:v=>{X=v;u1();}});
     const o1=ro(); R1.append(o1);
-    function u1(){ P1.render(); setRO(o1,`$\\displaystyle\\int_{1}^{x}\\frac{1}{t}\\,dt\\approx${fmt(simpson(t=>1/t,1,X),5)}$<br>$\\ln x=${fmt(Math.log(X),5)}$<br>${X<1?"$x<1$ 이면 적분 구간이 거꾸로라 값이 음수예요.":"넓이가 바로 자연로그의 값이에요."}<br><span class="hint">$(\\ln x)'=\\dfrac1x$ 이므로 $\\displaystyle\\int\\frac1x\\,dx=\\ln|x|+C$</span>`); }
+    function u1(){ P1.render(); setRO(o1,`$\\displaystyle\\int_{1}^{x}\\frac{1}{t}\\,dt\\approx${fmt(simpson(t=>1/t,1,X),5)}$<br>$\\ln x=${fmt(Math.log(X),5)}$<br>${X<1?"$x<1$이면 적분 구간이 거꾸로라 값이 음수예요.":"넓이가 바로 자연로그의 값이에요."}<br><span class="hint">$(\\ln x)'=\\dfrac1x$이므로 $\\displaystyle\\int\\frac1x\\,dx=\\ln|x|+C$</span>`); }
     u1();
     let a=2,b=1.5;
     const [L2,R2]=grid2(panes[1]);
@@ -1894,7 +1901,7 @@ lab({
     slider(R2,{label:"$b$",min:1,max:3,step:.05,value:b,onInput:v=>{b=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const A1=simpson(t=>1/t,1,b),A2=simpson(t=>1/t,a,a*b),A3=simpson(t=>1/t,1,a);
-      setRO(o2,`파랑 $\\displaystyle\\int_{1}^{b}\\frac{dt}{t}=${fmt(A1,4)}$, 주황 $\\displaystyle\\int_{a}^{ab}\\frac{dt}{t}=${fmt(A2,4)}$<br>가로로 $a$ 배 늘리고 세로로 $\\dfrac1a$ 배 줄이면 넓이가 같아요.<br>그래서 $\\displaystyle\\int_{1}^{ab}=\\int_{1}^{a}+\\int_{a}^{ab}$ : $${fmt(A3+A2,4)}=${fmt(A3,4)}+${fmt(A2,4)}$<br>$\\ln ab=\\ln a+\\ln b$ 가 넓이로 보여요.`); }
+      setRO(o2,`파랑 $\\displaystyle\\int_{1}^{b}\\frac{dt}{t}=${fmt(A1,4)}$, 주황 $\\displaystyle\\int_{a}^{ab}\\frac{dt}{t}=${fmt(A2,4)}$<br>가로로 $a$배 늘리고 세로로 $\\dfrac1a$배 줄이면 넓이가 같아요.<br>그래서 $\\displaystyle\\int_{1}^{ab}=\\int_{1}^{a}+\\int_{a}^{ab}$ : $${fmt(A3+A2,4)}=${fmt(A3,4)}+${fmt(A2,4)}$<br>$\\ln ab=\\ln a+\\ln b$가 넓이로 보여요.`); }
     u2();
     let r=0;
     const [L3,R3]=grid2(panes[2]);
@@ -1905,14 +1912,14 @@ lab({
     legend(L3,[["var(--lab-blue)","$\\displaystyle\\int_{1}^{x}t^{r}\\,dt=\\frac{x^{r+1}-1}{r+1}$"],["var(--lab-green)","$\\ln x$"]]);
     slider(R3,{label:"지수 $r$",min:-2.5,max:1.5,step:.05,value:r,onInput:v=>{r=Math.round(v*100)/100;u3();}});
     const o3=ro(); R3.append(o3);
-    function u3(){ P3.render(); setRO(o3,`$r=${fmt(r,2)}$${Math.abs(r+1)<1e-9?" : 공식 $\\dfrac{x^{r+1}}{r+1}$ 은 분모가 $0$ 이라 쓸 수 없어요. 이때의 넓이 함수가 $\\ln x$ 예요.":""}<br>$x=3$ 에서 파랑 $=${fmt(F(3,r),4)}$, $\\ln3=${fmt(Math.log(3),4)}$<br><span class="hint">$r$ 을 $-1$ 에 가까이 가져가면 파란 곡선이 $\\ln x$ 에 붙어요. $r=-1$ 은 공식의 ‘구멍’이고, 그 자리를 로그가 채워요.</span>`); }
+    function u3(){ P3.render(); setRO(o3,`$r=${fmt(r,2)}$${Math.abs(r+1)<1e-9?" : 공식 $\\dfrac{x^{r+1}}{r+1}$은 분모가 $0$이라 쓸 수 없어요. 이때의 넓이 함수가 $\\ln x$예요.":""}<br>$x=3$에서 파랑 $=${fmt(F(3,r),4)}$, $\\ln3=${fmt(Math.log(3),4)}$<br><span class="hint">$r$을 $-1$에 가까이 가져가면 파란 곡선이 $\\ln x$에 붙어요. $r=-1$은 공식의 ‘구멍’이고, 그 자리를 로그가 채워요.</span>`); }
     u3();
   },
   concept:String.raw`<h4>여러 가지 함수의 부정적분</h4>
   <div class="box">① $\displaystyle\int x^{r}\,dx=\frac{1}{r+1}x^{r+1}+C$ ($r\ne-1$인 실수) &nbsp; ② $\displaystyle\int\frac1x\,dx=\ln|x|+C$<br>③ $\displaystyle\int e^{x}\,dx=e^{x}+C$ &nbsp; ④ $\displaystyle\int a^{x}\,dx=\frac{a^{x}}{\ln a}+C$ ($a>0,\ a\ne1$)<br>⑤ $\displaystyle\int\sin x\,dx=-\cos x+C$ &nbsp; ⑥ $\displaystyle\int\cos x\,dx=\sin x+C$<br>⑦ $\displaystyle\int\sec^{2}x\,dx=\tan x+C$ &nbsp; ⑧ $\displaystyle\int\csc^{2}x\,dx=-\cot x+C$<br>⑨ $\displaystyle\int\sec x\tan x\,dx=\sec x+C$ &nbsp; ⑩ $\displaystyle\int\csc x\cot x\,dx=-\csc x+C$</div>
-  <p>모두 ‘미분해서 피적분함수가 되는 함수 찾기’로 확인할 수 있어요. 특히 ②에서 절댓값을 쓰는 이유는 $x<0$ 일 때도 $\{\ln(-x)\}'=\dfrac{-1}{-x}=\dfrac1x$ 이기 때문이에요.</p>
-  <p>정적분은 미적분의 기본정리 $\displaystyle\int_{a}^{b}f(x)\,dx=F(b)-F(a)$ 로 구해요. 단, $\dfrac1x$ 처럼 구간 안에서 정의되지 않는 점이 있으면 쓸 수 없어요.</p>`,
-  deeper:"$\\displaystyle\\int x^{r}\\,dx$ 공식에서 $r=-1$ 만 예외인 것은 우연일까요? 탐색 도구 ③을 근거로, 로그함수가 ‘거듭제곱 함수 가족에서 빠진 한 자리를 채우는 함수’라는 말의 의미를 설명해 보세요."
+  <p>모두 ‘미분해서 피적분함수가 되는 함수 찾기’로 확인할 수 있어요. 특히 ②에서 절댓값을 쓰는 이유는 $x<0$일 때도 $\{\ln(-x)\}'=\dfrac{-1}{-x}=\dfrac1x$이기 때문이에요.</p>
+  <p>정적분은 미적분의 기본정리 $\displaystyle\int_{a}^{b}f(x)\,dx=F(b)-F(a)$로 구해요. 단, $\dfrac1x$처럼 구간 안에서 정의되지 않는 점이 있으면 쓸 수 없어요.</p>`,
+  deeper:"$\\displaystyle\\int x^{r}\\,dx$ 공식에서 $r=-1$만 예외인 것은 우연일까요? 탐색 도구 ③을 근거로, 로그함수가 ‘거듭제곱 함수 가족에서 빠진 한 자리를 채우는 함수’라는 말의 의미를 설명해 보세요."
 });
 
 lab({
@@ -1941,19 +1948,19 @@ lab({
     slider(R,{label:"띠의 위치",min:0,max:.95,step:.01,value:s,fmt:v=>fmt(v*100,0)+"%",onInput:v=>{s=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); U.render(); const Q=SS[key],I1=simpson(ig,0,b),I2=simpson(Q.f,Q.g(0),Q.g(b)),dx=b/24,x1=s*b,x2=Math.min(x1+dx,b);
-      setRO(out,`$${Q.tex}$ 에서 $${Q.ut}$ 로 치환, $du=g'(x)\\,dx$<br>파랑 넓이 $\\approx${fmt(I1,5)}$, 초록 넓이 $\\approx${fmt(I2,5)}$<br>적분 구간: $x:0\\to${fmt(b,2)}$ 이면 $u:${fmt(Q.g(0),3)}\\to${fmt(Q.g(b),3)}$<br>빨간 띠의 넓이: $${fmt(simpson(ig,x1,x2),4)}$ 와 $${fmt(simpson(Q.f,Q.g(x1),Q.g(x2)),4)}$<br><span class="hint">띠의 폭이 $g'(x)$ 배로 바뀌는 만큼 높이에 $g'(x)$ 가 곱해져 있어 넓이가 그대로예요.</span>`); }
+      setRO(out,`$${Q.tex}$에서 $${Q.ut}$로 치환, $du=g'(x)\\,dx$<br>파랑 넓이 $\\approx${fmt(I1,5)}$, 초록 넓이 $\\approx${fmt(I2,5)}$<br>적분 구간: $x:0\\to${fmt(b,2)}$이면 $u:${fmt(Q.g(0),3)}\\to${fmt(Q.g(b),3)}$<br>빨간 띠의 넓이: $${fmt(simpson(ig,x1,x2),4)}$와 $${fmt(simpson(Q.f,Q.g(x1),Q.g(x2)),4)}$<br><span class="hint">띠의 폭이 $g'(x)$배로 바뀌는 만큼 높이에 $g'(x)$가 곱해져 있어 넓이가 그대로예요.</span>`); }
     P.setView(...SS.A.xv); U.setView(...SS.A.uv); upd();
   },
   concept:String.raw`<h4>치환적분법</h4>
-  <p>미분가능한 함수 $g(x)$ 에 대하여 $g(x)=u$ 로 놓으면</p>
+  <p>미분가능한 함수 $g(x)$에 대하여 $g(x)=u$로 놓으면</p>
   <div class="box">$\displaystyle\int f(g(x))g'(x)\,dx=\int f(u)\,du$</div>
-  <p>$F'(u)=f(u)$ 이면 합성함수의 미분법에 의해 $\{F(g(x))\}'=f(g(x))g'(x)$ 이에요. 즉 치환적분법은 합성함수의 미분법을 거꾸로 쓴 것이에요.</p>
+  <p>$F'(u)=f(u)$이면 합성함수의 미분법에 의해 $\{F(g(x))\}'=f(g(x))g'(x)$예요. 즉 치환적분법은 합성함수의 미분법을 거꾸로 쓴 것이에요.</p>
   <h4>정적분의 치환적분법</h4>
   <div class="box">$\displaystyle\int_{a}^{b}f(g(x))g'(x)\,dx=\int_{g(a)}^{g(b)}f(u)\,du$</div>
-  <p>치환하면 적분 구간도 $u$ 의 값으로 바꾸어야 해요. 그러면 다시 $x$ 로 돌아갈 필요가 없어요.</p>
+  <p>치환하면 적분 구간도 $u$의 값으로 바꾸어야 해요. 그러면 다시 $x$로 돌아갈 필요가 없어요.</p>
   <h4>자주 쓰는 꼴</h4>
   <div class="box">$\displaystyle\int\frac{f'(x)}{f(x)}\,dx=\ln|f(x)|+C$, $\quad\displaystyle\int f(ax+b)\,dx=\frac1aF(ax+b)+C$</div>`,
-  deeper:"$\\displaystyle\\int\\tan x\\,dx$ 를 구할 때 $\\tan x=\\dfrac{\\sin x}{\\cos x}$ 로 바꾸면 어떤 치환이 보이나요? 피적분함수에서 ‘어떤 식과 그 식의 도함수’가 함께 있는지 찾아내는 것이 치환적분의 핵심이라는 말을, 세 가지 예를 직접 만들어 설명해 보세요."
+  deeper:"$\\displaystyle\\int\\tan x\\,dx$를 구할 때 $\\tan x=\\dfrac{\\sin x}{\\cos x}$로 바꾸면 어떤 치환이 보이나요? 피적분함수에서 ‘어떤 식과 그 식의 도함수’가 함께 있는지 찾아내는 것이 치환적분의 핵심이라는 말을, 세 가지 예를 직접 만들어 설명해 보세요."
 });
 
 lab({
@@ -1986,25 +1993,25 @@ lab({
       setRO(o1,`가로축 $${Q.hn}$, 세로축 $${Q.vn}$<br>파랑 $${Q.tex}=${fmt(U,4)}$<br>주황 $${Q.lt}=${fmt(Lf,4)}$<br>파랑 $+$ 주황 $=${fmt(U+Lf,4)}$ $=$ 직사각형의 차 $${fmt(rect,4)}$<br><span class="hint">$\\displaystyle\\int u\\,dv=uv-\\int v\\,du$ : 구하기 어려운 넓이를 ‘직사각형 − 구하기 쉬운 넓이’로 바꿔요.</span>`); }
     P1.setView(...PS.A.view); u1();
     const CH={
-      A:{btn:"$u=x,\\ v'=e^{x}$",txt:"$u=x,\\ v'=e^{x}$ 로 놓으면 $u'=1,\\ v=e^{x}$<br>$\\displaystyle\\int xe^{x}\\,dx=xe^{x}-\\int e^{x}\\,dx=xe^{x}-e^{x}+C$<br><span class=\"good\">남은 적분이 더 쉬워졌어요.</span>"},
-      B:{btn:"$u=e^{x},\\ v'=x$",txt:"$u=e^{x},\\ v'=x$ 로 놓으면 $u'=e^{x},\\ v=\\dfrac{x^{2}}{2}$<br>$\\displaystyle\\int xe^{x}\\,dx=\\frac{x^{2}}{2}e^{x}-\\int\\frac{x^{2}}{2}e^{x}\\,dx$<br><span class=\"bad\">남은 적분의 $x$ 의 차수가 올라가 더 어려워졌어요.</span>"},
-      C:{btn:"$u=\\ln x,\\ v'=x$",txt:"$\\displaystyle\\int x\\ln x\\,dx$ 에서 $u=\\ln x,\\ v'=x$ 로 놓으면 $u'=\\dfrac1x,\\ v=\\dfrac{x^{2}}{2}$<br>$=\\dfrac{x^{2}}{2}\\ln x-\\displaystyle\\int\\frac{x}{2}\\,dx=\\frac{x^{2}}{2}\\ln x-\\frac{x^{2}}{4}+C$<br><span class=\"good\">로그는 미분하면 분수식이 되어 간단해져요.</span>"},
-      D:{btn:"$u=x,\\ v'=\\sin x$",txt:"$\\displaystyle\\int x\\sin x\\,dx$ 에서 $u=x,\\ v'=\\sin x$ 로 놓으면 $u'=1,\\ v=-\\cos x$<br>$=-x\\cos x+\\displaystyle\\int\\cos x\\,dx=-x\\cos x+\\sin x+C$"}
+      A:{btn:"$u=x,\\ v'=e^{x}$",txt:"$u=x,\\ v'=e^{x}$으로 놓으면 $u'=1,\\ v=e^{x}$<br>$\\displaystyle\\int xe^{x}\\,dx=xe^{x}-\\int e^{x}\\,dx=xe^{x}-e^{x}+C$<br><span class=\"good\">남은 적분이 더 쉬워졌어요.</span>"},
+      B:{btn:"$u=e^{x},\\ v'=x$",txt:"$u=e^{x},\\ v'=x$로 놓으면 $u'=e^{x},\\ v=\\dfrac{x^{2}}{2}$<br>$\\displaystyle\\int xe^{x}\\,dx=\\frac{x^{2}}{2}e^{x}-\\int\\frac{x^{2}}{2}e^{x}\\,dx$<br><span class=\"bad\">남은 적분의 $x$의 차수가 올라가 더 어려워졌어요.</span>"},
+      C:{btn:"$u=\\ln x,\\ v'=x$",txt:"$\\displaystyle\\int x\\ln x\\,dx$에서 $u=\\ln x,\\ v'=x$로 놓으면 $u'=\\dfrac1x,\\ v=\\dfrac{x^{2}}{2}$<br>$=\\dfrac{x^{2}}{2}\\ln x-\\displaystyle\\int\\frac{x}{2}\\,dx=\\frac{x^{2}}{2}\\ln x-\\frac{x^{2}}{4}+C$<br><span class=\"good\">로그는 미분하면 분수식이 되어 간단해져요.</span>"},
+      D:{btn:"$u=x,\\ v'=\\sin x$",txt:"$\\displaystyle\\int x\\sin x\\,dx$에서 $u=x,\\ v'=\\sin x$로 놓으면 $u'=1,\\ v=-\\cos x$<br>$=-x\\cos x+\\displaystyle\\int\\cos x\\,dx=-x\\cos x+\\sin x+C$"}
     };
     let ck="A";
     const box=h("div",{}); panes[1].append(h("p",{class:"muted"},"어떤 함수를 $u$ (미분할 쪽), 어떤 함수를 $v'$ (적분할 쪽)으로 고르면 좋을까요? 단추를 눌러 결과를 비교해 보세요."),box);
     const out2=ro(); 
     seg(box,{label:"선택",options:Object.keys(CH).map(k=>[k,CH[k].btn]),value:ck,onChange:v=>{ck=v;u2();}}); box.append(out2);
-    function u2(){ setRO(out2,CH[ck].txt+`<br><span class="hint">미분하면 간단해지는 쪽(로그, 다항식)을 $u$ 로, 적분해도 복잡해지지 않는 쪽(지수, 삼각함수)을 $v'$ 으로 고르는 경우가 많아요.</span>`); }
+    function u2(){ setRO(out2,CH[ck].txt+`<br><span class="hint">미분하면 간단해지는 쪽(로그, 다항식)을 $u$로, 적분해도 복잡해지지 않는 쪽(지수, 삼각함수)을 $v'$ 으로 고르는 경우가 많아요.</span>`); }
     u2();
   },
   concept:String.raw`<h4>부분적분법</h4>
-  <p>두 함수 $f(x),\ g(x)$ 가 미분가능하고 $f'(x),\ g'(x)$ 가 연속일 때</p>
+  <p>두 함수 $f(x),\ g(x)$가 미분가능하고 $f'(x),\ g'(x)$가 연속일 때</p>
   <div class="box">$\displaystyle\int f(x)g'(x)\,dx=f(x)g(x)-\int f'(x)g(x)\,dx$<br>$\displaystyle\int_{a}^{b}f(x)g'(x)\,dx=\Big[f(x)g(x)\Big]_{a}^{b}-\int_{a}^{b}f'(x)g(x)\,dx$</div>
-  <p>곱의 미분법 $\{f(x)g(x)\}'=f'(x)g(x)+f(x)g'(x)$ 의 양변을 적분하여 정리한 것이에요. 즉 부분적분법은 곱의 미분법을 거꾸로 쓴 것이에요.</p>
-  <p>그래프로 보면 $u=f(x),\ v=g(x)$ 일 때 $\displaystyle\int u\,dv+\int v\,du$ 는 두 직사각형 넓이의 차 $\Big[uv\Big]$ 와 같아요. 한쪽 넓이를 구하기 어려우면 다른 쪽 넓이로 바꾸어 구하는 거예요.</p>
-  <p>부분적분을 써도 적분이 쉬워지지 않으면 $f$ 와 $g'$ 의 역할을 바꾸어 생각해요.</p>`,
-  deeper:"$\\displaystyle\\int e^{x}\\sin x\\,dx$ 에 부분적분을 두 번 쓰면 처음 적분이 다시 나타나요. 이것이 ‘실패’가 아니라 방정식을 얻은 것이라는 관점에서 적분을 구해 보고, 이런 방법이 통하는 이유를 $e^{x}$ 와 $\\sin x$ 를 미분할 때의 성질과 연결해 설명해 보세요."
+  <p>곱의 미분법 $\{f(x)g(x)\}'=f'(x)g(x)+f(x)g'(x)$의 양변을 적분하여 정리한 것이에요. 즉 부분적분법은 곱의 미분법을 거꾸로 쓴 것이에요.</p>
+  <p>그래프로 보면 $u=f(x),\ v=g(x)$일 때 $\displaystyle\int u\,dv+\int v\,du$는 두 직사각형 넓이의 차 $\Big[uv\Big]$와 같아요. 한쪽 넓이를 구하기 어려우면 다른 쪽 넓이로 바꾸어 구하는 거예요.</p>
+  <p>부분적분을 써도 적분이 쉬워지지 않으면 $f$와 $g'$ 의 역할을 바꾸어 생각해요.</p>`,
+  deeper:"$\\displaystyle\\int e^{x}\\sin x\\,dx$에 부분적분을 두 번 쓰면 처음 적분이 다시 나타나요. 이것이 ‘실패’가 아니라 방정식을 얻은 것이라는 관점에서 적분을 구해 보고, 이런 방법이 통하는 이유를 $e^{x}$과 $\\sin x$를 미분할 때의 성질과 연결해 설명해 보세요."
 });
 
 /* =========================================================
@@ -2034,7 +2041,7 @@ lab({
     slider(R1,{label:"나눈 개수 $n$",min:1,max:200,step:1,value:n,onInput:v=>{n=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const F=FS[key],S=sum(),k=mode==="L"?"\\frac{k-1}{n}":mode==="R"?"\\frac{k}{n}":"\\frac{2k-1}{2n}";
-      setRO(o1,`$\\displaystyle S_n=\\sum_{k=1}^{n}f\\!\\left(${k}\\right)\\frac1n=${fmt(S,6)}$<br>$\\displaystyle\\int_{0}^{1}${F.tex}\\,dx=${F.it}\\approx${fmt(F.I,6)}$<br>오차 $${fmt(S-F.I,6)}$<br><span class="hint">$n$ 을 키우면 어떤 점을 고르든 같은 값으로 가까워져요.</span>`); }
+      setRO(o1,`$\\displaystyle S_n=\\sum_{k=1}^{n}f\\!\\left(${k}\\right)\\frac1n=${fmt(S,6)}$<br>$\\displaystyle\\int_{0}^{1}${F.tex}\\,dx=${F.it}\\approx${fmt(F.I,6)}$<br>오차 $${fmt(S-F.I,6)}$<br><span class="hint">$n$을 키우면 어떤 점을 고르든 같은 값으로 가까워져요.</span>`); }
     u1();
     const GS={
       A:{btn:"$\\sum\\frac{1}{n+k}$",term:(k,n)=>1/(n+k),g:x=>1/(1+x),v:Math.LN2,tex:"\\lim_{n\\to\\infty}\\sum_{k=1}^{n}\\frac{1}{n+k}",read:"\\frac{1}{n+k}=\\frac{1}{1+\\frac kn}\\cdot\\frac1n\\ \\Rightarrow\\ \\int_{0}^{1}\\frac{1}{1+x}\\,dx=\\ln2",ym:1.2},
@@ -2052,30 +2059,30 @@ lab({
     slider(R2,{label:"$n$",min:1,max:200,step:1,value:m,onInput:v=>{m=v;u2();}});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const G=GS[gk]; let s=0; for(let k=1;k<=m;k++) s+=G.term(k,m);
-      setRO(o2,`$\\displaystyle ${G.tex}$<br>$n=${m}$ 일 때 합 $=${fmt(s,6)}$<br>$\\displaystyle ${G.read}\\approx${fmt(G.v,6)}$<br><span class="hint">$\\dfrac kn$ 을 $x$, $\\dfrac1n$ 을 $dx$, $\\sum$ 를 $\\int_{0}^{1}$ 로 읽어요.</span>`); }
+      setRO(o2,`$\\displaystyle ${G.tex}$<br>$n=${m}$일 때 합 $=${fmt(s,6)}$<br>$\\displaystyle ${G.read}\\approx${fmt(G.v,6)}$<br><span class="hint">$\\dfrac kn$를 $x$, $\\dfrac1n$을 $dx$, $\\sum$를 $\\int_{0}^{1}$로 읽어요.</span>`); }
     u2();
   },
   concept:String.raw`<h4>정적분과 급수의 합 사이의 관계</h4>
-  <p>함수 $f(x)$ 가 닫힌구간 $[a,b]$ 에서 연속일 때, 구간을 $n$ 등분하여 $\Delta x=\dfrac{b-a}{n},\ x_k=a+k\Delta x$ 라 하면</p>
+  <p>함수 $f(x)$가 닫힌구간 $[a,b]$에서 연속일 때, 구간을 $n$등분하여 $\Delta x=\dfrac{b-a}{n},\ x_k=a+k\Delta x$라 하면</p>
   <div class="box">$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}f(x_k)\Delta x=\int_{a}^{b}f(x)\,dx$</div>
-  <p>$f(x)\ge0$ 이면 $f(x_k)\Delta x$ 는 직사각형 하나의 넓이이고, 나눈 개수를 늘릴수록 직사각형들의 넓이의 합은 곡선 아래의 넓이에 가까워져요. 이렇게 넓이를 구하는 방법을 구분구적법이라고도 해요.</p>
+  <p>$f(x)\ge0$이면 $f(x_k)\Delta x$는 직사각형 하나의 넓이이고, 나눈 개수를 늘릴수록 직사각형들의 넓이의 합은 곡선 아래의 넓이에 가까워져요. 이렇게 넓이를 구하는 방법을 구분구적법이라고도 해요.</p>
   <h4>급수의 합을 정적분으로</h4>
   <div class="box">$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}f\!\left(\frac kn\right)\frac1n=\int_{0}^{1}f(x)\,dx,\qquad\lim_{n\to\infty}\sum_{k=1}^{n}f\!\left(a+\frac{(b-a)k}{n}\right)\frac{b-a}{n}=\int_{a}^{b}f(x)\,dx$</div>
-  <p>$\dfrac kn\to x$, $\dfrac1n\to dx$ 로 대응시키고, $k$ 가 $1$ 부터 $n$ 까지 움직일 때 $\dfrac kn$ 이 움직이는 범위를 적분 구간으로 정해요.</p>`,
-  deeper:"인공지능 모델이나 컴퓨터는 정적분을 직접 계산하지 못할 때 구간을 잘게 나누어 합으로 어림해요. 탐색 도구 ①에서 ‘왼쪽 끝, 오른쪽 끝, 가운데’ 방법의 오차를 비교하고, 같은 $n$ 에서 가운데 점이 더 정확한 이유를 곡선의 볼록한 방향과 연결해 추측해 보세요."
+  <p>$\dfrac kn\to x$, $\dfrac1n\to dx$로 대응시키고, $k$가 $1$부터 $n$까지 움직일 때 $\dfrac kn$가 움직이는 범위를 적분 구간으로 정해요.</p>`,
+  deeper:"인공지능 모델이나 컴퓨터는 정적분을 직접 계산하지 못할 때 구간을 잘게 나누어 합으로 어림해요. 탐색 도구 ①에서 ‘왼쪽 끝, 오른쪽 끝, 가운데’ 방법의 오차를 비교하고, 같은 $n$에서 가운데 점이 더 정확한 이유를 곡선의 볼록한 방향과 연결해 추측해 보세요."
 });
 
 lab({
   id:"area3",
   mount(el){
-    const panes=paneSet(el,["① 두 곡선 사이의 넓이","② $y$ 에 대하여 적분하기"]);
+    const panes=paneSet(el,["① 두 곡선 사이의 넓이","② $y$에 대하여 적분하기"]);
     const PI=Math.PI;
     let key="A",b=1;
     const [L1,R1]=grid2(panes[0]);
     const AS={
       A:{btn:"$\\sin x,\\ \\cos x$",f:Math.sin,g:Math.cos,a:()=>PI/4,b:()=>5*PI/4,view:[-.3,6.6,-1.5,1.5],pi:true,txt:()=>`두 곡선의 교점 $x=\\dfrac{\\pi}{4},\\ \\dfrac{5\\pi}{4}$ 사이에서 $\\sin x\\ge\\cos x$<br>$\\displaystyle\\int_{\\pi/4}^{5\\pi/4}(\\sin x-\\cos x)\\,dx$<br>$=\\Big[-\\cos x-\\sin x\\Big]=2\\sqrt2\\approx${fmt(2*Math.SQRT2,4)}$`},
-      B:{btn:"$e^{x},\\ e^{-x}$",f:Math.exp,g:x=>Math.exp(-x),a:()=>0,b:()=>b,view:[-1,2.6,-.3,6],slider:true,txt:()=>`$0\\le x\\le b$ 에서 $e^{x}\\ge e^{-x}$<br>$\\displaystyle\\int_{0}^{b}(e^{x}-e^{-x})\\,dx=e^{b}+e^{-b}-2=${fmt(Math.exp(b)+Math.exp(-b)-2,4)}$`},
-      C:{btn:"$\\ln x,\\ x$축",f:Math.log,g:x=>0,a:()=>1,b:()=>b,view:[-.3,6,-1.5,2.2],slider:true,dom:.02,txt:()=>`$1\\le x\\le b$ 에서 $\\ln x\\ge0$<br>$\\displaystyle\\int_{1}^{b}\\ln x\\,dx=\\Big[x\\ln x-x\\Big]_{1}^{b}=${fmt(b*Math.log(b)-b+1,4)}$`}
+      B:{btn:"$e^{x},\\ e^{-x}$",f:Math.exp,g:x=>Math.exp(-x),a:()=>0,b:()=>b,view:[-1,2.6,-.3,6],slider:true,txt:()=>`$0\\le x\\le b$에서 $e^{x}\\ge e^{-x}$<br>$\\displaystyle\\int_{0}^{b}(e^{x}-e^{-x})\\,dx=e^{b}+e^{-b}-2=${fmt(Math.exp(b)+Math.exp(-b)-2,4)}$`},
+      C:{btn:"$\\ln x,\\ x$축",f:Math.log,g:x=>0,a:()=>1,b:()=>b,view:[-.3,6,-1.5,2.2],slider:true,dom:.02,txt:()=>`$1\\le x\\le b$에서 $\\ln x\\ge0$<br>$\\displaystyle\\int_{1}^{b}\\ln x\\,dx=\\Big[x\\ln x-x\\Big]_{1}^{b}=${fmt(b*Math.log(b)-b+1,4)}$`}
     };
     const P1=Plot(L1,{xmin:-.3,xmax:6.6,ymin:-1.5,ymax:1.5,ratio:.6,label:"두 곡선으로 둘러싸인 도형",draw:P=>{
       const C=P.col,A=AS[key]; P.axes(A.pi?{piX:true,piDiv:4}:{}); shade(P,A.f,A.a(),A.b(),C.amberSoft,A.g);
@@ -2099,17 +2106,17 @@ lab({
     check(R2,"가로 띠로 나누어 보기 (끄면 아래쪽 넓이를 함께 표시)",horiz,v=>{horiz=v;u2();});
     const o2=ro(); R2.append(o2);
     function u2(){ P2.render(); const X=Math.exp(c),A=X-1,B=X*c-X+1;
-      setRO(o2,`곡선 $y=\\ln x$, $y$ 축, $y=0$, $y=c$ 로 둘러싸인 넓이<br>$x=e^{y}$ 이므로 $\\displaystyle\\int_{0}^{c}e^{y}\\,dy=e^{c}-1=${fmt(A,4)}$<br>${horiz?"":`아래쪽(주황) $\\displaystyle\\int_{1}^{e^{c}}\\ln x\\,dx=${fmt(B,4)}$<br>두 넓이의 합 $=${fmt(A+B,4)}$ $=$ 직사각형 $ce^{c}=${fmt(c*X,4)}$`}<br><span class="hint">곡선이 $x$ 에 대한 식으로 다루기 어려우면 $y$ 에 대한 식 $x=g(y)$ 로 바꾸어 적분해요.</span>`); }
+      setRO(o2,`곡선 $y=\\ln x$, $y$축, $y=0$, $y=c$로 둘러싸인 넓이<br>$x=e^{y}$이므로 $\\displaystyle\\int_{0}^{c}e^{y}\\,dy=e^{c}-1=${fmt(A,4)}$<br>${horiz?"":`아래쪽(주황) $\\displaystyle\\int_{1}^{e^{c}}\\ln x\\,dx=${fmt(B,4)}$<br>두 넓이의 합 $=${fmt(A+B,4)}$ $=$ 직사각형 $ce^{c}=${fmt(c*X,4)}$`}<br><span class="hint">곡선이 $x$에 대한 식으로 다루기 어려우면 $y$에 대한 식 $x=g(y)$로 바꾸어 적분해요.</span>`); }
     u2();
   },
   concept:String.raw`<h4>곡선과 좌표축 사이의 넓이</h4>
-  <div class="box">① 곡선 $y=f(x)$ 와 $x$ 축, $x=a,\ x=b$ 로 둘러싸인 넓이: $S=\displaystyle\int_{a}^{b}|f(x)|\,dx$<br>② 곡선 $x=g(y)$ 와 $y$ 축, $y=c,\ y=d$ 로 둘러싸인 넓이: $S=\displaystyle\int_{c}^{d}|g(y)|\,dy$</div>
+  <div class="box">① 곡선 $y=f(x)$와 $x$축, $x=a,\ x=b$로 둘러싸인 넓이: $S=\displaystyle\int_{a}^{b}|f(x)|\,dx$<br>② 곡선 $x=g(y)$와 $y$축, $y=c,\ y=d$로 둘러싸인 넓이: $S=\displaystyle\int_{c}^{d}|g(y)|\,dy$</div>
   <h4>두 곡선 사이의 넓이</h4>
   <div class="box">$S=\displaystyle\int_{a}^{b}|f(x)-g(x)|\,dx$</div>
   <p>미적분Ⅱ에서는 지수함수, 로그함수, 삼각함수의 그래프로 둘러싸인 도형도 다뤄요. 교점을 구하고, 각 구간에서 어느 곡선이 위에 있는지 확인한 뒤 적분해요.</p>
   <h4>역함수와 넓이</h4>
-  <p>$y=f(x)$ 와 그 역함수의 그래프는 직선 $y=x$ 에 대칭이므로, 한쪽의 넓이가 어려우면 대칭인 다른 쪽 넓이로 바꾸어 구할 수 있어요. 탐색 도구 ②처럼 가로 띠와 세로 띠를 바꾸어 보는 것도 같은 생각이에요.</p>`,
-  deeper:"곡선 $y=e^{x}$, 직선 $y=e$, $y$ 축으로 둘러싸인 넓이를 $x$ 에 대한 적분과 $y$ 에 대한 적분 두 가지로 구해 보세요. 두 방법 중 어느 쪽이 더 편한지, 그 이유가 ‘역함수’와 어떻게 관련되는지 설명해 보세요."
+  <p>$y=f(x)$와 그 역함수의 그래프는 직선 $y=x$에 대칭이므로, 한쪽의 넓이가 어려우면 대칭인 다른 쪽 넓이로 바꾸어 구할 수 있어요. 탐색 도구 ②처럼 가로 띠와 세로 띠를 바꾸어 보는 것도 같은 생각이에요.</p>`,
+  deeper:"곡선 $y=e^{x}$, 직선 $y=e$, $y$축으로 둘러싸인 넓이를 $x$에 대한 적분과 $y$에 대한 적분 두 가지로 구해 보세요. 두 방법 중 어느 쪽이 더 편한지, 그 이유가 ‘역함수’와 어떻게 관련되는지 설명해 보세요."
 });
 
 lab({
@@ -2142,12 +2149,12 @@ lab({
         k.globalAlpha=.85; for(let j=0;j<front.length;j++){const j2=(j+1)%front.length;P.poly([front[j],front[j2],back[j2],back[j]],C.blueSoft,C.blue,.8);} P.poly(front,C.amberSoft,C.amber,1.2); k.globalAlpha=1; }
     }});
     seg(R1,{label:"밑면의 경계 $y=f(x)$",options:Object.keys(FS).map(k=>[k,FS[k].btn]),value:fk,onChange:v=>{fk=v;u1();}});
-    seg(R1,{label:"$x$ 축에 수직인 단면",options:Object.keys(SH).map(k=>[k,SH[k].btn]),value:sk,onChange:v=>{sk=v;u1();}});
+    seg(R1,{label:"$x$축에 수직인 단면",options:Object.keys(SH).map(k=>[k,SH[k].btn]),value:sk,onChange:v=>{sk=v;u1();}});
     slider(R1,{label:"나눈 조각 수 $n$",min:2,max:60,step:1,value:n,onInput:v=>{n=v;u1();}});
     const o1=ro(); R1.append(o1);
     function u1(){ P1.render(); const F=FS[fk],S=SH[sk],dx=(F.b-F.a)/n; let s=0; for(let i=0;i<n;i++) s+=S.A(F.f(F.a+(i+.5)*dx))*dx;
       const V=simpson(x=>S.A(F.f(x)),F.a,F.b);
-      setRO(o1,`단면의 한 변(지름) $s=f(x)=${F.tex}$, 단면의 넓이 $S(x)=${S.tex}$<br>얇은 기둥 $n$ 개의 부피의 합 $\\displaystyle\\sum S(x_k)\\Delta x=${fmt(s,5)}$<br>$\\displaystyle V=\\int_{${F.a}}^{${fk==="A"?"4":"\\pi"}}S(x)\\,dx=${fmt(V,5)}$<br><span class="hint">조각을 늘릴수록 기둥들의 부피의 합이 정적분에 가까워져요.</span>`); }
+      setRO(o1,`단면의 한 변(지름) $s=f(x)=${F.tex}$, 단면의 넓이 $S(x)=${S.tex}$<br>얇은 기둥 $n$개의 부피의 합 $\\displaystyle\\sum S(x_k)\\Delta x=${fmt(s,5)}$<br>$\\displaystyle V=\\int_{${F.a}}^{${fk==="A"?"4":"\\pi"}}S(x)\\,dx=${fmt(V,5)}$<br><span class="hint">조각을 늘릴수록 기둥들의 부피의 합이 정적분에 가까워져요.</span>`); }
     u1();
     let sh=0;
     const [L2,R2]=grid2(panes[1]);
@@ -2158,15 +2165,15 @@ lab({
     }});
     slider(R2,{label:"오른쪽 더미 밀기",min:0,max:2,step:.05,value:sh,onInput:v=>{sh=v;u2();}});
     const o2=ro(); R2.append(o2);
-    function u2(){ P2.render(); setRO(o2,`두 더미는 같은 높이에서 자른 단면의 넓이가 언제나 같아요.<br>그래서 $V=\\displaystyle\\int_{0}^{h}S(x)\\,dx$ 가 같아요.<br><span class="hint">모양이 비뚤어져도 ‘높이마다 단면의 넓이’만 같으면 부피가 같아요 (카발리에리의 원리).</span>`); }
+    function u2(){ P2.render(); setRO(o2,`두 더미는 같은 높이에서 자른 단면의 넓이가 언제나 같아요.<br>그래서 $V=\\displaystyle\\int_{0}^{h}S(x)\\,dx$가 같아요.<br><span class="hint">모양이 비뚤어져도 ‘높이마다 단면의 넓이’만 같으면 부피가 같아요 (카발리에리의 원리).</span>`); }
     u2();
   },
   concept:String.raw`<h4>입체도형의 부피</h4>
-  <p>어떤 입체도형을 $x$ 축에 수직인 평면으로 자른 단면의 넓이가 $S(x)$ 이고, $S(x)$ 가 닫힌구간 $[a,b]$ 에서 연속일 때 이 입체도형의 부피는</p>
+  <p>어떤 입체도형을 $x$축에 수직인 평면으로 자른 단면의 넓이가 $S(x)$이고, $S(x)$가 닫힌구간 $[a,b]$에서 연속일 때 이 입체도형의 부피는</p>
   <div class="box">$V=\displaystyle\int_{a}^{b}S(x)\,dx$</div>
-  <p>입체를 두께가 $\Delta x$ 인 얇은 조각으로 자르면, 한 조각의 부피는 밑넓이 $S(x_k)$ 와 높이 $\Delta x$ 인 기둥의 부피 $S(x_k)\Delta x$ 에 가까워요. 조각들의 부피의 합의 극한이 정적분이에요. 이것은 정적분과 급수의 합의 관계를 부피에 적용한 것이에요.</p>
-  <div class="box">① 기준이 되는 축을 정한다 ② 그 축 위의 점 $x$ 에서 자른 단면의 넓이 $S(x)$ 를 식으로 나타낸다 ③ $x$ 가 움직이는 범위에서 적분한다</div>`,
-  deeper:"밑면의 반지름이 $r$, 높이가 $h$ 인 원뿔의 부피가 $\\dfrac13\\pi r^{2}h$ 인 이유를 단면의 넓이를 이용해 설명해 보세요. 중학교에서 ‘원기둥에 물을 부어 세 번’으로 확인했던 공식이, 단면 넓이의 적분으로 어떻게 증명되는지 비교해 보세요."
+  <p>입체를 두께가 $\Delta x$인 얇은 조각으로 자르면, 한 조각의 부피는 밑넓이 $S(x_k)$와 높이 $\Delta x$인 기둥의 부피 $S(x_k)\Delta x$에 가까워요. 조각들의 부피의 합의 극한이 정적분이에요. 이것은 정적분과 급수의 합의 관계를 부피에 적용한 것이에요.</p>
+  <div class="box">① 기준이 되는 축을 정한다 ② 그 축 위의 점 $x$에서 자른 단면의 넓이 $S(x)$를 식으로 나타낸다 ③ $x$가 움직이는 범위에서 적분한다</div>`,
+  deeper:"밑면의 반지름이 $r$, 높이가 $h$인 원뿔의 부피가 $\\dfrac13\\pi r^{2}h$인 이유를 단면의 넓이를 이용해 설명해 보세요. 중학교에서 ‘원기둥에 물을 부어 세 번’으로 확인했던 공식이, 단면 넓이의 적분으로 어떻게 증명되는지 비교해 보세요."
 });
 
 lab({
@@ -2200,9 +2207,9 @@ lab({
     P.setView(-.2,VS.A.T*1.05,...VS.A.yr); upd();
   },
   concept:String.raw`<h4>속도와 위치, 움직인 거리</h4>
-  <p>수직선 위를 움직이는 점 P의 시각 $t$ 에서의 속도가 $v(t)$, 시각 $t=a$ 에서의 위치가 $x(a)$ 일 때</p>
-  <div class="box">① 시각 $t$ 에서의 위치: $x(t)=x(a)+\displaystyle\int_{a}^{t}v(s)\,ds$<br>② $t=a$ 에서 $t=b$ 까지 위치의 변화량: $\displaystyle\int_{a}^{b}v(t)\,dt$<br>③ $t=a$ 에서 $t=b$ 까지 움직인 거리: $\displaystyle\int_{a}^{b}|v(t)|\,dt$</div>
-  <p>미적분Ⅱ에서는 속도가 지수함수, 삼각함수 등으로 주어진 운동도 다뤄요. 움직인 거리를 구할 때는 $v(t)=0$ 이 되는 시각을 찾아 구간을 나누고, $v(t)<0$ 인 구간은 부호를 바꾸어 더해요.</p>
+  <p>수직선 위를 움직이는 점 P의 시각 $t$에서의 속도가 $v(t)$, 시각 $t=a$에서의 위치가 $x(a)$일 때</p>
+  <div class="box">① 시각 $t$에서의 위치: $x(t)=x(a)+\displaystyle\int_{a}^{t}v(s)\,ds$<br>② $t=a$에서 $t=b$까지 위치의 변화량: $\displaystyle\int_{a}^{b}v(t)\,dt$<br>③ $t=a$에서 $t=b$까지 움직인 거리: $\displaystyle\int_{a}^{b}|v(t)|\,dt$</div>
+  <p>미적분Ⅱ에서는 속도가 지수함수, 삼각함수 등으로 주어진 운동도 다뤄요. 움직인 거리를 구할 때는 $v(t)=0$이 되는 시각을 찾아 구간을 나누고, $v(t)<0$인 구간은 부호를 바꾸어 더해요.</p>
   <p>미분은 위치에서 속도와 가속도를 얻고, 적분은 속도에서 위치와 거리를 되찾아요. 두 과정은 서로 거꾸로예요.</p>`,
   deeper:"휴대폰의 걸음 수 앱이나 자동차 내비게이션은 가속도 센서의 값을 쌓아 속도와 위치를 추정하기도 해요. 가속도를 두 번 적분해 위치를 얻는 과정에서 작은 측정 오차가 시간이 지날수록 커질 수 있는 이유를 정적분의 뜻으로 설명해 보세요."
 });
@@ -2249,300 +2256,300 @@ const exOf=id=>ALG.ex(id);
 const L1=[
 {id:'seqconv',unit:'u1',codes:['12미적Ⅱ-01-01'],std:STDT['12미적Ⅱ-01-01'],title:'끝없이 이어지는 수열은 어디로 갈까: 수렴과 발산',lens:'무한, 근사',pages:null,tool:'수열의 점 그래프와 ‘극한값 후보의 띠’',comp:'추론, 의사소통',
  big:R`항이 끝없이 이어지는 수열이 ‘어떤 값에 가까워진다’는 것을 어떻게 정확하게 확인할 수 있을까?`,
- predict:R`수열 $1,\ \dfrac12,\ \dfrac13,\ \dfrac14,\ \cdots$ 는 $0$ 이 되는 항이 하나도 없어요. 그래도 ‘이 수열은 $0$ 으로 간다’고 말할 수 있을까요? 수열 $1,\ -1,\ 1,\ -1,\ \cdots$ 은 어떨까요? 내 생각을 적어 보세요.`,
- f:[R`수열 ①에서 $L=0$, $d=0.1$ 로 두면 띠 밖에 있는 마지막 항은 몇 번째 항인가요? $d=0.01$ 이면요?`,R`수열 ③은 위아래로 오가는데도 $L=0$ 인 띠 안으로 들어오나요?`,R`수열 ⑤와 ⑥에서는 어떤 $L$ 을 골라도 $d$ 를 충분히 작게 하면 띠 밖의 항이 계속 나오나요?`,R`수열 ④에서 $n=10000$ 일 때 $a_n$ 은 얼마인가요?`],
- c:[R`‘띠를 아무리 좁혀도 어느 번호부터는 모든 항이 띠 안에 있다’는 말이 ‘한없이 가까워진다’를 어떻게 정확하게 바꾼 것인지 설명해 보세요.`,R`수열 ⑥은 항들이 $1$ 과 $-1$ 에 번갈아 가까워지는데, 왜 수렴하지 않는다고 할까요?`,R`발산하는 수열을 ‘양의 무한대로 발산’, ‘음의 무한대로 발산’, ‘진동’으로 나누는 기준은 무엇인가요?`],
- d:[R`수열 $0.9,\ 0.99,\ 0.999,\ \cdots$ 의 극한이 $1$ 이라면 ‘$0.999\cdots=1$’이라고 말해도 될까요? ‘무한히 계속되는 과정’과 ‘그 극한값’을 같은 것으로 보는 것이 타당한지 토론해 보세요.`],
- gen:R`수열 $\{a_n\}$ 에서 $n$ 이 한없이 커질 때 $a_n$ 이 일정한 값 $L$ 에 한없이 가까워지면 $\{a_n\}$ 은 $L$ 에 수렴하고 $\displaystyle\lim_{n\to\infty}a_n=L$ 이라고 쓴다. 이것은 $L$ 주위의 띠를 아무리 좁게 잡아도 어느 번호부터는 모든 항이 그 띠 안에 있다는 뜻이며, 항이 $L$ 과 같아질 필요는 없다. 수렴하지 않으면 발산하며, 발산은 양의 무한대로 발산, 음의 무한대로 발산, 진동으로 나뉜다.`,
- apply:[{q:R`$\displaystyle\lim_{n\to\infty}\frac{3n-1}{n+2}$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$n$ 이 아주 클 때 $-1$ 과 $+2$ 는 $3n,\ n$ 에 비해 무시할 만큼 작아져요.`,sol:R`분자, 분모를 $n$ 으로 나누면 $\dfrac{3-\frac1n}{1+\frac2n}\to\dfrac{3}{1}=3$`},
-  {q:R`다음 수열 중 수렴하는 것의 개수를 구하시오. $\{(-1)^{n}\},\ \left\{\dfrac{1}{n^{2}}\right\},\ \left\{\dfrac{n}{n+1}\right\},\ \{(-1)^{n}n\},\ \left\{2-\dfrac1n\right\}$`,fields:[{label:'개수',ans:3}],hint:'각 수열의 항을 몇 개 써 보거나 탐색 도구처럼 점으로 찍어 보세요.',sol:R`$\dfrac{1}{n^{2}}\to0,\ \dfrac{n}{n+1}\to1,\ 2-\dfrac1n\to2$ 는 수렴하고, $(-1)^{n}$ 과 $(-1)^{n}n$ 은 진동해요. 따라서 $3$ 개`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\frac{n^{2}+1}{2n^{2}}$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\dfrac{n^{2}+1}{2n^{2}}=\dfrac12+\dfrac{1}{2n^{2}}$ 로 나누어 보세요.`,sol:R`$\dfrac12+\dfrac{1}{2n^{2}}\to\dfrac12$`}],
+ predict:R`수열 $1,\ \dfrac12,\ \dfrac13,\ \dfrac14,\ \cdots$는 $0$이 되는 항이 하나도 없어요. 그래도 ‘이 수열은 $0$으로 간다’고 말할 수 있을까요? 수열 $1,\ -1,\ 1,\ -1,\ \cdots$은 어떨까요? 내 생각을 적어 보세요.`,
+ f:[R`수열 ①에서 $L=0$, $d=0.1$로 두면 띠 밖에 있는 마지막 항은 몇 번째 항인가요? $d=0.01$이면요?`,R`수열 ③은 위아래로 오가는데도 $L=0$인 띠 안으로 들어오나요?`,R`수열 ⑤와 ⑥에서는 어떤 $L$을 골라도 $d$를 충분히 작게 하면 띠 밖의 항이 계속 나오나요?`,R`수열 ④에서 $n=10000$일 때 $a_n$은 얼마인가요?`],
+ c:[R`‘띠를 아무리 좁혀도 어느 번호부터는 모든 항이 띠 안에 있다’는 말이 ‘한없이 가까워진다’를 어떻게 정확하게 바꾼 것인지 설명해 보세요.`,R`수열 ⑥은 항들이 $1$과 $-1$에 번갈아 가까워지는데, 왜 수렴하지 않는다고 할까요?`,R`발산하는 수열을 ‘양의 무한대로 발산’, ‘음의 무한대로 발산’, ‘진동’으로 나누는 기준은 무엇인가요?`],
+ d:[R`수열 $0.9,\ 0.99,\ 0.999,\ \cdots$의 극한이 $1$이라면 ‘$0.999\cdots=1$’이라고 말해도 될까요? ‘무한히 계속되는 과정’과 ‘그 극한값’을 같은 것으로 보는 것이 타당한지 토론해 보세요.`],
+ gen:R`수열 $\{a_n\}$에서 $n$이 한없이 커질 때 $a_n$이 일정한 값 $L$에 한없이 가까워지면 $\{a_n\}$은 $L$에 수렴하고 $\displaystyle\lim_{n\to\infty}a_n=L$이라고 쓴다. 이것은 $L$ 주위의 띠를 아무리 좁게 잡아도 어느 번호부터는 모든 항이 그 띠 안에 있다는 뜻이며, 항이 $L$과 같아질 필요는 없다. 수렴하지 않으면 발산하며, 발산은 양의 무한대로 발산, 음의 무한대로 발산, 진동으로 나뉜다.`,
+ apply:[{q:R`$\displaystyle\lim_{n\to\infty}\frac{3n-1}{n+2}$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$n$이 아주 클 때 $-1$과 $+2$는 $3n,\ n$에 비해 무시할 만큼 작아져요.`,sol:R`분자, 분모를 $n$으로 나누면 $\dfrac{3-\frac1n}{1+\frac2n}\to\dfrac{3}{1}=3$`},
+  {q:R`다음 수열 중 수렴하는 것의 개수를 구하시오. $\{(-1)^{n}\},\ \left\{\dfrac{1}{n^{2}}\right\},\ \left\{\dfrac{n}{n+1}\right\},\ \{(-1)^{n}n\},\ \left\{2-\dfrac1n\right\}$`,fields:[{label:'개수',ans:3}],hint:'각 수열의 항을 몇 개 써 보거나 탐색 도구처럼 점으로 찍어 보세요.',sol:R`$\dfrac{1}{n^{2}}\to0,\ \dfrac{n}{n+1}\to1,\ 2-\dfrac1n\to2$는 수렴하고, $(-1)^{n}$과 $(-1)^{n}n$은 진동해요. 따라서 $3$개`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\frac{n^{2}+1}{2n^{2}}$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\dfrac{n^{2}+1}{2n^{2}}=\dfrac12+\dfrac{1}{2n^{2}}$로 나누어 보세요.`,sol:R`$\dfrac12+\dfrac{1}{2n^{2}}\to\dfrac12$`}],
  reflect:['수열의 극한을 ‘마지막 항’으로 생각했던 적이 있나요? 지금은 어떻게 생각하나요?','‘수렴한다’를 친구에게 그림 없이 한 문장으로 설명한다면 어떻게 말할지 적어 보세요.'],ex:exOf('seqconv')},
-{id:'seqcalc',unit:'u1',codes:['12미적Ⅱ-01-02'],std:STDT['12미적Ⅱ-01-02'],title:'$\\frac{\\infty}{\\infty}$ 와 $\\infty-\\infty$ 는 얼마일까: 수열의 극한의 성질',lens:'구조, 변형',pages:null,tool:'차수 비교 그래프, 유리화 표, 대소 관계 그래프',comp:'추론, 문제해결',
+{id:'seqcalc',unit:'u1',codes:['12미적Ⅱ-01-02'],std:STDT['12미적Ⅱ-01-02'],title:'$\\frac{\\infty}{\\infty}$와 $\\infty-\\infty$는 얼마일까: 수열의 극한의 성질',lens:'구조, 변형',pages:null,tool:'차수 비교 그래프, 유리화 표, 대소 관계 그래프',comp:'추론, 문제해결',
  big:R`분자와 분모가 모두 한없이 커지거나, 한없이 커지는 두 수의 차를 구할 때 극한값은 무엇이 결정할까?`,
- predict:R`$\displaystyle\lim_{n\to\infty}\left(\sqrt{n^{2}+4n}-n\right)$ 에서 $\sqrt{n^{2}+4n}$ 과 $n$ 은 둘 다 한없이 커져요. 이 차는 $0$ 에 가까워질까요, 다른 값에 가까워질까요, 한없이 커질까요? 예상해 보세요.`,
- f:[R`① 탭에서 분자와 분모의 차수가 같을 때 극한값은 무엇으로 정해지나요?`,R`① 탭에서 분자의 차수가 더 크거나 작으면 수열은 어떻게 되나요?`,R`② 탭에서 $a$ 를 바꾸면 $b_n$ 이 가까워지는 값은 어떻게 변하나요?`,R`③ 탭에서 $c_n$ 의 점들은 두 수열 사이에서 어떻게 움직이나요?`],
- c:[R`$\dfrac{\infty}{\infty}$ 꼴에서 분모의 최고차항으로 나누는 것이 왜 극한의 성질을 쓸 수 있게 해 주나요?`,R`$\infty-\infty$ 꼴에서 유리화를 하면 무엇이 달라지나요? 유리화한 식에서 극한의 성질을 쓸 수 있는 이유를 설명해 보세요.`,R`대소 관계를 이용한 극한은 $c_n$ 의 정확한 값을 몰라도 극한값을 알려 줘요. 이것이 가능한 이유는 무엇인가요?`],
- d:[R`‘$\displaystyle\lim(a_n+b_n)=\lim a_n+\lim b_n$ 은 언제나 성립한다’는 주장에 대해, 반례가 있는지 찾아보고 성질이 성립하기 위한 조건을 근거와 함께 주장해 보세요.`],
- gen:R`두 수열이 수렴하면 합, 차, 실수배, 곱, 몫(분모의 극한이 $0$ 이 아닐 때)의 극한은 각 극한의 합, 차, 실수배, 곱, 몫과 같다. $\dfrac{\infty}{\infty}$ 꼴이나 $\infty-\infty$ 꼴은 이 성질을 바로 쓸 수 없으므로, 분모의 최고차항으로 나누거나 유리화하여 수렴하는 수열들의 식으로 바꾼 뒤 극한을 구한다. 또 $a_n\le c_n\le b_n$ 이고 $a_n,\ b_n$ 이 같은 값에 수렴하면 $c_n$ 도 그 값에 수렴한다.`,
- apply:[{q:R`$\displaystyle\lim_{n\to\infty}\frac{2n^{2}+3n}{n^{2}-1}$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`분자와 분모를 $n^{2}$ 으로 나누어 보세요.`,sol:R`$\dfrac{2+\frac3n}{1-\frac{1}{n^{2}}}\to2$`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\left(\sqrt{n^{2}+6n}-n\right)$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`분자와 분모에 $\sqrt{n^{2}+6n}+n$ 을 곱해 보세요.`,sol:R`$\dfrac{6n}{\sqrt{n^{2}+6n}+n}=\dfrac{6}{\sqrt{1+\frac6n}+1}\to\dfrac62=3$`},
-  {q:R`두 수열 $\{a_n\},\ \{b_n\}$ 에 대하여 $\displaystyle\lim_{n\to\infty}a_n=2,\ \lim_{n\to\infty}b_n=3$ 일 때, $\displaystyle\lim_{n\to\infty}\frac{2a_n+b_n}{a_nb_n}$ 의 값을 구하시오.`,fields:[{label:'값',ans:7/6}],hint:'두 수열이 모두 수렴하므로 극한의 성질을 그대로 쓸 수 있어요.',sol:R`$\dfrac{2\times2+3}{2\times3}=\dfrac76$`}],
+ predict:R`$\displaystyle\lim_{n\to\infty}\left(\sqrt{n^{2}+4n}-n\right)$에서 $\sqrt{n^{2}+4n}$과 $n$은 둘 다 한없이 커져요. 이 차는 $0$에 가까워질까요, 다른 값에 가까워질까요, 한없이 커질까요? 예상해 보세요.`,
+ f:[R`① 탭에서 분자와 분모의 차수가 같을 때 극한값은 무엇으로 정해지나요?`,R`① 탭에서 분자의 차수가 더 크거나 작으면 수열은 어떻게 되나요?`,R`② 탭에서 $a$를 바꾸면 $b_n$이 가까워지는 값은 어떻게 변하나요?`,R`③ 탭에서 $c_n$의 점들은 두 수열 사이에서 어떻게 움직이나요?`],
+ c:[R`$\dfrac{\infty}{\infty}$ 꼴에서 분모의 최고차항으로 나누는 것이 왜 극한의 성질을 쓸 수 있게 해 주나요?`,R`$\infty-\infty$ 꼴에서 유리화를 하면 무엇이 달라지나요? 유리화한 식에서 극한의 성질을 쓸 수 있는 이유를 설명해 보세요.`,R`대소 관계를 이용한 극한은 $c_n$의 정확한 값을 몰라도 극한값을 알려 줘요. 이것이 가능한 이유는 무엇인가요?`],
+ d:[R`‘$\displaystyle\lim(a_n+b_n)=\lim a_n+\lim b_n$은 언제나 성립한다’는 주장에 대해, 반례가 있는지 찾아보고 성질이 성립하기 위한 조건을 근거와 함께 주장해 보세요.`],
+ gen:R`두 수열이 수렴하면 합, 차, 실수배, 곱, 몫(분모의 극한이 $0$이 아닐 때)의 극한은 각 극한의 합, 차, 실수배, 곱, 몫과 같다. $\dfrac{\infty}{\infty}$ 꼴이나 $\infty-\infty$ 꼴은 이 성질을 바로 쓸 수 없으므로, 분모의 최고차항으로 나누거나 유리화하여 수렴하는 수열들의 식으로 바꾼 뒤 극한을 구한다. 또 $a_n\le c_n\le b_n$이고 $a_n,\ b_n$이 같은 값에 수렴하면 $c_n$도 그 값에 수렴한다.`,
+ apply:[{q:R`$\displaystyle\lim_{n\to\infty}\frac{2n^{2}+3n}{n^{2}-1}$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`분자와 분모를 $n^{2}$으로 나누어 보세요.`,sol:R`$\dfrac{2+\frac3n}{1-\frac{1}{n^{2}}}\to2$`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\left(\sqrt{n^{2}+6n}-n\right)$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`분자와 분모에 $\sqrt{n^{2}+6n}+n$을 곱해 보세요.`,sol:R`$\dfrac{6n}{\sqrt{n^{2}+6n}+n}=\dfrac{6}{\sqrt{1+\frac6n}+1}\to\dfrac62=3$`},
+  {q:R`두 수열 $\{a_n\},\ \{b_n\}$에 대하여 $\displaystyle\lim_{n\to\infty}a_n=2,\ \lim_{n\to\infty}b_n=3$일 때, $\displaystyle\lim_{n\to\infty}\frac{2a_n+b_n}{a_nb_n}$의 값을 구하시오.`,fields:[{label:'값',ans:7/6}],hint:'두 수열이 모두 수렴하므로 극한의 성질을 그대로 쓸 수 있어요.',sol:R`$\dfrac{2\times2+3}{2\times3}=\dfrac76$`}],
  reflect:['‘무한대끼리의 계산’에 대해 처음 가졌던 생각이 어떻게 바뀌었나요?','극한을 구하기 전에 꼴(수렴, $\\dfrac{\\infty}{\\infty}$, $\\infty-\\infty$)을 먼저 확인해야 하는 이유를 내 말로 적어 보세요.'],ex:exOf('seqcalc')},
-{id:'georn',unit:'u1',codes:['12미적Ⅱ-01-03'],std:STDT['12미적Ⅱ-01-03'],title:'곱할수록 커질까 작아질까: 등비수열의 극한',lens:'비율, 경계',pages:null,tool:'공비 $r$ 에 따른 $r^{n}$ 그래프와 수렴 지도',comp:'추론, 연결',
+{id:'georn',unit:'u1',codes:['12미적Ⅱ-01-03'],std:STDT['12미적Ⅱ-01-03'],title:'곱할수록 커질까 작아질까: 등비수열의 극한',lens:'비율, 경계',pages:null,tool:'공비 $r$에 따른 $r^{n}$ 그래프와 수렴 지도',comp:'추론, 연결',
  big:R`같은 수를 계속 곱해 만든 수열이 수렴하는지 발산하는지는 무엇이 결정할까?`,
- predict:R`$0.99^{n}$ 과 $1.01^{n}$ 은 처음에는 둘 다 $1$ 근처예요. $n$ 이 아주 커지면 각각 어떻게 될까요? 공비가 $-1$ 이면 어떨까요?`,
- f:[R`$r=0.8,\ 0.95,\ 1,\ 1.05$ 일 때 점들은 각각 어떻게 움직이나요?`,R`$r=-0.8$ 과 $r=-1.2$ 일 때 점들의 모양은 어떻게 다른가요?`,R`수열이 수렴하는 $r$ 의 범위를 수직선 위에서 찾아보세요. 끝점 $r=1$ 과 $r=-1$ 은 포함되나요?`],
- c:[R`$|r|<1$ 이면 $r^{n}\to0$ 인 이유를 ‘곱할 때마다 크기가 일정한 비율로 줄어든다’는 말로 설명해 보세요.`,R`$r=1$ 은 수렴하는데 $r=-1$ 은 발산하는 이유는 무엇인가요?`,R`$r^{n}$ 이 들어 있는 식의 극한을 구할 때 왜 $|r|<1,\ r=1,\ |r|>1$ 등으로 경우를 나누어야 할까요?`],
- d:[R`‘$1.0001^{n}$ 은 너무 천천히 커지니까 어떤 값에 수렴한다고 봐도 된다’는 주장에 대해, 실제 계산과 극한의 뜻을 근거로 반박하거나 지지해 보세요.`],
- gen:R`등비수열 $\{r^{n}\}$ 은 $|r|<1$ 이면 $0$ 에, $r=1$ 이면 $1$ 에 수렴하고, $r>1$ 이면 양의 무한대로 발산하며, $r\le-1$ 이면 진동한다. 따라서 수렴 조건은 $-1<r\le1$ 이다. 곱할 때마다 크기가 $|r|$ 배가 되므로 $|r|$ 이 $1$ 보다 작은지 큰지가 수렴과 발산을 결정한다.`,
- apply:[{q:R`등비수열 $\left\{\left(\dfrac{x-1}{2}\right)^{n}\right\}$ 이 수렴하도록 하는 정수 $x$ 의 개수를 구하시오.`,fields:[{label:'개수',ans:4}],hint:R`수렴 조건은 $-1<(\text{공비})\le1$ 이에요.`,sol:R`$-1<\dfrac{x-1}{2}\le1$ 에서 $-1<x\le3$ 이므로 $x=0,\ 1,\ 2,\ 3$ 의 $4$ 개`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\frac{3^{n+1}+2^{n}}{3^{n}-1}$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`분자와 분모를 $3^{n}$ 으로 나누어 보세요.`,sol:R`$\dfrac{3+\left(\frac23\right)^{n}}{1-\left(\frac13\right)^{n}}\to\dfrac{3+0}{1-0}=3$`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\frac{2^{n+1}+5^{n}}{5^{n+1}+3^{n}}$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/5}],hint:R`밑이 가장 큰 $5^{n}$ 으로 나누어 보세요.`,sol:R`$\dfrac{2\left(\frac25\right)^{n}+1}{5+\left(\frac35\right)^{n}}\to\dfrac15$`}],
- reflect:['공비가 $1$ 에 아주 가까울 때 수렴과 발산을 구별하기 어려웠던 경험이 있나요? 무엇으로 판단했나요?','등비수열의 극한이 쓰일 만한 실생활 상황을 하나 떠올려 적어 보세요.'],ex:exOf('georn')},
+ predict:R`$0.99^{n}$과 $1.01^{n}$은 처음에는 둘 다 $1$ 근처예요. $n$이 아주 커지면 각각 어떻게 될까요? 공비가 $-1$이면 어떨까요?`,
+ f:[R`$r=0.8,\ 0.95,\ 1,\ 1.05$일 때 점들은 각각 어떻게 움직이나요?`,R`$r=-0.8$과 $r=-1.2$일 때 점들의 모양은 어떻게 다른가요?`,R`수열이 수렴하는 $r$의 범위를 수직선 위에서 찾아보세요. 끝점 $r=1$과 $r=-1$은 포함되나요?`],
+ c:[R`$|r|<1$이면 $r^{n}\to0$인 이유를 ‘곱할 때마다 크기가 일정한 비율로 줄어든다’는 말로 설명해 보세요.`,R`$r=1$은 수렴하는데 $r=-1$은 발산하는 이유는 무엇인가요?`,R`$r^{n}$이 들어 있는 식의 극한을 구할 때 왜 $|r|<1,\ r=1,\ |r|>1$ 등으로 경우를 나누어야 할까요?`],
+ d:[R`‘$1.0001^{n}$은 너무 천천히 커지니까 어떤 값에 수렴한다고 봐도 된다’는 주장에 대해, 실제 계산과 극한의 뜻을 근거로 반박하거나 지지해 보세요.`],
+ gen:R`등비수열 $\{r^{n}\}$은 $|r|<1$이면 $0$에, $r=1$이면 $1$에 수렴하고, $r>1$이면 양의 무한대로 발산하며, $r\le-1$이면 진동한다. 따라서 수렴 조건은 $-1<r\le1$이다. 곱할 때마다 크기가 $|r|$배가 되므로 $|r|$이 $1$보다 작은지 큰지가 수렴과 발산을 결정한다.`,
+ apply:[{q:R`등비수열 $\left\{\left(\dfrac{x-1}{2}\right)^{n}\right\}$이 수렴하도록 하는 정수 $x$의 개수를 구하시오.`,fields:[{label:'개수',ans:4}],hint:R`수렴 조건은 $-1<(\text{공비})\le1$이에요.`,sol:R`$-1<\dfrac{x-1}{2}\le1$에서 $-1<x\le3$이므로 $x=0,\ 1,\ 2,\ 3$의 $4$개`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\frac{3^{n+1}+2^{n}}{3^{n}-1}$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`분자와 분모를 $3^{n}$으로 나누어 보세요.`,sol:R`$\dfrac{3+\left(\frac23\right)^{n}}{1-\left(\frac13\right)^{n}}\to\dfrac{3+0}{1-0}=3$`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\frac{2^{n+1}+5^{n}}{5^{n+1}+3^{n}}$의 값을 구하시오.`,fields:[{label:'값',ans:1/5}],hint:R`밑이 가장 큰 $5^{n}$으로 나누어 보세요.`,sol:R`$\dfrac{2\left(\frac25\right)^{n}+1}{5+\left(\frac35\right)^{n}}\to\dfrac15$`}],
+ reflect:['공비가 $1$에 아주 가까울 때 수렴과 발산을 구별하기 어려웠던 경험이 있나요? 무엇으로 판단했나요?','등비수열의 극한이 쓰일 만한 실생활 상황을 하나 떠올려 적어 보세요.'],ex:exOf('georn')},
 {id:'series',unit:'u1',codes:['12미적Ⅱ-01-04'],std:STDT['12미적Ⅱ-01-04'],title:'무한히 더하면 얼마일까: 급수의 수렴과 발산',lens:'무한, 누적',pages:null,tool:'항과 부분합의 그래프, 조화급수 표',comp:'추론, 정보처리',
  big:R`무한히 많은 수를 더한 값이 유한할 수 있을까? 그렇다면 그 ‘합’은 어떻게 정의할까?`,
- predict:R`$\dfrac{1}{1\cdot2}+\dfrac{1}{2\cdot3}+\dfrac{1}{3\cdot4}+\cdots$ 처럼 더하는 수가 점점 작아지면 합은 항상 유한할까요? $1+\dfrac12+\dfrac13+\dfrac14+\cdots$ 는 어떨까요?`,
- f:[R`급수 ①에서 $S_{10},\ S_{100},\ S_{1000}$ 은 각각 얼마인가요? 어떤 값에 가까워지나요?`,R`급수 ②에서 항 $a_n$ 은 $0$ 에 가까워지나요? 부분합 $S_n$ 은 어떻게 되나요?`,R`급수 ③과 ④의 부분합은 각각 어떻게 움직이나요?`,R`급수 ②의 $S_{2^{k}}$ 와 $1+\dfrac k2$ 를 비교하면 어떤가요?`],
- c:[R`급수의 합을 ‘부분합의 극한’으로 정의하는 이유는 무엇일까요? 무한히 더하는 일을 실제로 할 수 없다는 점과 연결해 보세요.`,R`급수가 수렴하면 $a_n\to0$ 인 이유를 $a_n=S_n-S_{n-1}$ 로 설명해 보세요.`,R`$a_n\to0$ 이라도 급수가 발산할 수 있는 이유를 급수 ②로 설명해 보세요.`],
- d:[R`$1-1+1-1+\cdots$ 를 $(1-1)+(1-1)+\cdots=0$ 으로 묶으면 합이 $0$ 이고, $1+(-1+1)+(-1+1)+\cdots=1$ 로 묶으면 합이 $1$ 이에요. 무한히 많은 항에 괄호를 마음대로 쳐도 되는지 토론해 보세요.`],
- gen:R`급수 $\displaystyle\sum_{n=1}^{\infty}a_n$ 의 합은 부분합 $S_n=a_1+a_2+\cdots+a_n$ 의 극한으로 정의하며, $\{S_n\}$ 이 수렴하면 급수는 수렴하고 발산하면 급수도 발산한다. 급수가 수렴하면 $a_n=S_n-S_{n-1}\to0$ 이므로, $a_n$ 이 $0$ 에 수렴하지 않는 급수는 발산한다. 그러나 $a_n\to0$ 이라고 해서 급수가 수렴하는 것은 아니다.`,
- apply:[{q:R`급수 $\displaystyle\sum_{n=1}^{\infty}\frac{2}{n(n+2)}$ 의 합을 구하시오.`,fields:[{label:'합',ans:3/2}],hint:R`$\dfrac{2}{n(n+2)}=\dfrac1n-\dfrac{1}{n+2}$ 로 나누고 부분합을 써 보세요.`,sol:R`$S_n=1+\dfrac12-\dfrac{1}{n+1}-\dfrac{1}{n+2}\to\dfrac32$`},
-  {q:R`수열 $\{a_n\}$ 에 대하여 급수 $\displaystyle\sum_{n=1}^{\infty}(a_n-3)$ 이 수렴할 때, $\displaystyle\lim_{n\to\infty}(2a_n+1)$ 의 값을 구하시오.`,fields:[{label:'값',ans:7}],hint:'급수가 수렴하면 일반항은 0에 수렴해요.',sol:R`$\displaystyle\lim_{n\to\infty}(a_n-3)=0$ 이므로 $a_n\to3$, $2\times3+1=7$`},
-  {q:R`급수 $\displaystyle\sum_{n=1}^{\infty}\frac{1}{(2n-1)(2n+1)}$ 의 합을 구하시오.`,fields:[{label:'합',ans:1/2}],hint:R`$\dfrac{1}{(2n-1)(2n+1)}=\dfrac12\left(\dfrac{1}{2n-1}-\dfrac{1}{2n+1}\right)$`,sol:R`$S_n=\dfrac12\left(1-\dfrac{1}{2n+1}\right)\to\dfrac12$`}],
+ predict:R`$\dfrac{1}{1\cdot2}+\dfrac{1}{2\cdot3}+\dfrac{1}{3\cdot4}+\cdots$처럼 더하는 수가 점점 작아지면 합은 항상 유한할까요? $1+\dfrac12+\dfrac13+\dfrac14+\cdots$는 어떨까요?`,
+ f:[R`급수 ①에서 $S_{10},\ S_{100},\ S_{1000}$은 각각 얼마인가요? 어떤 값에 가까워지나요?`,R`급수 ②에서 항 $a_n$은 $0$에 가까워지나요? 부분합 $S_n$은 어떻게 되나요?`,R`급수 ③과 ④의 부분합은 각각 어떻게 움직이나요?`,R`급수 ②의 $S_{2^{k}}$와 $1+\dfrac k2$를 비교하면 어떤가요?`],
+ c:[R`급수의 합을 ‘부분합의 극한’으로 정의하는 이유는 무엇일까요? 무한히 더하는 일을 실제로 할 수 없다는 점과 연결해 보세요.`,R`급수가 수렴하면 $a_n\to0$인 이유를 $a_n=S_n-S_{n-1}$로 설명해 보세요.`,R`$a_n\to0$이라도 급수가 발산할 수 있는 이유를 급수 ②로 설명해 보세요.`],
+ d:[R`$1-1+1-1+\cdots$를 $(1-1)+(1-1)+\cdots=0$으로 묶으면 합이 $0$이고, $1+(-1+1)+(-1+1)+\cdots=1$로 묶으면 합이 $1$이에요. 무한히 많은 항에 괄호를 마음대로 쳐도 되는지 토론해 보세요.`],
+ gen:R`급수 $\displaystyle\sum_{n=1}^{\infty}a_n$의 합은 부분합 $S_n=a_1+a_2+\cdots+a_n$의 극한으로 정의하며, $\{S_n\}$이 수렴하면 급수는 수렴하고 발산하면 급수도 발산한다. 급수가 수렴하면 $a_n=S_n-S_{n-1}\to0$이므로, $a_n$이 $0$에 수렴하지 않는 급수는 발산한다. 그러나 $a_n\to0$이라고 해서 급수가 수렴하는 것은 아니다.`,
+ apply:[{q:R`급수 $\displaystyle\sum_{n=1}^{\infty}\frac{2}{n(n+2)}$의 합을 구하시오.`,fields:[{label:'합',ans:3/2}],hint:R`$\dfrac{2}{n(n+2)}=\dfrac1n-\dfrac{1}{n+2}$로 나누고 부분합을 써 보세요.`,sol:R`$S_n=1+\dfrac12-\dfrac{1}{n+1}-\dfrac{1}{n+2}\to\dfrac32$`},
+  {q:R`수열 $\{a_n\}$에 대하여 급수 $\displaystyle\sum_{n=1}^{\infty}(a_n-3)$이 수렴할 때, $\displaystyle\lim_{n\to\infty}(2a_n+1)$의 값을 구하시오.`,fields:[{label:'값',ans:7}],hint:'급수가 수렴하면 일반항은 0에 수렴해요.',sol:R`$\displaystyle\lim_{n\to\infty}(a_n-3)=0$이므로 $a_n\to3$, $2\times3+1=7$`},
+  {q:R`급수 $\displaystyle\sum_{n=1}^{\infty}\frac{1}{(2n-1)(2n+1)}$의 합을 구하시오.`,fields:[{label:'합',ans:1/2}],hint:R`$\dfrac{1}{(2n-1)(2n+1)}=\dfrac12\left(\dfrac{1}{2n-1}-\dfrac{1}{2n+1}\right)$`,sol:R`$S_n=\dfrac12\left(1-\dfrac{1}{2n+1}\right)\to\dfrac12$`}],
  reflect:['‘더하는 수가 0에 가까워지면 합은 유한하다’는 생각이 어떻게 바뀌었나요?','부분합의 그래프를 보는 것이 급수를 이해하는 데 어떤 도움이 되었는지 적어 보세요.'],ex:exOf('series')},
-{id:'geosum',unit:'u1',codes:['12미적Ⅱ-01-05'],std:STDT['12미적Ⅱ-01-05'],title:'남은 거리가 매번 $r$ 배로: 등비급수의 합',lens:'비율, 누적',pages:null,tool:'부분합 그래프, 수직선 위의 뜀뛰기 애니메이션',comp:'추론, 의사소통',
+{id:'geosum',unit:'u1',codes:['12미적Ⅱ-01-05'],std:STDT['12미적Ⅱ-01-05'],title:'남은 거리가 매번 $r$배로: 등비급수의 합',lens:'비율, 누적',pages:null,tool:'부분합 그래프, 수직선 위의 뜀뛰기 애니메이션',comp:'추론, 의사소통',
  big:R`같은 비율로 줄어드는 양을 끝없이 더하면 왜 유한한 값이 될까? 그 값은 어떻게 정해질까?`,
- predict:R`수직선의 $0$ 에서 출발해 $1$ 만큼, 다시 $\dfrac12$ 만큼, $\dfrac14$ 만큼, … 계속 오른쪽으로 뛰면 결국 어디에 가까워질까요? 공비가 $-\dfrac12$ 이면 어떻게 될까요?`,
- f:[R`① 탭에서 $a=1,\ r=0.5$ 일 때 부분합은 어떤 값에 가까워지나요? $r=0.9$ 이면요?`,R`① 탭에서 $r=1$ 이나 $r=-1$ 로 두면 부분합은 어떻게 되나요?`,R`② 탭에서 한 번 뛸 때마다 ‘남은 거리’는 어떻게 바뀌나요?`,R`② 탭에서 $r$ 이 음수이면 점의 움직임은 어떻게 다른가요?`],
- c:[R`등비급수의 합이 $\dfrac{a}{1-r}$ 가 되는 이유를 부분합 공식과 $r^{n}\to0$ 으로 설명해 보세요.`,R`남은 거리가 $\dfrac{ar^{n}}{1-r}$ 이라는 것과 수렴 조건 $|r|<1$ 은 어떻게 연결되나요?`,R`$|r|\ge1$ 일 때 등비급수가 발산하는 이유를 급수와 일반항의 관계로 설명해 보세요.`],
- d:[R`$1+2+4+8+\cdots$ 에 공식 $\dfrac{a}{1-r}$ 를 그대로 쓰면 $-1$ 이 나와요. 이 계산이 틀린 이유와, 공식을 쓰기 전에 반드시 확인해야 할 것이 무엇인지 주장해 보세요.`],
- gen:R`등비급수 $\displaystyle\sum_{n=1}^{\infty}ar^{n-1}\ (a\ne0)$ 은 $|r|<1$ 일 때 수렴하고 그 합은 $\dfrac{a}{1-r}$ 이며, $|r|\ge1$ 이면 발산한다. 부분합 $S_n=\dfrac{a(1-r^{n})}{1-r}$ 에서 $r^{n}\to0$ 인 경우에만 합이 정해지고, 합까지 남은 거리 $\dfrac{ar^{n}}{1-r}$ 가 한 항을 더할 때마다 $r$ 배가 되기 때문이다.`,
- apply:[{q:R`$\displaystyle\sum_{n=1}^{\infty}\left(\frac23\right)^{n}$ 의 값을 구하시오.`,fields:[{label:'합',ans:2}],hint:R`첫째항은 $\dfrac23$ 이에요.`,sol:R`$\dfrac{\frac23}{1-\frac23}=2$`},
-  {q:R`순환소수 $0.\dot{4}\dot{5}$ 를 등비급수를 이용해 기약분수 $\dfrac qp$ 로 나타낼 때 $p+q$ 의 값을 구하시오.`,fields:[{label:'$p+q$',ans:16}],hint:R`$0.\dot{4}\dot{5}=\dfrac{45}{100}+\dfrac{45}{100^{2}}+\cdots$`,sol:R`$\dfrac{\frac{45}{100}}{1-\frac{1}{100}}=\dfrac{45}{99}=\dfrac{5}{11}$ 이므로 $p+q=11+5=16$`},
-  {q:R`급수 $\displaystyle\sum_{n=1}^{\infty}(2x-1)^{n}$ 이 수렴하도록 하는 실수 $x$ 의 범위가 $a<x<b$ 일 때 $a+b$ 의 값을 구하시오.`,fields:[{label:'$a+b$',ans:1}],hint:R`공비는 $2x-1$ 이고, 등비급수의 수렴 조건은 $|r|<1$ 이에요.`,sol:R`$-1<2x-1<1$ 에서 $0<x<1$, $a+b=1$`}],
+ predict:R`수직선의 $0$에서 출발해 $1$만큼, 다시 $\dfrac12$만큼, $\dfrac14$만큼, … 계속 오른쪽으로 뛰면 결국 어디에 가까워질까요? 공비가 $-\dfrac12$이면 어떻게 될까요?`,
+ f:[R`① 탭에서 $a=1,\ r=0.5$일 때 부분합은 어떤 값에 가까워지나요? $r=0.9$이면요?`,R`① 탭에서 $r=1$이나 $r=-1$로 두면 부분합은 어떻게 되나요?`,R`② 탭에서 한 번 뛸 때마다 ‘남은 거리’는 어떻게 바뀌나요?`,R`② 탭에서 $r$이 음수이면 점의 움직임은 어떻게 다른가요?`],
+ c:[R`등비급수의 합이 $\dfrac{a}{1-r}$가 되는 이유를 부분합 공식과 $r^{n}\to0$으로 설명해 보세요.`,R`남은 거리가 $\dfrac{ar^{n}}{1-r}$이라는 것과 수렴 조건 $|r|<1$은 어떻게 연결되나요?`,R`$|r|\ge1$일 때 등비급수가 발산하는 이유를 급수와 일반항의 관계로 설명해 보세요.`],
+ d:[R`$1+2+4+8+\cdots$에 공식 $\dfrac{a}{1-r}$를 그대로 쓰면 $-1$이 나와요. 이 계산이 틀린 이유와, 공식을 쓰기 전에 반드시 확인해야 할 것이 무엇인지 주장해 보세요.`],
+ gen:R`등비급수 $\displaystyle\sum_{n=1}^{\infty}ar^{n-1}\ (a\ne0)$은 $|r|<1$일 때 수렴하고 그 합은 $\dfrac{a}{1-r}$이며, $|r|\ge1$이면 발산한다. 부분합 $S_n=\dfrac{a(1-r^{n})}{1-r}$에서 $r^{n}\to0$인 경우에만 합이 정해지고, 합까지 남은 거리 $\dfrac{ar^{n}}{1-r}$가 한 항을 더할 때마다 $r$배가 되기 때문이다.`,
+ apply:[{q:R`$\displaystyle\sum_{n=1}^{\infty}\left(\frac23\right)^{n}$의 값을 구하시오.`,fields:[{label:'합',ans:2}],hint:R`첫째항은 $\dfrac23$예요.`,sol:R`$\dfrac{\frac23}{1-\frac23}=2$`},
+  {q:R`순환소수 $0.\dot{4}\dot{5}$를 등비급수를 이용해 기약분수 $\dfrac qp$로 나타낼 때 $p+q$의 값을 구하시오.`,fields:[{label:'$p+q$',ans:16}],hint:R`$0.\dot{4}\dot{5}=\dfrac{45}{100}+\dfrac{45}{100^{2}}+\cdots$`,sol:R`$\dfrac{\frac{45}{100}}{1-\frac{1}{100}}=\dfrac{45}{99}=\dfrac{5}{11}$이므로 $p+q=11+5=16$`},
+  {q:R`급수 $\displaystyle\sum_{n=1}^{\infty}(2x-1)^{n}$이 수렴하도록 하는 실수 $x$의 범위가 $a<x<b$일 때 $a+b$의 값을 구하시오.`,fields:[{label:'$a+b$',ans:1}],hint:R`공비는 $2x-1$이고, 등비급수의 수렴 조건은 $|r|<1$이에요.`,sol:R`$-1<2x-1<1$에서 $0<x<1$, $a+b=1$`}],
  reflect:['등비수열의 수렴 조건($-1<r\\le1$)과 등비급수의 수렴 조건($-1<r<1$)이 다른 이유를 정리해 보세요.','수직선 위의 뜀뛰기 그림이 공식을 이해하는 데 어떤 도움을 주었나요?'],ex:exOf('geosum')},
 {id:'geoapp',unit:'u1',codes:['12미적Ⅱ-01-05'],std:STDT['12미적Ⅱ-01-05'],title:'끝없이 튀는 공과 반복되는 도형: 등비급수의 활용',lens:'모델링, 닮음',pages:null,tool:'튀는 공 시뮬레이션, 중점을 이은 정사각형',comp:'연결, 문제해결',
  big:R`끝없이 반복되는 현상 속에서 등비급수를 어떻게 찾아내고, 전체의 양을 어떻게 구할 수 있을까?`,
- predict:R`높이 $8\ \text{m}$ 에서 떨어뜨린 공이 매번 직전 높이의 $60\%$ 까지 튀어 오른다면, 공은 영원히 튀어요. 공이 움직인 전체 거리는 유한할까요? 대략 몇 m 일지 예상해 보세요.`,
- f:[R`① 탭에서 튀는 횟수를 늘리면 움직인 거리는 어떤 값에 가까워지나요?`,R`① 탭에서 비율 $r$ 이 $1$ 에 가까워지면 전체 거리는 어떻게 되나요?`,R`② 탭에서 다음 정사각형의 넓이와 둘레는 각각 직전의 몇 배인가요?`,R`② 탭에서 넓이의 합과 둘레의 합은 각각 어떤 값에 가까워지나요?`],
- c:[R`튀는 공의 전체 거리를 구할 때 처음 높이는 한 번, 나머지 높이는 두 번씩 더하는 이유는 무엇인가요?`,R`닮음비가 $k$ 인 도형이 반복될 때 길이의 공비와 넓이의 공비가 다른 이유를 설명해 보세요.`,R`현실의 공은 결국 멈추는데, 등비급수 모델이 여전히 유용한 이유는 무엇일까요?`],
+ predict:R`높이 $8\ \text{m}$에서 떨어뜨린 공이 매번 직전 높이의 $60\%$까지 튀어 오른다면, 공은 영원히 튀어요. 공이 움직인 전체 거리는 유한할까요? 대략 몇 m 일지 예상해 보세요.`,
+ f:[R`① 탭에서 튀는 횟수를 늘리면 움직인 거리는 어떤 값에 가까워지나요?`,R`① 탭에서 비율 $r$이 $1$에 가까워지면 전체 거리는 어떻게 되나요?`,R`② 탭에서 다음 정사각형의 넓이와 둘레는 각각 직전의 몇 배인가요?`,R`② 탭에서 넓이의 합과 둘레의 합은 각각 어떤 값에 가까워지나요?`],
+ c:[R`튀는 공의 전체 거리를 구할 때 처음 높이는 한 번, 나머지 높이는 두 번씩 더하는 이유는 무엇인가요?`,R`닮음비가 $k$인 도형이 반복될 때 길이의 공비와 넓이의 공비가 다른 이유를 설명해 보세요.`,R`현실의 공은 결국 멈추는데, 등비급수 모델이 여전히 유용한 이유는 무엇일까요?`],
  d:[R`‘무한히 많이 튀는 공은 무한한 시간 동안 튄다’는 주장에 대해, 한 번 튀는 데 걸리는 시간도 등비수열을 이룬다는 점(높이의 제곱근에 비례)을 근거로 반박하거나 지지해 보세요.`],
- gen:R`같은 비율로 줄어드는 과정이 끝없이 반복되면 각 단계의 양은 등비수열을 이루므로, 공비 $r$ 와 첫째항 $a$ 를 찾아 $|r|<1$ 일 때 전체의 양을 $\dfrac{a}{1-r}$ 로 구할 수 있다. 닮음비가 $k$ 인 도형이 반복되면 길이의 공비는 $k$, 넓이의 공비는 $k^{2}$ 이고, 첫 단계의 모양이 다르면 그 부분을 따로 더한다.`,
- apply:[{q:R`높이 $10\ \text{m}$ 에서 떨어뜨린 공이 매번 직전 높이의 $\dfrac12$ 만큼 튀어 오른다. 공이 멈출 때까지 움직인 거리의 합(m)을 구하시오.`,fields:[{label:'거리',ans:30}],hint:'처음 떨어지는 10 m를 제외하면 올라갔다 내려오는 거리를 두 번씩 더해요.',sol:R`$10+2\left(5+\dfrac52+\cdots\right)=10+2\times\dfrac{5}{1-\frac12}=10+20=30$`},
-  {q:R`넓이가 $4$ 인 정사각형의 각 변의 중점을 이어 새 정사각형을 만드는 과정을 한없이 반복할 때, 처음 정사각형을 포함한 모든 정사각형의 넓이의 합을 구하시오.`,fields:[{label:'합',ans:8}],hint:'중점을 이은 정사각형의 넓이는 처음의 절반이에요.',sol:R`$4+2+1+\cdots=\dfrac{4}{1-\frac12}=8$`},
-  {q:R`넓이가 $9$ 인 정사각형을 $9$ 등분하여 가운데 정사각형을 색칠하고, 남은 $8$ 개의 정사각형에서 같은 과정을 한없이 반복한다. 색칠된 부분의 넓이의 합을 구하시오.`,fields:[{label:'넓이',ans:9}],hint:R`처음 칠한 넓이는 $1$, 다음 단계는 $8\times\dfrac19$ 이에요.`,sol:R`$1+\dfrac89+\left(\dfrac89\right)^{2}+\cdots=\dfrac{1}{1-\frac89}=9$. 칠하지 않은 부분의 넓이는 $9\times\left(\dfrac89\right)^{n}\to0$ 이 돼요.`}],
+ gen:R`같은 비율로 줄어드는 과정이 끝없이 반복되면 각 단계의 양은 등비수열을 이루므로, 공비 $r$과 첫째항 $a$를 찾아 $|r|<1$일 때 전체의 양을 $\dfrac{a}{1-r}$로 구할 수 있다. 닮음비가 $k$인 도형이 반복되면 길이의 공비는 $k$, 넓이의 공비는 $k^{2}$이고, 첫 단계의 모양이 다르면 그 부분을 따로 더한다.`,
+ apply:[{q:R`높이 $10\ \text{m}$에서 떨어뜨린 공이 매번 직전 높이의 $\dfrac12$만큼 튀어 오른다. 공이 멈출 때까지 움직인 거리의 합(m)을 구하시오.`,fields:[{label:'거리',ans:30}],hint:'처음 떨어지는 10 m를 제외하면 올라갔다 내려오는 거리를 두 번씩 더해요.',sol:R`$10+2\left(5+\dfrac52+\cdots\right)=10+2\times\dfrac{5}{1-\frac12}=10+20=30$`},
+  {q:R`넓이가 $4$인 정사각형의 각 변의 중점을 이어 새 정사각형을 만드는 과정을 한없이 반복할 때, 처음 정사각형을 포함한 모든 정사각형의 넓이의 합을 구하시오.`,fields:[{label:'합',ans:8}],hint:'중점을 이은 정사각형의 넓이는 처음의 절반이에요.',sol:R`$4+2+1+\cdots=\dfrac{4}{1-\frac12}=8$`},
+  {q:R`넓이가 $9$인 정사각형을 $9$등분하여 가운데 정사각형을 색칠하고, 남은 $8$개의 정사각형에서 같은 과정을 한없이 반복한다. 색칠된 부분의 넓이의 합을 구하시오.`,fields:[{label:'넓이',ans:9}],hint:R`처음 칠한 넓이는 $1$, 다음 단계는 $8\times\dfrac19$이에요.`,sol:R`$1+\dfrac89+\left(\dfrac89\right)^{2}+\cdots=\dfrac{1}{1-\frac89}=9$. 칠하지 않은 부분의 넓이는 $9\times\left(\dfrac89\right)^{n}\to0$이 돼요.`}],
  reflect:['실생활 문제에서 공비와 첫째항을 찾는 나만의 순서를 적어 보세요.','유한한 넓이 안에서 무한한 과정을 반복하는 것에 대해 새롭게 느낀 점을 적어 보세요.'],ex:exOf('geoapp')},
-{id:'euler',unit:'u2',codes:['12미적Ⅱ-02-01'],std:STDT['12미적Ⅱ-02-01'],title:'특별한 수 $e$ 는 어디서 왔을까: 지수함수와 로그함수의 극한',lens:'근사, 기준',pages:null,tool:'$\\left(1+\\frac1n\\right)^{n}$ 그래프와 복리 표, 밑에 따른 기울기 비교',comp:'연결, 추론',
- big:R`수많은 밑 가운데 왜 하필 $e=2.718\cdots$ 를 밑으로 하는 지수함수와 로그함수가 미적분에서 ‘자연스러운’ 것일까?`,
- predict:R`원금 $1$ 원을 연이율 $100\%$ 로 맡기는데, 이자를 1년에 2번, 12번, 365번, … 나누어 복리로 계산해 준다면 1년 뒤의 금액은 끝없이 커질까요, 어떤 값에 가까워질까요?`,
- f:[R`① 탭에서 $n=1,\ 12,\ 365,\ 10^{6}$ 일 때 $\left(1+\dfrac1n\right)^{n}$ 은 각각 얼마인가요?`,R`② 탭에서 $a=2,\ e,\ 3$ 일 때 $h\to0$ 이면 $\dfrac{a^{h}-1}{h}$ 은 각각 어떤 값에 가까워지나요?`,R`② 탭에서 $x=0$ 에서의 기울기가 $1$ 인 직선과 곡선 $y=a^{x}$ 가 접하는 것은 어느 밑일 때인가요?`],
- c:[R`$\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1$ 을 $e$ 의 정의 $\displaystyle\lim_{x\to0}(1+x)^{\frac1x}=e$ 로 설명해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{e^{x}-1}{x}=1$ 이 곡선 $y=e^{x}$ 의 그래프에서 무엇을 뜻하는지 설명해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{a^{x}-1}{x}=\ln a$ 가 되는 이유를 $a^{x}=e^{x\ln a}$ 로 설명해 보세요.`],
- d:[R`‘$e$ 는 사람이 정한 약속일 뿐 자연에 특별한 수는 아니다’라는 주장과 ‘$e$ 는 자연이 고른 수다’라는 주장 중 어느 쪽에 동의하나요? 탐색 결과를 근거로 들어 토론해 보세요.`],
- gen:R`$\displaystyle\lim_{n\to\infty}\left(1+\frac1n\right)^{n}=\lim_{x\to0}(1+x)^{\frac1x}=e$ 이고, $e$ 를 밑으로 하는 로그를 자연로그 $\ln x$ 라 한다. 이로부터 $\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1,\ \lim_{x\to0}\frac{e^{x}-1}{x}=1,\ \lim_{x\to0}\frac{a^{x}-1}{x}=\ln a$ 를 얻는다. 특히 곡선 $y=e^{x}$ 는 $x=0$ 에서의 접선의 기울기가 정확히 $1$ 인 유일한 지수함수의 그래프이므로 미분할 때 가장 간단한 밑이 된다.`,
- apply:[{q:R`$\displaystyle\lim_{x\to0}(1+2x)^{\frac1x}=e^{k}$ 일 때 $k$ 의 값을 구하시오.`,fields:[{label:'$k$',ans:2}],hint:R`$2x=t$ 로 놓으면 $\dfrac1x=\dfrac2t$ 예요.`,sol:R`$(1+t)^{\frac2t}=\left\{(1+t)^{\frac1t}\right\}^{2}\to e^{2}$ 이므로 $k=2$`},
-  {q:R`$\displaystyle\lim_{x\to0}\frac{e^{3x}-1}{x}$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{e^{3x}-1}{3x}\times3$ 으로 바꾸어 보세요.`,sol:R`$\dfrac{e^{3x}-1}{3x}\times3\to1\times3=3$`},
-  {q:R`$\displaystyle\lim_{x\to0}\frac{\ln(1+4x)}{2x}$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{\ln(1+4x)}{4x}\times\dfrac{4x}{2x}$`,sol:R`$1\times2=2$`}],
- reflect:['복리 계산과 $e$ 의 관계를 알고 나서 $e$ 에 대한 느낌이 어떻게 달라졌나요?','이 차시에서 가장 놀라웠던 사실 하나와 그 이유를 적어 보세요.'],ex:exOf('euler')},
+{id:'euler',unit:'u2',codes:['12미적Ⅱ-02-01'],std:STDT['12미적Ⅱ-02-01'],title:'특별한 수 $e$는 어디서 왔을까: 지수함수와 로그함수의 극한',lens:'근사, 기준',pages:null,tool:'$\\left(1+\\frac1n\\right)^{n}$ 그래프와 복리 표, 밑에 따른 기울기 비교',comp:'연결, 추론',
+ big:R`수많은 밑 가운데 왜 하필 $e=2.718\cdots$를 밑으로 하는 지수함수와 로그함수가 미적분에서 ‘자연스러운’ 것일까?`,
+ predict:R`원금 $1$ 원을 연이율 $100\%$로 맡기는데, 이자를 1년에 2번, 12번, 365번, … 나누어 복리로 계산해 준다면 1년 뒤의 금액은 끝없이 커질까요, 어떤 값에 가까워질까요?`,
+ f:[R`① 탭에서 $n=1,\ 12,\ 365,\ 10^{6}$일 때 $\left(1+\dfrac1n\right)^{n}$은 각각 얼마인가요?`,R`② 탭에서 $a=2,\ e,\ 3$일 때 $h\to0$이면 $\dfrac{a^{h}-1}{h}$은 각각 어떤 값에 가까워지나요?`,R`② 탭에서 $x=0$에서의 기울기가 $1$인 직선과 곡선 $y=a^{x}$이 접하는 것은 어느 밑일 때인가요?`],
+ c:[R`$\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1$을 $e$의 정의 $\displaystyle\lim_{x\to0}(1+x)^{\frac1x}=e$로 설명해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{e^{x}-1}{x}=1$이 곡선 $y=e^{x}$의 그래프에서 무엇을 뜻하는지 설명해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{a^{x}-1}{x}=\ln a$가 되는 이유를 $a^{x}=e^{x\ln a}$으로 설명해 보세요.`],
+ d:[R`‘$e$는 사람이 정한 약속일 뿐 자연에 특별한 수는 아니다’라는 주장과 ‘$e$는 자연이 고른 수다’라는 주장 중 어느 쪽에 동의하나요? 탐색 결과를 근거로 들어 토론해 보세요.`],
+ gen:R`$\displaystyle\lim_{n\to\infty}\left(1+\frac1n\right)^{n}=\lim_{x\to0}(1+x)^{\frac1x}=e$이고, $e$를 밑으로 하는 로그를 자연로그 $\ln x$라 한다. 이로부터 $\displaystyle\lim_{x\to0}\frac{\ln(1+x)}{x}=1,\ \lim_{x\to0}\frac{e^{x}-1}{x}=1,\ \lim_{x\to0}\frac{a^{x}-1}{x}=\ln a$를 얻는다. 특히 곡선 $y=e^{x}$은 $x=0$에서의 접선의 기울기가 정확히 $1$인 유일한 지수함수의 그래프이므로 미분할 때 가장 간단한 밑이 된다.`,
+ apply:[{q:R`$\displaystyle\lim_{x\to0}(1+2x)^{\frac1x}=e^{k}$일 때 $k$의 값을 구하시오.`,fields:[{label:'$k$',ans:2}],hint:R`$2x=t$로 놓으면 $\dfrac1x=\dfrac2t$예요.`,sol:R`$(1+t)^{\frac2t}=\left\{(1+t)^{\frac1t}\right\}^{2}\to e^{2}$이므로 $k=2$`},
+  {q:R`$\displaystyle\lim_{x\to0}\frac{e^{3x}-1}{x}$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{e^{3x}-1}{3x}\times3$으로 바꾸어 보세요.`,sol:R`$\dfrac{e^{3x}-1}{3x}\times3\to1\times3=3$`},
+  {q:R`$\displaystyle\lim_{x\to0}\frac{\ln(1+4x)}{2x}$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{\ln(1+4x)}{4x}\times\dfrac{4x}{2x}$`,sol:R`$1\times2=2$`}],
+ reflect:['복리 계산과 $e$의 관계를 알고 나서 $e$에 대한 느낌이 어떻게 달라졌나요?','이 차시에서 가장 놀라웠던 사실 하나와 그 이유를 적어 보세요.'],ex:exOf('euler')},
 {id:'expder',unit:'u2',codes:['12미적Ⅱ-02-01'],std:STDT['12미적Ⅱ-02-01'],title:'높이와 기울기가 같은 함수: 지수함수와 로그함수의 미분',lens:'변화, 비례',pages:null,tool:'접점을 움직이며 남기는 기울기의 자취',comp:'추론, 연결',
  big:R`지수함수와 로그함수는 어디에서 얼마나 빠르게 변할까? 그 기울기에는 어떤 규칙이 숨어 있을까?`,
- predict:R`$y=e^{x}$ 의 그래프는 오른쪽으로 갈수록 가팔라져요. 각 점에서의 기울기를 이어 그리면 어떤 그래프가 될지 예상해 보세요. $y=\ln x$ 는 어떨까요?`,
- f:[R`$e^{x}$ 를 고르고 접점을 움직이며 남긴 기울기의 자취는 어떤 그래프와 겹치나요?`,R`$2^{x}$ 에서 $\dfrac{f'(x)}{f(x)}$ 는 접점에 따라 변하나요?`,R`$\ln x$ 에서 기울기의 자취는 어떤 그래프처럼 보이나요? $x\cdot f'(x)$ 의 값은 얼마인가요?`],
- c:[R`$(e^{x})'=e^{x}$ 를 미분계수의 정의와 $\displaystyle\lim_{h\to0}\frac{e^{h}-1}{h}=1$ 로 설명해 보세요.`,R`$(a^{x})'=a^{x}\ln a$ 에서 $\ln a$ 는 그래프에서 어떤 의미인가요?`,R`$(\ln x)'=\dfrac1x$ 인 이유를 정의로 설명하고, $(\log_{a}x)'$ 와 어떤 관계인지 말해 보세요.`],
+ predict:R`$y=e^{x}$의 그래프는 오른쪽으로 갈수록 가팔라져요. 각 점에서의 기울기를 이어 그리면 어떤 그래프가 될지 예상해 보세요. $y=\ln x$는 어떨까요?`,
+ f:[R`$e^{x}$을 고르고 접점을 움직이며 남긴 기울기의 자취는 어떤 그래프와 겹치나요?`,R`$2^{x}$에서 $\dfrac{f'(x)}{f(x)}$는 접점에 따라 변하나요?`,R`$\ln x$에서 기울기의 자취는 어떤 그래프처럼 보이나요? $x\cdot f'(x)$의 값은 얼마인가요?`],
+ c:[R`$(e^{x})'=e^{x}$을 미분계수의 정의와 $\displaystyle\lim_{h\to0}\frac{e^{h}-1}{h}=1$로 설명해 보세요.`,R`$(a^{x})'=a^{x}\ln a$에서 $\ln a$는 그래프에서 어떤 의미인가요?`,R`$(\ln x)'=\dfrac1x$인 이유를 정의로 설명하고, $(\log_{a}x)'$ 와 어떤 관계인지 말해 보세요.`],
  d:[R`‘지수함수는 처음에는 느리지만 결국 어떤 다항함수보다 빠르게 커진다’는 주장을 도함수의 관점에서 지지하거나 반박해 보세요.`],
- gen:R`$(e^{x})'=e^{x},\ (a^{x})'=a^{x}\ln a,\ (\ln x)'=\dfrac1x,\ (\log_{a}x)'=\dfrac{1}{x\ln a}$ 이다. 지수함수는 기울기가 함숫값에 비례하는 함수이고, 그 비례상수는 $\ln a$ 이며 밑이 $e$ 일 때 $1$ 이 된다. 로그함수의 기울기는 $x$ 에 반비례하므로 $x$ 가 커질수록 그래프가 점점 완만해진다.`,
- apply:[{q:R`함수 $f(x)=(x+2)e^{x}$ 에 대하여 $f'(0)$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:'곱의 미분법을 써요.',sol:R`$f'(x)=e^{x}+(x+2)e^{x}=(x+3)e^{x}$, $f'(0)=3$`},
-  {q:R`함수 $f(x)=x\ln x$ 에 대하여 $f'(e)$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:'곱의 미분법과 $(\\ln x)\'=\\frac1x$',sol:R`$f'(x)=\ln x+1$, $f'(e)=1+1=2$`},
-  {q:R`함수 $f(x)=\log_{2}x$ 에 대하여 $f'(2)\times\ln2$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$(\log_{a}x)'=\dfrac{1}{x\ln a}$`,sol:R`$f'(2)=\dfrac{1}{2\ln2}$ 이므로 $f'(2)\times\ln2=\dfrac12$`}],
+ gen:R`$(e^{x})'=e^{x},\ (a^{x})'=a^{x}\ln a,\ (\ln x)'=\dfrac1x,\ (\log_{a}x)'=\dfrac{1}{x\ln a}$이다. 지수함수는 기울기가 함숫값에 비례하는 함수이고, 그 비례상수는 $\ln a$이며 밑이 $e$일 때 $1$이 된다. 로그함수의 기울기는 $x$에 반비례하므로 $x$가 커질수록 그래프가 점점 완만해진다.`,
+ apply:[{q:R`함수 $f(x)=(x+2)e^{x}$에 대하여 $f'(0)$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:'곱의 미분법을 써요.',sol:R`$f'(x)=e^{x}+(x+2)e^{x}=(x+3)e^{x}$, $f'(0)=3$`},
+  {q:R`함수 $f(x)=x\ln x$에 대하여 $f'(e)$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:'곱의 미분법과 $(\\ln x)\'=\\frac1x$',sol:R`$f'(x)=\ln x+1$, $f'(e)=1+1=2$`},
+  {q:R`함수 $f(x)=\log_{2}x$에 대하여 $f'(2)\times\ln2$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$(\log_{a}x)'=\dfrac{1}{x\ln a}$`,sol:R`$f'(2)=\dfrac{1}{2\ln2}$이므로 $f'(2)\times\ln2=\dfrac12$`}],
  reflect:['기울기의 자취를 직접 남겨 본 활동이 공식보다 이해에 도움이 되었나요? 이유를 적어 보세요.','지수함수의 ‘높이와 기울기가 비례한다’는 성질이 나타나는 현상을 하나 찾아 적어 보세요.'],ex:exOf('expder')},
 {id:'addthm',unit:'u2',codes:['12미적Ⅱ-02-02'],std:STDT['12미적Ⅱ-02-02'],title:'회전해도 거리는 그대로: 삼각함수의 덧셈정리',lens:'불변, 관계',pages:null,tool:'단위원 위 두 점의 회전, 두 직선이 이루는 각',comp:'추론, 의사소통',
- big:R`$\cos(\alpha+\beta)$ 는 왜 $\cos\alpha+\cos\beta$ 가 아닐까? 두 각의 합의 삼각함수는 어떻게 각각의 삼각함수로 나타낼 수 있을까?`,
- predict:R`$\cos(30^{\circ}+60^{\circ})=\cos90^{\circ}=0$ 이에요. $\cos30^{\circ}+\cos60^{\circ}$ 은 얼마인가요? 두 값이 다르다면 $\cos(\alpha+\beta)$ 를 무엇으로 나타낼 수 있을지 예상해 보세요.`,
- f:[R`① 탭에서 $\alpha,\ \beta$ 를 바꿔도 $\overline{PQ}$ 와 $\overline{P'A}$ 의 길이는 항상 같은가요?`,R`① 탭에서 $\cos(\alpha-\beta)$ 와 $\cos\alpha\cos\beta+\sin\alpha\sin\beta$ 를 여러 각에서 비교해 보세요.`,R`② 탭에서 $m_1m_2=-1$ 일 때 두 직선은 어떤 관계인가요?`],
- c:[R`두 점을 원점을 중심으로 회전해도 두 점 사이의 거리가 변하지 않는다는 사실로부터 $\cos(\alpha-\beta)$ 의 공식을 어떻게 얻는지 설명해 보세요.`,R`$\cos(\alpha-\beta)$ 의 공식에서 $\sin(\alpha+\beta)$ 와 $\tan(\alpha+\beta)$ 의 공식을 이끌어 내는 과정을 설명해 보세요.`,R`두 직선이 이루는 각의 탄젠트를 구할 때 탄젠트의 덧셈정리가 쓰이는 이유는 무엇인가요?`],
+ big:R`$\cos(\alpha+\beta)$는 왜 $\cos\alpha+\cos\beta$가 아닐까? 두 각의 합의 삼각함수는 어떻게 각각의 삼각함수로 나타낼 수 있을까?`,
+ predict:R`$\cos(30^{\circ}+60^{\circ})=\cos90^{\circ}=0$이에요. $\cos30^{\circ}+\cos60^{\circ}$는 얼마인가요? 두 값이 다르다면 $\cos(\alpha+\beta)$를 무엇으로 나타낼 수 있을지 예상해 보세요.`,
+ f:[R`① 탭에서 $\alpha,\ \beta$를 바꿔도 $\overline{PQ}$와 $\overline{P'A}$의 길이는 항상 같은가요?`,R`① 탭에서 $\cos(\alpha-\beta)$와 $\cos\alpha\cos\beta+\sin\alpha\sin\beta$를 여러 각에서 비교해 보세요.`,R`② 탭에서 $m_1m_2=-1$일 때 두 직선은 어떤 관계인가요?`],
+ c:[R`두 점을 원점을 중심으로 회전해도 두 점 사이의 거리가 변하지 않는다는 사실로부터 $\cos(\alpha-\beta)$의 공식을 어떻게 얻는지 설명해 보세요.`,R`$\cos(\alpha-\beta)$의 공식에서 $\sin(\alpha+\beta)$와 $\tan(\alpha+\beta)$의 공식을 이끌어 내는 과정을 설명해 보세요.`,R`두 직선이 이루는 각의 탄젠트를 구할 때 탄젠트의 덧셈정리가 쓰이는 이유는 무엇인가요?`],
  d:[R`‘공식을 외우는 것으로 충분하다’는 주장과 ‘증명 과정을 이해해야 한다’는 주장 중 어느 쪽이 덧셈정리를 활용하는 데 더 도움이 될까요? 이 차시의 경험을 근거로 토론해 보세요.`],
- gen:R`$\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta$, $\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$, $\tan(\alpha\pm\beta)=\dfrac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$ 이다. 단위원 위의 두 점을 회전해도 거리가 변하지 않는다는 성질에서 $\cos(\alpha-\beta)$ 의 공식을 얻고, 각을 바꾸어 나머지 공식을 얻는다. 기울기가 $m_1,\ m_2$ 인 두 직선이 이루는 예각 $\theta$ 는 $\tan\theta=\left|\dfrac{m_1-m_2}{1+m_1m_2}\right|$ 를 만족한다.`,
- apply:[{q:R`$\alpha,\ \beta$ 가 예각이고 $\sin\alpha=\dfrac35,\ \cos\beta=\dfrac{12}{13}$ 일 때 $\cos(\alpha-\beta)$ 의 값을 구하시오.`,fields:[{label:'값',ans:63/65}],hint:R`$\cos\alpha=\dfrac45,\ \sin\beta=\dfrac{5}{13}$ 을 먼저 구해요.`,sol:R`$\dfrac45\cdot\dfrac{12}{13}+\dfrac35\cdot\dfrac{5}{13}=\dfrac{48+15}{65}=\dfrac{63}{65}$`},
-  {q:R`$\tan\alpha=2,\ \tan\beta=3$ 일 때 $\tan(\alpha+\beta)$ 의 값을 구하시오.`,fields:[{label:'값',ans:-1}],hint:'탄젠트의 덧셈정리를 써요.',sol:R`$\dfrac{2+3}{1-2\times3}=\dfrac{5}{-5}=-1$`},
-  {q:R`두 직선 $y=3x,\ y=x$ 가 이루는 예각의 크기를 $\theta$ 라 할 때 $\tan\theta$ 의 값을 구하시오.`,fields:[{label:'$\\tan\\theta$',ans:1/2}],hint:R`$\tan\theta=\left|\dfrac{m_1-m_2}{1+m_1m_2}\right|$`,sol:R`$\left|\dfrac{3-1}{1+3}\right|=\dfrac12$`}],
+ gen:R`$\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta$, $\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta$, $\tan(\alpha\pm\beta)=\dfrac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}$이다. 단위원 위의 두 점을 회전해도 거리가 변하지 않는다는 성질에서 $\cos(\alpha-\beta)$의 공식을 얻고, 각을 바꾸어 나머지 공식을 얻는다. 기울기가 $m_1,\ m_2$인 두 직선이 이루는 예각 $\theta$는 $\tan\theta=\left|\dfrac{m_1-m_2}{1+m_1m_2}\right|$를 만족한다.`,
+ apply:[{q:R`$\alpha,\ \beta$가 예각이고 $\sin\alpha=\dfrac35,\ \cos\beta=\dfrac{12}{13}$일 때 $\cos(\alpha-\beta)$의 값을 구하시오.`,fields:[{label:'값',ans:63/65}],hint:R`$\cos\alpha=\dfrac45,\ \sin\beta=\dfrac{5}{13}$를 먼저 구해요.`,sol:R`$\dfrac45\cdot\dfrac{12}{13}+\dfrac35\cdot\dfrac{5}{13}=\dfrac{48+15}{65}=\dfrac{63}{65}$`},
+  {q:R`$\tan\alpha=2,\ \tan\beta=3$일 때 $\tan(\alpha+\beta)$의 값을 구하시오.`,fields:[{label:'값',ans:-1}],hint:'탄젠트의 덧셈정리를 써요.',sol:R`$\dfrac{2+3}{1-2\times3}=\dfrac{5}{-5}=-1$`},
+  {q:R`두 직선 $y=3x,\ y=x$가 이루는 예각의 크기를 $\theta$라 할 때 $\tan\theta$의 값을 구하시오.`,fields:[{label:'$\\tan\\theta$',ans:1/2}],hint:R`$\tan\theta=\left|\dfrac{m_1-m_2}{1+m_1m_2}\right|$`,sol:R`$\left|\dfrac{3-1}{1+3}\right|=\dfrac12$`}],
  reflect:['‘회전해도 거리는 그대로’라는 아이디어가 증명에서 한 역할을 내 말로 정리해 보세요.','덧셈정리를 기억하기 위한 나만의 방법을 적어 보세요.'],ex:exOf('addthm')},
 {id:'sinlim',unit:'u2',codes:['12미적Ⅱ-02-03'],std:STDT['12미적Ⅱ-02-03'],title:'작은 각에서는 $\\sin x\\approx x$: 삼각함수의 극한',lens:'근사, 대소',pages:null,tool:'부채꼴과 두 삼각형의 넓이 비교',comp:'추론, 연결',
- big:R`각 $x$ 가 $0$ 에 가까워질 때 $\sin x$ 와 $x$ 는 얼마나 비슷해질까? 그 사실을 어떻게 증명할 수 있을까?`,
- predict:R`$x=0.1$ (라디안)일 때 $\sin x$ 는 얼마쯤일까요? $\dfrac{\sin x}{x}$ 는 $x\to0$ 일 때 어떤 값에 가까워질지 예상해 보세요.`,
- f:[R`중심각 $x$ 를 줄이면 세 도형의 넓이는 각각 어떻게 변하나요? 크기 순서는 바뀌나요?`,R`$x=0.5,\ 0.1,\ 0.02$ 일 때 $\dfrac{\sin x}{x}$ 와 $\cos x$ 의 값은 얼마인가요?`,R`$x$ 가 작아질수록 세 도형의 모양은 어떻게 비슷해지나요?`],
- c:[R`넓이의 대소 관계 $\dfrac12\sin x<\dfrac12x<\dfrac12\tan x$ 에서 $\cos x<\dfrac{\sin x}{x}<1$ 을 이끌어 내는 과정을 설명해 보세요.`,R`이 극한에서 각의 단위가 라디안이어야 하는 이유는 무엇인가요? 부채꼴의 넓이 공식과 연결해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$ 을 이용하여 $\displaystyle\lim_{x\to0}\frac{1-\cos x}{x}=0$ 을 보이는 방법을 설명해 보세요.`],
+ big:R`각 $x$가 $0$에 가까워질 때 $\sin x$와 $x$는 얼마나 비슷해질까? 그 사실을 어떻게 증명할 수 있을까?`,
+ predict:R`$x=0.1$ (라디안)일 때 $\sin x$는 얼마쯤일까요? $\dfrac{\sin x}{x}$는 $x\to0$일 때 어떤 값에 가까워질지 예상해 보세요.`,
+ f:[R`중심각 $x$를 줄이면 세 도형의 넓이는 각각 어떻게 변하나요? 크기 순서는 바뀌나요?`,R`$x=0.5,\ 0.1,\ 0.02$일 때 $\dfrac{\sin x}{x}$와 $\cos x$의 값은 얼마인가요?`,R`$x$가 작아질수록 세 도형의 모양은 어떻게 비슷해지나요?`],
+ c:[R`넓이의 대소 관계 $\dfrac12\sin x<\dfrac12x<\dfrac12\tan x$에서 $\cos x<\dfrac{\sin x}{x}<1$을 이끌어 내는 과정을 설명해 보세요.`,R`이 극한에서 각의 단위가 라디안이어야 하는 이유는 무엇인가요? 부채꼴의 넓이 공식과 연결해 보세요.`,R`$\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$을 이용하여 $\displaystyle\lim_{x\to0}\frac{1-\cos x}{x}=0$을 보이는 방법을 설명해 보세요.`],
  d:[R`‘그림을 보면 당연한 사실을 굳이 넓이의 대소로 증명할 필요가 있을까?’라는 질문에 대해, 그림에 의존한 판단의 장점과 위험을 들어 토론해 보세요.`],
- gen:R`$0<x<\dfrac{\pi}{2}$ 일 때 단위원에서 삼각형, 부채꼴, 큰 삼각형의 넓이를 비교하면 $\sin x<x<\tan x$ 이고, 이로부터 $\cos x<\dfrac{\sin x}{x}<1$ 이다. $x\to0$ 일 때 $\cos x\to1$ 이므로 대소 관계에 의해 $\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$ 이며, 이 결과는 $x$ 를 라디안으로 잴 때 성립한다. 이를 변형하여 $\dfrac{\tan x}{x},\ \dfrac{1-\cos x}{x}$ 등의 극한도 구할 수 있다.`,
- apply:[{q:R`$\displaystyle\lim_{x\to0}\frac{\sin3x}{x}$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{\sin3x}{3x}\times3$`,sol:R`$1\times3=3$`},
-  {q:R`$\displaystyle\lim_{x\to0}\frac{\tan2x}{\sin x}$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{\tan2x}{2x}\cdot\dfrac{x}{\sin x}\cdot2$ 로 바꾸어 보세요.`,sol:R`$1\times1\times2=2$`},
-  {q:R`$\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^{2}}$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`분자와 분모에 $1+\cos x$ 를 곱해 보세요.`,sol:R`$\dfrac{\sin^{2}x}{x^{2}(1+\cos x)}\to1\times\dfrac12=\dfrac12$`}],
+ gen:R`$0<x<\dfrac{\pi}{2}$일 때 단위원에서 삼각형, 부채꼴, 큰 삼각형의 넓이를 비교하면 $\sin x<x<\tan x$이고, 이로부터 $\cos x<\dfrac{\sin x}{x}<1$이다. $x\to0$일 때 $\cos x\to1$이므로 대소 관계에 의해 $\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1$이며, 이 결과는 $x$를 라디안으로 잴 때 성립한다. 이를 변형하여 $\dfrac{\tan x}{x},\ \dfrac{1-\cos x}{x}$ 등의 극한도 구할 수 있다.`,
+ apply:[{q:R`$\displaystyle\lim_{x\to0}\frac{\sin3x}{x}$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{\sin3x}{3x}\times3$`,sol:R`$1\times3=3$`},
+  {q:R`$\displaystyle\lim_{x\to0}\frac{\tan2x}{\sin x}$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{\tan2x}{2x}\cdot\dfrac{x}{\sin x}\cdot2$로 바꾸어 보세요.`,sol:R`$1\times1\times2=2$`},
+  {q:R`$\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^{2}}$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`분자와 분모에 $1+\cos x$를 곱해 보세요.`,sol:R`$\dfrac{\sin^{2}x}{x^{2}(1+\cos x)}\to1\times\dfrac12=\dfrac12$`}],
  reflect:['라디안을 쓰는 이유에 대해 이 차시에서 새로 알게 된 점을 적어 보세요.','넓이 비교로 극한을 구한 방법이 앞에서 배운 ‘대소 관계’와 어떻게 연결되는지 정리해 보세요.'],ex:exOf('sinlim')},
 {id:'trider',unit:'u2',codes:['12미적Ⅱ-02-03'],std:STDT['12미적Ⅱ-02-03'],title:'사인 곡선의 기울기는 코사인 곡선: 사인함수와 코사인함수의 미분',lens:'주기, 변화',pages:null,tool:'사인·코사인 기울기의 자취, 덧셈정리로 분해한 평균변화율',comp:'추론, 연결',
  big:R`주기적으로 오르내리는 사인 곡선의 기울기는 어떻게 변할까? 그 변화도 주기적일까?`,
- predict:R`$y=\sin x$ 의 그래프에서 기울기가 가장 큰 곳, $0$ 인 곳, 가장 작은 곳은 어디일까요? 기울기의 그래프를 대략 그려 보세요.`,
- f:[R`① 탭에서 $\sin x$ 의 기울기의 자취를 남기면 어떤 그래프가 되나요?`,R`① 탭에서 $\cos x$ 의 기울기의 자취는 어떤 그래프와 겹치나요?`,R`② 탭에서 $h$ 를 줄이면 두 항 $\sin x\cdot\dfrac{\cos h-1}{h}$ 과 $\cos x\cdot\dfrac{\sin h}{h}$ 는 각각 어떻게 되나요?`],
- c:[R`$(\sin x)'=\cos x$ 를 덧셈정리와 삼각함수의 극한으로 설명해 보세요.`,R`$\cos x$ 의 기울기가 $-\sin x$ 로 ‘음의 부호’가 붙는 이유를 그래프로 설명해 보세요.`,R`사인 곡선을 미분하면 왼쪽으로 $\dfrac{\pi}{2}$ 만큼 평행이동한 그래프가 되는 이유는 무엇일까요?`],
- d:[R`각을 도($^{\circ}$)로 재도 $(\sin x)'=\cos x$ 가 성립한다는 주장에 대해, 앞 차시의 극한을 근거로 반박하거나 지지해 보세요.`],
- gen:R`$(\sin x)'=\cos x,\ (\cos x)'=-\sin x$ 이다. 덧셈정리로 $\dfrac{\sin(x+h)-\sin x}{h}=\sin x\cdot\dfrac{\cos h-1}{h}+\cos x\cdot\dfrac{\sin h}{h}$ 로 나누면 $h\to0$ 일 때 각각 $0$ 과 $\cos x$ 로 가기 때문이다. 이 공식은 $x$ 가 라디안일 때 성립하며, 사인 함수를 미분하면 그래프가 $\dfrac{\pi}{2}$ 만큼 앞당겨진다.`,
- apply:[{q:R`함수 $f(x)=2\sin x-\cos x$ 에 대하여 $f'(0)$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$f'(x)=2\cos x+\sin x$`,sol:R`$f'(0)=2\times1+0=2$`},
-  {q:R`함수 $f(x)=x\sin x$ 에 대하여 $f'\left(\dfrac{\pi}{2}\right)$ 의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:'곱의 미분법을 써요.',sol:R`$f'(x)=\sin x+x\cos x$, $f'\left(\dfrac{\pi}{2}\right)=1+0=1$`},
-  {q:R`$\displaystyle\lim_{h\to0}\frac{\sin\left(\frac{\pi}{3}+h\right)-\sin\frac{\pi}{3}}{h}$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$f(x)=\sin x$ 의 $x=\dfrac{\pi}{3}$ 에서의 미분계수예요.`,sol:R`$\cos\dfrac{\pi}{3}=\dfrac12$`}],
+ predict:R`$y=\sin x$의 그래프에서 기울기가 가장 큰 곳, $0$인 곳, 가장 작은 곳은 어디일까요? 기울기의 그래프를 대략 그려 보세요.`,
+ f:[R`① 탭에서 $\sin x$의 기울기의 자취를 남기면 어떤 그래프가 되나요?`,R`① 탭에서 $\cos x$의 기울기의 자취는 어떤 그래프와 겹치나요?`,R`② 탭에서 $h$를 줄이면 두 항 $\sin x\cdot\dfrac{\cos h-1}{h}$과 $\cos x\cdot\dfrac{\sin h}{h}$는 각각 어떻게 되나요?`],
+ c:[R`$(\sin x)'=\cos x$를 덧셈정리와 삼각함수의 극한으로 설명해 보세요.`,R`$\cos x$의 기울기가 $-\sin x$로 ‘음의 부호’가 붙는 이유를 그래프로 설명해 보세요.`,R`사인 곡선을 미분하면 왼쪽으로 $\dfrac{\pi}{2}$만큼 평행이동한 그래프가 되는 이유는 무엇일까요?`],
+ d:[R`각을 도($^{\circ}$)로 재도 $(\sin x)'=\cos x$가 성립한다는 주장에 대해, 앞 차시의 극한을 근거로 반박하거나 지지해 보세요.`],
+ gen:R`$(\sin x)'=\cos x,\ (\cos x)'=-\sin x$이다. 덧셈정리로 $\dfrac{\sin(x+h)-\sin x}{h}=\sin x\cdot\dfrac{\cos h-1}{h}+\cos x\cdot\dfrac{\sin h}{h}$로 나누면 $h\to0$일 때 각각 $0$과 $\cos x$로 가기 때문이다. 이 공식은 $x$가 라디안일 때 성립하며, 사인 함수를 미분하면 그래프가 $\dfrac{\pi}{2}$만큼 앞당겨진다.`,
+ apply:[{q:R`함수 $f(x)=2\sin x-\cos x$에 대하여 $f'(0)$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$f'(x)=2\cos x+\sin x$`,sol:R`$f'(0)=2\times1+0=2$`},
+  {q:R`함수 $f(x)=x\sin x$에 대하여 $f'\left(\dfrac{\pi}{2}\right)$의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:'곱의 미분법을 써요.',sol:R`$f'(x)=\sin x+x\cos x$, $f'\left(\dfrac{\pi}{2}\right)=1+0=1$`},
+  {q:R`$\displaystyle\lim_{h\to0}\frac{\sin\left(\frac{\pi}{3}+h\right)-\sin\frac{\pi}{3}}{h}$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$f(x)=\sin x$의 $x=\dfrac{\pi}{3}$에서의 미분계수예요.`,sol:R`$\cos\dfrac{\pi}{3}=\dfrac12$`}],
  reflect:['기울기의 자취로 본 사인과 코사인의 관계를 그림으로 정리해 보세요.','미분했을 때 주기가 그대로 유지되는 이유를 내 말로 설명해 보세요.'],ex:exOf('trider')},
 {id:'quotient',unit:'u3',codes:['12미적Ⅱ-02-04'],std:STDT['12미적Ⅱ-02-04'],title:'나눗셈의 변화율: 함수의 몫의 미분법',lens:'구조, 역연산',pages:null,tool:'몫의 미분법과 잘못된 추측 비교 그래프',comp:'추론, 문제해결',
- big:R`곱의 미분법은 $(fg)'=f'g+fg'$ 였어요. 몫 $\dfrac fg$ 의 변화율은 어떻게 될까? 단순히 $\dfrac{f'}{g'}$ 일까?`,
- predict:R`$y=\dfrac{1}{x}$ 를 $f(x)=1,\ g(x)=x$ 의 몫으로 보면 $\dfrac{f'}{g'}=\dfrac01=0$ 이에요. 그런데 $y=\dfrac1x$ 의 그래프에서 기울기가 $0$ 인 곳이 있나요? 몫의 도함수는 무엇일지 예상해 보세요.`,
- f:[R`여러 함수에서 실제 기울기와 $\dfrac{f'g-fg'}{g^{2}}$ 를 비교하면 어떤가요?`,R`$\dfrac{f'}{g'}$ 로 그린 직선은 곡선에 접하나요?`,R`$\tan x$ 의 기울기는 $\dfrac{1}{\cos^{2}x}$ 과 같은가요? 여러 $x$ 에서 확인해 보세요.`],
- c:[R`$q=\dfrac fg$ 로 놓고 $f=qg$ 에 곱의 미분법을 써서 몫의 미분법을 이끌어 내 보세요.`,R`분자 $f'g-fg'$ 의 순서를 바꾸면 결과가 어떻게 되나요? 순서가 중요한 이유를 설명해 보세요.`,R`몫의 미분법으로 $(x^{n})'=nx^{n-1}$ 이 음의 정수 $n$ 에서도 성립함을 보이는 방법을 설명해 보세요.`],
- d:[R`‘몫은 $f\cdot\dfrac1g$ 이므로 몫의 미분법은 따로 배울 필요 없이 곱의 미분법으로 충분하다’는 주장에 대해 토론해 보세요.`],
- gen:R`$g(x)\ne0$ 일 때 $\left\{\dfrac{f(x)}{g(x)}\right\}'=\dfrac{f'(x)g(x)-f(x)g'(x)}{\{g(x)\}^{2}}$ 이며, 이것은 $f=\dfrac fg\cdot g$ 에 곱의 미분법을 적용하여 얻는다. 몫의 도함수는 $\dfrac{f'}{g'}$ 가 아니다. 이를 이용하면 정수 $n$ 에 대하여 $(x^{n})'=nx^{n-1}$, 그리고 $(\tan x)'=\sec^{2}x,\ (\sec x)'=\sec x\tan x$ 등을 얻는다.`,
- apply:[{q:R`함수 $f(x)=\dfrac{2x+1}{x-1}$ 에 대하여 $f'(2)$ 의 값을 구하시오.`,fields:[{label:'값',ans:-3}],hint:'몫의 미분법을 써요.',sol:R`$f'(x)=\dfrac{2(x-1)-(2x+1)}{(x-1)^{2}}=\dfrac{-3}{(x-1)^{2}}$, $f'(2)=-3$`},
-  {q:R`함수 $f(x)=\tan x$ 에 대하여 $f'\left(\dfrac{\pi}{4}\right)$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$(\tan x)'=\sec^{2}x=\dfrac{1}{\cos^{2}x}$`,sol:R`$\dfrac{1}{\left(\frac{\sqrt2}{2}\right)^{2}}=2$`},
-  {q:R`함수 $f(x)=\dfrac{x^{2}}{x+1}$ 에 대하여 $f'(1)$ 의 값을 구하시오.`,fields:[{label:'값',ans:3/4}],hint:R`분자는 $(\text{분자의 미분})\times(\text{분모})-(\text{분자})\times(\text{분모의 미분})$ 이에요.`,sol:R`$f'(x)=\dfrac{2x(x+1)-x^{2}}{(x+1)^{2}}$, $f'(1)=\dfrac{4-1}{4}=\dfrac34$`}],
- reflect:['$\\dfrac{f\'}{g\'}$ 라는 추측이 왜 자연스럽게 떠오르는지, 그리고 왜 틀렸는지 정리해 보세요.','몫의 미분법을 기억하는 나만의 방법을 적어 보세요.'],ex:exOf('quotient')},
+ big:R`곱의 미분법은 $(fg)'=f'g+fg'$ 였어요. 몫 $\dfrac fg$의 변화율은 어떻게 될까? 단순히 $\dfrac{f'}{g'}$일까?`,
+ predict:R`$y=\dfrac{1}{x}$을 $f(x)=1,\ g(x)=x$의 몫으로 보면 $\dfrac{f'}{g'}=\dfrac01=0$이에요. 그런데 $y=\dfrac1x$의 그래프에서 기울기가 $0$인 곳이 있나요? 몫의 도함수는 무엇일지 예상해 보세요.`,
+ f:[R`여러 함수에서 실제 기울기와 $\dfrac{f'g-fg'}{g^{2}}$를 비교하면 어떤가요?`,R`$\dfrac{f'}{g'}$으로 그린 직선은 곡선에 접하나요?`,R`$\tan x$의 기울기는 $\dfrac{1}{\cos^{2}x}$과 같은가요? 여러 $x$에서 확인해 보세요.`],
+ c:[R`$q=\dfrac fg$로 놓고 $f=qg$에 곱의 미분법을 써서 몫의 미분법을 이끌어 내 보세요.`,R`분자 $f'g-fg'$ 의 순서를 바꾸면 결과가 어떻게 되나요? 순서가 중요한 이유를 설명해 보세요.`,R`몫의 미분법으로 $(x^{n})'=nx^{n-1}$이 음의 정수 $n$에서도 성립함을 보이는 방법을 설명해 보세요.`],
+ d:[R`‘몫은 $f\cdot\dfrac1g$이므로 몫의 미분법은 따로 배울 필요 없이 곱의 미분법으로 충분하다’는 주장에 대해 토론해 보세요.`],
+ gen:R`$g(x)\ne0$일 때 $\left\{\dfrac{f(x)}{g(x)}\right\}'=\dfrac{f'(x)g(x)-f(x)g'(x)}{\{g(x)\}^{2}}$이며, 이것은 $f=\dfrac fg\cdot g$에 곱의 미분법을 적용하여 얻는다. 몫의 도함수는 $\dfrac{f'}{g'}$이 아니다. 이를 이용하면 정수 $n$에 대하여 $(x^{n})'=nx^{n-1}$, 그리고 $(\tan x)'=\sec^{2}x,\ (\sec x)'=\sec x\tan x$ 등을 얻는다.`,
+ apply:[{q:R`함수 $f(x)=\dfrac{2x+1}{x-1}$에 대하여 $f'(2)$의 값을 구하시오.`,fields:[{label:'값',ans:-3}],hint:'몫의 미분법을 써요.',sol:R`$f'(x)=\dfrac{2(x-1)-(2x+1)}{(x-1)^{2}}=\dfrac{-3}{(x-1)^{2}}$, $f'(2)=-3$`},
+  {q:R`함수 $f(x)=\tan x$에 대하여 $f'\left(\dfrac{\pi}{4}\right)$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$(\tan x)'=\sec^{2}x=\dfrac{1}{\cos^{2}x}$`,sol:R`$\dfrac{1}{\left(\frac{\sqrt2}{2}\right)^{2}}=2$`},
+  {q:R`함수 $f(x)=\dfrac{x^{2}}{x+1}$에 대하여 $f'(1)$의 값을 구하시오.`,fields:[{label:'값',ans:3/4}],hint:R`분자는 $(\text{분자의 미분})\times(\text{분모})-(\text{분자})\times(\text{분모의 미분})$이에요.`,sol:R`$f'(x)=\dfrac{2x(x+1)-x^{2}}{(x+1)^{2}}$, $f'(1)=\dfrac{4-1}{4}=\dfrac34$`}],
+ reflect:['$\\dfrac{f\'}{g\'}$라는 추측이 왜 자연스럽게 떠오르는지, 그리고 왜 틀렸는지 정리해 보세요.','몫의 미분법을 기억하는 나만의 방법을 적어 보세요.'],ex:exOf('quotient')},
 {id:'chain',unit:'u3',codes:['12미적Ⅱ-02-05'],std:STDT['12미적Ⅱ-02-05'],title:'맞물린 톱니바퀴처럼: 합성함수의 미분법',lens:'연쇄, 배율',pages:null,tool:'$x\\to u\\to y$ 세 수직선 사이의 변화 배율',comp:'추론, 연결',
  big:R`함수 안에 함수가 들어 있을 때, 바깥 함수와 안쪽 함수의 변화율은 전체 변화율에 어떻게 함께 작용할까?`,
- predict:R`$y=(2x+1)^{3}$ 을 전개하지 않고 미분할 수 있을까요? $3(2x+1)^{2}$ 이라고 답한 친구가 있어요. 이 답이 맞는지 예상하고 이유를 적어 보세요.`,
- f:[R`$\Delta x$ 를 작게 하면 $\dfrac{\Delta u}{\Delta x}$ 와 $\dfrac{\Delta y}{\Delta u}$ 는 각각 어떤 값에 가까워지나요?`,R`세 막대의 길이를 비교하면 $\Delta y$ 는 $\Delta x$ 의 몇 배인가요? 두 배율의 곱과 같나요?`,R`$e^{-x^{2}}$ 에서 $x=0$ 일 때 $\Delta u$ 는 어떻게 되나요? 그때 $\dfrac{dy}{dx}$ 는 얼마인가요?`],
- c:[R`$\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$ 가 성립하는 이유를 ‘배율의 곱’으로 설명해 보세요.`,R`앞의 친구의 답 $3(2x+1)^{2}$ 에 무엇이 빠졌는지, 그 빠진 것이 그래프에서 어떤 의미인지 설명해 보세요.`,R`$(x^{r})'=rx^{r-1}$ 이 실수 $r$ 에 대해서도 성립함을 $x^{r}=e^{r\ln x}$ 와 합성함수의 미분법으로 설명해 보세요.`],
- d:[R`라이프니츠 기호 $\dfrac{dy}{du}\cdot\dfrac{du}{dx}$ 에서 $du$ 를 ‘약분’하면 $\dfrac{dy}{dx}$ 가 돼요. 이렇게 기호를 분수처럼 다루는 것이 정당한지, 편리함과 위험을 함께 들어 토론해 보세요.`],
- gen:R`$y=f(u),\ u=g(x)$ 가 미분가능하면 $\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$, 즉 $\{f(g(x))\}'=f'(g(x))g'(x)$ 이다. $x$ 의 작은 변화는 안쪽 함수에서 $g'(x)$ 배, 바깥 함수에서 다시 $f'(u)$ 배로 늘어나므로 전체 배율은 두 배율의 곱이 된다. 이로부터 $(x^{r})'=rx^{r-1}$ ($r$ 는 실수), $\{\ln|f(x)|\}'=\dfrac{f'(x)}{f(x)}$ 등을 얻는다.`,
- apply:[{q:R`함수 $f(x)=(2x+1)^{3}$ 에 대하여 $f'(0)$ 의 값을 구하시오.`,fields:[{label:'값',ans:6}],hint:R`$f'(x)=3(2x+1)^{2}\times(2x+1)'$`,sol:R`$f'(x)=6(2x+1)^{2}$, $f'(0)=6$`},
-  {q:R`함수 $f(x)=\sqrt{x^{2}+9}$ 에 대하여 $f'(4)$ 의 값을 구하시오.`,fields:[{label:'값',ans:4/5}],hint:R`$\sqrt{u}=u^{\frac12}$ 의 도함수는 $\dfrac{1}{2\sqrt u}$ 예요.`,sol:R`$f'(x)=\dfrac{2x}{2\sqrt{x^{2}+9}}=\dfrac{x}{\sqrt{x^{2}+9}}$, $f'(4)=\dfrac45$`},
-  {q:R`함수 $f(x)=\ln(x^{2}+3)$ 에 대하여 $f'(1)$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\{\ln f(x)\}'=\dfrac{f'(x)}{f(x)}$`,sol:R`$f'(x)=\dfrac{2x}{x^{2}+3}$, $f'(1)=\dfrac24=\dfrac12$`}],
+ predict:R`$y=(2x+1)^{3}$을 전개하지 않고 미분할 수 있을까요? $3(2x+1)^{2}$이라고 답한 친구가 있어요. 이 답이 맞는지 예상하고 이유를 적어 보세요.`,
+ f:[R`$\Delta x$를 작게 하면 $\dfrac{\Delta u}{\Delta x}$와 $\dfrac{\Delta y}{\Delta u}$는 각각 어떤 값에 가까워지나요?`,R`세 막대의 길이를 비교하면 $\Delta y$는 $\Delta x$의 몇 배인가요? 두 배율의 곱과 같나요?`,R`$e^{-x^{2}}$에서 $x=0$일 때 $\Delta u$는 어떻게 되나요? 그때 $\dfrac{dy}{dx}$는 얼마인가요?`],
+ c:[R`$\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$가 성립하는 이유를 ‘배율의 곱’으로 설명해 보세요.`,R`앞의 친구의 답 $3(2x+1)^{2}$에 무엇이 빠졌는지, 그 빠진 것이 그래프에서 어떤 의미인지 설명해 보세요.`,R`$(x^{r})'=rx^{r-1}$이 실수 $r$에 대해서도 성립함을 $x^{r}=e^{r\ln x}$과 합성함수의 미분법으로 설명해 보세요.`],
+ d:[R`라이프니츠 기호 $\dfrac{dy}{du}\cdot\dfrac{du}{dx}$에서 $du$를 ‘약분’하면 $\dfrac{dy}{dx}$가 돼요. 이렇게 기호를 분수처럼 다루는 것이 정당한지, 편리함과 위험을 함께 들어 토론해 보세요.`],
+ gen:R`$y=f(u),\ u=g(x)$가 미분가능하면 $\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}$, 즉 $\{f(g(x))\}'=f'(g(x))g'(x)$이다. $x$의 작은 변화는 안쪽 함수에서 $g'(x)$배, 바깥 함수에서 다시 $f'(u)$배로 늘어나므로 전체 배율은 두 배율의 곱이 된다. 이로부터 $(x^{r})'=rx^{r-1}$ ($r$은 실수), $\{\ln|f(x)|\}'=\dfrac{f'(x)}{f(x)}$ 등을 얻는다.`,
+ apply:[{q:R`함수 $f(x)=(2x+1)^{3}$에 대하여 $f'(0)$의 값을 구하시오.`,fields:[{label:'값',ans:6}],hint:R`$f'(x)=3(2x+1)^{2}\times(2x+1)'$`,sol:R`$f'(x)=6(2x+1)^{2}$, $f'(0)=6$`},
+  {q:R`함수 $f(x)=\sqrt{x^{2}+9}$에 대하여 $f'(4)$의 값을 구하시오.`,fields:[{label:'값',ans:4/5}],hint:R`$\sqrt{u}=u^{\frac12}$의 도함수는 $\dfrac{1}{2\sqrt u}$이에요.`,sol:R`$f'(x)=\dfrac{2x}{2\sqrt{x^{2}+9}}=\dfrac{x}{\sqrt{x^{2}+9}}$, $f'(4)=\dfrac45$`},
+  {q:R`함수 $f(x)=\ln(x^{2}+3)$에 대하여 $f'(1)$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\{\ln f(x)\}'=\dfrac{f'(x)}{f(x)}$`,sol:R`$f'(x)=\dfrac{2x}{x^{2}+3}$, $f'(1)=\dfrac24=\dfrac12$`}],
  reflect:['세 수직선 그림이 합성함수의 미분법을 이해하는 데 어떤 도움을 주었나요?','합성함수의 미분법을 쓸 때 가장 자주 빠뜨리는 것과 그것을 막는 방법을 적어 보세요.'],ex:exOf('chain')},
 {id:'paramd',unit:'u3',codes:['12미적Ⅱ-02-06'],std:STDT['12미적Ⅱ-02-06'],title:'시간이 그린 곡선: 매개변수로 나타낸 함수의 미분',lens:'운동, 방향',pages:null,tool:'움직이는 점의 $x,\\ y$ 방향 변화율과 접선',comp:'연결, 의사소통',
- big:R`$x$ 와 $y$ 가 모두 시간 $t$ 에 따라 변할 때, 곡선의 기울기 $\dfrac{dy}{dx}$ 는 두 변화율로 어떻게 나타낼 수 있을까?`,
- predict:R`점이 $x=2\cos t,\ y=\sin t$ 를 따라 움직여요. 어떤 곡선을 그릴지, 그리고 맨 위의 점에서 접선의 기울기는 얼마일지 예상해 보세요.`,
- f:[R`타원에서 점이 맨 위, 맨 오른쪽에 있을 때 $\dfrac{dx}{dt},\ \dfrac{dy}{dt}$ 와 접선은 각각 어떤가요?`,R`세 화살표(초록, 주황, 검정)는 서로 어떤 관계인가요?`,R`사이클로이드에서 점이 바닥에 닿는 순간 $\dfrac{dx}{dt},\ \dfrac{dy}{dt}$ 는 얼마인가요?`,R`뾰족점 곡선에서 $t=0$ 일 때 무슨 일이 일어나나요?`],
- c:[R`$\dfrac{dy}{dx}=\dfrac{dy/dt}{dx/dt}$ 가 성립하는 이유를 짧은 시간 동안의 이동으로 설명해 보세요.`,R`$\dfrac{dx}{dt}=0$ 인데 $\dfrac{dy}{dt}\ne0$ 이면 접선이 $y$ 축에 평행한 이유는 무엇인가요?`,R`매개변수로 나타내면 함수로 나타내기 어려운 곡선(예: 타원 전체)도 다룰 수 있는 이유를 설명해 보세요.`],
- d:[R`같은 곡선을 서로 다른 매개변수로 나타낼 수 있어요(예: $x=t,\ y=t^{2}$ 와 $x=2t,\ y=4t^{2}$). 이때 $\dfrac{dx}{dt}$ 는 다르지만 $\dfrac{dy}{dx}$ 는 같을까요? 그 이유와 의미를 토론해 보세요.`],
- gen:R`$x=f(t),\ y=g(t)$ 가 미분가능하고 $f'(t)\ne0$ 이면 $\dfrac{dy}{dx}=\dfrac{g'(t)}{f'(t)}$ 이다. 짧은 시간 $\Delta t$ 동안 점은 $x$ 방향으로 $\Delta x$, $y$ 방향으로 $\Delta y$ 만큼 움직이므로 곡선의 기울기는 두 변화율의 비가 된다. $\dfrac{dx}{dt}=0,\ \dfrac{dy}{dt}\ne0$ 인 점에서 접선은 $y$ 축에 평행하고, 두 변화율이 모두 $0$ 인 점에서는 접선이 정해지지 않을 수 있다.`,
- apply:[{q:R`$x=t^{2}+1,\ y=t^{3}$ 으로 나타낸 곡선에서 $t=2$ 일 때 $\dfrac{dy}{dx}$ 의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{dy}{dt}=3t^{2},\ \dfrac{dx}{dt}=2t$`,sol:R`$\dfrac{3t^{2}}{2t}=\dfrac{3t}{2}$, $t=2$ 이면 $3$`},
-  {q:R`$x=2\cos t,\ y=\sin t$ 로 나타낸 곡선에서 $t=\dfrac{\pi}{4}$ 일 때 $\dfrac{dy}{dx}$ 의 값을 구하시오.`,fields:[{label:'값',ans:-1/2}],hint:R`$\dfrac{dx}{dt}=-2\sin t,\ \dfrac{dy}{dt}=\cos t$`,sol:R`$\dfrac{\cos t}{-2\sin t}=-\dfrac12$`},
-  {q:R`$x=t-\sin t,\ y=1-\cos t$ 로 나타낸 곡선에서 $t=\dfrac{\pi}{2}$ 일 때 $\dfrac{dy}{dx}$ 의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:R`$\dfrac{dx}{dt}=1-\cos t,\ \dfrac{dy}{dt}=\sin t$`,sol:R`$\dfrac{\sin\frac{\pi}{2}}{1-\cos\frac{\pi}{2}}=\dfrac11=1$`}],
+ big:R`$x$와 $y$가 모두 시간 $t$에 따라 변할 때, 곡선의 기울기 $\dfrac{dy}{dx}$는 두 변화율로 어떻게 나타낼 수 있을까?`,
+ predict:R`점이 $x=2\cos t,\ y=\sin t$를 따라 움직여요. 어떤 곡선을 그릴지, 그리고 맨 위의 점에서 접선의 기울기는 얼마일지 예상해 보세요.`,
+ f:[R`타원에서 점이 맨 위, 맨 오른쪽에 있을 때 $\dfrac{dx}{dt},\ \dfrac{dy}{dt}$와 접선은 각각 어떤가요?`,R`세 화살표(초록, 주황, 검정)는 서로 어떤 관계인가요?`,R`사이클로이드에서 점이 바닥에 닿는 순간 $\dfrac{dx}{dt},\ \dfrac{dy}{dt}$는 얼마인가요?`,R`뾰족점 곡선에서 $t=0$일 때 무슨 일이 일어나나요?`],
+ c:[R`$\dfrac{dy}{dx}=\dfrac{dy/dt}{dx/dt}$가 성립하는 이유를 짧은 시간 동안의 이동으로 설명해 보세요.`,R`$\dfrac{dx}{dt}=0$인데 $\dfrac{dy}{dt}\ne0$이면 접선이 $y$축에 평행한 이유는 무엇인가요?`,R`매개변수로 나타내면 함수로 나타내기 어려운 곡선(예: 타원 전체)도 다룰 수 있는 이유를 설명해 보세요.`],
+ d:[R`같은 곡선을 서로 다른 매개변수로 나타낼 수 있어요(예: $x=t,\ y=t^{2}$과 $x=2t,\ y=4t^{2}$). 이때 $\dfrac{dx}{dt}$는 다르지만 $\dfrac{dy}{dx}$는 같을까요? 그 이유와 의미를 토론해 보세요.`],
+ gen:R`$x=f(t),\ y=g(t)$가 미분가능하고 $f'(t)\ne0$이면 $\dfrac{dy}{dx}=\dfrac{g'(t)}{f'(t)}$이다. 짧은 시간 $\Delta t$ 동안 점은 $x$ 방향으로 $\Delta x$, $y$ 방향으로 $\Delta y$만큼 움직이므로 곡선의 기울기는 두 변화율의 비가 된다. $\dfrac{dx}{dt}=0,\ \dfrac{dy}{dt}\ne0$인 점에서 접선은 $y$축에 평행하고, 두 변화율이 모두 $0$인 점에서는 접선이 정해지지 않을 수 있다.`,
+ apply:[{q:R`$x=t^{2}+1,\ y=t^{3}$으로 나타낸 곡선에서 $t=2$일 때 $\dfrac{dy}{dx}$의 값을 구하시오.`,fields:[{label:'값',ans:3}],hint:R`$\dfrac{dy}{dt}=3t^{2},\ \dfrac{dx}{dt}=2t$`,sol:R`$\dfrac{3t^{2}}{2t}=\dfrac{3t}{2}$, $t=2$이면 $3$`},
+  {q:R`$x=2\cos t,\ y=\sin t$로 나타낸 곡선에서 $t=\dfrac{\pi}{4}$일 때 $\dfrac{dy}{dx}$의 값을 구하시오.`,fields:[{label:'값',ans:-1/2}],hint:R`$\dfrac{dx}{dt}=-2\sin t,\ \dfrac{dy}{dt}=\cos t$`,sol:R`$\dfrac{\cos t}{-2\sin t}=-\dfrac12$`},
+  {q:R`$x=t-\sin t,\ y=1-\cos t$로 나타낸 곡선에서 $t=\dfrac{\pi}{2}$일 때 $\dfrac{dy}{dx}$의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:R`$\dfrac{dx}{dt}=1-\cos t,\ \dfrac{dy}{dt}=\sin t$`,sol:R`$\dfrac{\sin\frac{\pi}{2}}{1-\cos\frac{\pi}{2}}=\dfrac11=1$`}],
  reflect:['움직이는 점의 두 방향 변화율로 기울기를 본 것이 새로웠던 점을 적어 보세요.','매개변수가 쓰일 만한 실제 상황(게임, 애니메이션, 운동 등)을 하나 적어 보세요.'],ex:exOf('paramd')},
-{id:'implicit',unit:'u3',codes:['12미적Ⅱ-02-07'],std:STDT['12미적Ⅱ-02-07'],title:'풀지 않고 미분하기: 음함수와 역함수의 미분법',lens:'관계, 대칭',pages:null,tool:'음함수 곡선의 접선, 직선 $y=x$ 에 대칭인 두 접선',comp:'추론, 연결',
- big:R`$y$ 에 대하여 풀기 어려운 관계식이나 역함수의 도함수는 어떻게 구할 수 있을까?`,
- predict:R`원 $x^{2}+y^{2}=25$ 위의 점 $(3,4)$ 에서 접선의 기울기는 얼마일까요? 원의 반지름과 접선이 수직이라는 사실로 먼저 예상해 보세요.`,
- f:[R`원에서 점을 움직일 때 $\dfrac{dy}{dx}=-\dfrac xy$ 와 접선의 기울기가 일치하나요?`,R`원이 두 함수의 그래프(파랑, 초록)로 나뉘는 경계는 어디인가요? 그 점에서 접선은 어떤가요?`,R`② 탭에서 $f'(a)$ 와 역함수의 $(b,a)$ 에서의 기울기는 어떤 관계인가요?`],
- c:[R`$y^{2}$ 을 $x$ 에 대하여 미분하면 $2y\dfrac{dy}{dx}$ 가 되는 이유를 합성함수의 미분법으로 설명해 보세요.`,R`음함수의 미분법이 ‘$y$ 를 $x$ 의 식으로 푼 뒤 미분’하는 것보다 편리한 이유는 무엇인가요?`,R`역함수의 미분법 $g'(b)=\dfrac{1}{f'(a)}$ 를 직선 $y=x$ 에 대한 대칭으로 설명해 보세요.`],
- d:[R`$x^{2}+y^{2}=25$ 는 $y$ 가 $x$ 의 함수가 아닌데도 $\dfrac{dy}{dx}$ 를 구할 수 있어요. ‘함수가 아닌 관계를 미분한다’는 말이 정확한 표현인지 토론해 보세요.`],
- gen:R`$f(x,y)=0$ 꼴의 관계에서는 $y$ 를 $x$ 의 함수로 보고 양변을 $x$ 에 대하여 미분하며, $y$ 가 들어 있는 항에는 합성함수의 미분법에 의해 $\dfrac{dy}{dx}$ 가 곱해진다. 함수 $f$ 의 역함수 $g$ 가 미분가능하면 $g'(b)=\dfrac{1}{f'(a)}\ (b=f(a),\ f'(a)\ne0)$ 이고, 이는 직선 $y=x$ 에 대칭인 두 접선의 기울기가 서로 역수라는 뜻이다.`,
- apply:[{q:R`곡선 $x^{2}+y^{2}=25$ 위의 점 $(3,\ 4)$ 에서의 접선의 기울기를 구하시오.`,fields:[{label:'기울기',ans:-3/4}],hint:R`$2x+2y\dfrac{dy}{dx}=0$`,sol:R`$\dfrac{dy}{dx}=-\dfrac xy=-\dfrac34$`},
-  {q:R`곡선 $x^{2}+xy+y^{2}=3$ 위의 점 $(1,\ 1)$ 에서의 접선의 기울기를 구하시오.`,fields:[{label:'기울기',ans:-1}],hint:R`$xy$ 는 곱의 미분법으로 미분해요: $y+x\dfrac{dy}{dx}$`,sol:R`$2x+y+x\dfrac{dy}{dx}+2y\dfrac{dy}{dx}=0$ 에서 $\dfrac{dy}{dx}=-\dfrac{2x+y}{x+2y}=-\dfrac33=-1$`},
-  {q:R`함수 $f(x)=x^{3}+x$ 의 역함수를 $g(x)$ 라 할 때 $g'(2)$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/4}],hint:R`$f(a)=2$ 인 $a$ 를 먼저 찾아요.`,sol:R`$f(1)=2$ 이므로 $g'(2)=\dfrac{1}{f'(1)}=\dfrac{1}{3+1}=\dfrac14$`}],
- reflect:['음함수의 미분법에서 $\\frac{dy}{dx}$ 가 ‘곱해지는’ 이유를 내 말로 정리해 보세요.','역함수의 기울기가 역수가 되는 것을 그림 없이 설명해 보세요.'],ex:exOf('implicit')},
+{id:'implicit',unit:'u3',codes:['12미적Ⅱ-02-07'],std:STDT['12미적Ⅱ-02-07'],title:'풀지 않고 미분하기: 음함수와 역함수의 미분법',lens:'관계, 대칭',pages:null,tool:'음함수 곡선의 접선, 직선 $y=x$에 대칭인 두 접선',comp:'추론, 연결',
+ big:R`$y$에 대하여 풀기 어려운 관계식이나 역함수의 도함수는 어떻게 구할 수 있을까?`,
+ predict:R`원 $x^{2}+y^{2}=25$ 위의 점 $(3,4)$에서 접선의 기울기는 얼마일까요? 원의 반지름과 접선이 수직이라는 사실로 먼저 예상해 보세요.`,
+ f:[R`원에서 점을 움직일 때 $\dfrac{dy}{dx}=-\dfrac xy$와 접선의 기울기가 일치하나요?`,R`원이 두 함수의 그래프(파랑, 초록)로 나뉘는 경계는 어디인가요? 그 점에서 접선은 어떤가요?`,R`② 탭에서 $f'(a)$와 역함수의 $(b,a)$에서의 기울기는 어떤 관계인가요?`],
+ c:[R`$y^{2}$을 $x$에 대하여 미분하면 $2y\dfrac{dy}{dx}$가 되는 이유를 합성함수의 미분법으로 설명해 보세요.`,R`음함수의 미분법이 ‘$y$를 $x$의 식으로 푼 뒤 미분’하는 것보다 편리한 이유는 무엇인가요?`,R`역함수의 미분법 $g'(b)=\dfrac{1}{f'(a)}$을 직선 $y=x$에 대한 대칭으로 설명해 보세요.`],
+ d:[R`$x^{2}+y^{2}=25$는 $y$가 $x$의 함수가 아닌데도 $\dfrac{dy}{dx}$를 구할 수 있어요. ‘함수가 아닌 관계를 미분한다’는 말이 정확한 표현인지 토론해 보세요.`],
+ gen:R`$f(x,y)=0$ 꼴의 관계에서는 $y$를 $x$의 함수로 보고 양변을 $x$에 대하여 미분하며, $y$가 들어 있는 항에는 합성함수의 미분법에 의해 $\dfrac{dy}{dx}$가 곱해진다. 함수 $f$의 역함수 $g$가 미분가능하면 $g'(b)=\dfrac{1}{f'(a)}\ (b=f(a),\ f'(a)\ne0)$이고, 이는 직선 $y=x$에 대칭인 두 접선의 기울기가 서로 역수라는 뜻이다.`,
+ apply:[{q:R`곡선 $x^{2}+y^{2}=25$ 위의 점 $(3,\ 4)$에서의 접선의 기울기를 구하시오.`,fields:[{label:'기울기',ans:-3/4}],hint:R`$2x+2y\dfrac{dy}{dx}=0$`,sol:R`$\dfrac{dy}{dx}=-\dfrac xy=-\dfrac34$`},
+  {q:R`곡선 $x^{2}+xy+y^{2}=3$ 위의 점 $(1,\ 1)$에서의 접선의 기울기를 구하시오.`,fields:[{label:'기울기',ans:-1}],hint:R`$xy$는 곱의 미분법으로 미분해요: $y+x\dfrac{dy}{dx}$`,sol:R`$2x+y+x\dfrac{dy}{dx}+2y\dfrac{dy}{dx}=0$에서 $\dfrac{dy}{dx}=-\dfrac{2x+y}{x+2y}=-\dfrac33=-1$`},
+  {q:R`함수 $f(x)=x^{3}+x$의 역함수를 $g(x)$라 할 때 $g'(2)$의 값을 구하시오.`,fields:[{label:'값',ans:1/4}],hint:R`$f(a)=2$인 $a$를 먼저 찾아요.`,sol:R`$f(1)=2$이므로 $g'(2)=\dfrac{1}{f'(1)}=\dfrac{1}{3+1}=\dfrac14$`}],
+ reflect:['음함수의 미분법에서 $\\frac{dy}{dx}$가 ‘곱해지는’ 이유를 내 말로 정리해 보세요.','역함수의 기울기가 역수가 되는 것을 그림 없이 설명해 보세요.'],ex:exOf('implicit')},
 {id:'tangent2',unit:'u3',codes:['12미적Ⅱ-02-08'],std:STDT['12미적Ⅱ-02-08'],title:'어떤 곡선이든 접선은 하나의 원리로: 다양한 곡선의 접선',lens:'일반화, 조건',pages:null,tool:'접선의 방정식 탐색기, 원점에서 그은 접선 찾기',comp:'문제해결, 연결',
  big:R`곡선의 종류(지수, 로그, 삼각, 음함수, 매개변수)가 달라도 접선의 방정식을 구하는 원리는 같을까?`,
- predict:R`원점에서 곡선 $y=e^{x}$ 에 접선을 그으려고 해요. 접점은 어디쯤일지 그래프를 상상해 예상해 보세요.`,
- f:[R`① 탭에서 $y=e^{x}$ 위의 $x=0$ 인 점에서 접선의 방정식은 무엇인가요?`,R`① 탭에서 $y=\ln x$ 의 $x=1$ 에서의 접선과 $y=e^{x}$ 의 $x=0$ 에서의 접선은 어떤 관계인가요?`,R`② 탭에서 원점을 지나는 접선이 되는 접점의 $x$ 좌표는 각각 얼마인가요?`],
- c:[R`접선의 방정식 $y-f(a)=f'(a)(x-a)$ 에서 필요한 두 가지 정보는 무엇이고, 각각 어디에서 얻나요?`,R`곡선 밖의 점에서 그은 접선을 구할 때 접점을 $(t,f(t))$ 로 놓는 이유를 설명해 보세요.`,R`음함수나 매개변수로 주어진 곡선의 접선을 구할 때 무엇이 달라지고 무엇이 같은가요?`],
- d:[R`‘접선은 곡선과 한 점에서만 만나는 직선이다’라는 정의는 옳을까요? $y=\sin x$ 의 접선 등을 예로 들어 이 정의의 문제점을 토론해 보세요.`],
- gen:R`곡선 위의 점 $(a,f(a))$ 에서의 접선은 $y-f(a)=f'(a)(x-a)$ 이며, 접점과 그 점에서의 기울기만 있으면 정해진다. 곡선이 음함수나 매개변수로 주어지면 각각의 미분법으로 기울기를 구한다. 기울기가 주어지면 $f'(t)=m$ 을, 곡선 밖의 점을 지나면 그 점이 접선 위에 있다는 조건을 이용해 접점 $t$ 를 먼저 구한다.`,
- apply:[{q:R`곡선 $y=e^{2x}$ 위의 점 $(0,\ 1)$ 에서의 접선의 방정식이 $y=ax+b$ 일 때 $a+b$ 의 값을 구하시오.`,fields:[{label:'$a+b$',ans:3}],hint:R`$y'=2e^{2x}$`,sol:R`기울기 $2$, 접선 $y=2x+1$ 이므로 $a+b=3$`},
-  {q:R`원점에서 곡선 $y=e^{x}$ 에 그은 접선의 접점의 $x$ 좌표를 구하시오.`,fields:[{label:'$x$ 좌표',ans:1}],hint:R`접점을 $(t,\ e^{t})$ 로 놓고 접선이 원점을 지난다는 조건을 써요.`,sol:R`접선 $y-e^{t}=e^{t}(x-t)$ 가 $(0,0)$ 을 지나면 $-e^{t}=-te^{t}$, $t=1$`},
-  {q:R`곡선 $x^{2}+y^{2}=25$ 위의 점 $(3,\ 4)$ 에서의 접선의 $y$ 절편을 구하시오.`,fields:[{label:'$y$ 절편',ans:25/4}],hint:R`기울기는 $-\dfrac34$ 예요.`,sol:R`$y-4=-\dfrac34(x-3)$, 즉 $3x+4y=25$ 이므로 $y$ 절편은 $\dfrac{25}{4}$`}],
+ predict:R`원점에서 곡선 $y=e^{x}$에 접선을 그으려고 해요. 접점은 어디쯤일지 그래프를 상상해 예상해 보세요.`,
+ f:[R`① 탭에서 $y=e^{x}$ 위의 $x=0$인 점에서 접선의 방정식은 무엇인가요?`,R`① 탭에서 $y=\ln x$의 $x=1$에서의 접선과 $y=e^{x}$의 $x=0$에서의 접선은 어떤 관계인가요?`,R`② 탭에서 원점을 지나는 접선이 되는 접점의 $x$좌표는 각각 얼마인가요?`],
+ c:[R`접선의 방정식 $y-f(a)=f'(a)(x-a)$에서 필요한 두 가지 정보는 무엇이고, 각각 어디에서 얻나요?`,R`곡선 밖의 점에서 그은 접선을 구할 때 접점을 $(t,f(t))$로 놓는 이유를 설명해 보세요.`,R`음함수나 매개변수로 주어진 곡선의 접선을 구할 때 무엇이 달라지고 무엇이 같은가요?`],
+ d:[R`‘접선은 곡선과 한 점에서만 만나는 직선이다’라는 정의는 옳을까요? $y=\sin x$의 접선 등을 예로 들어 이 정의의 문제점을 토론해 보세요.`],
+ gen:R`곡선 위의 점 $(a,f(a))$에서의 접선은 $y-f(a)=f'(a)(x-a)$이며, 접점과 그 점에서의 기울기만 있으면 정해진다. 곡선이 음함수나 매개변수로 주어지면 각각의 미분법으로 기울기를 구한다. 기울기가 주어지면 $f'(t)=m$을, 곡선 밖의 점을 지나면 그 점이 접선 위에 있다는 조건을 이용해 접점 $t$를 먼저 구한다.`,
+ apply:[{q:R`곡선 $y=e^{2x}$ 위의 점 $(0,\ 1)$에서의 접선의 방정식이 $y=ax+b$일 때 $a+b$의 값을 구하시오.`,fields:[{label:'$a+b$',ans:3}],hint:R`$y'=2e^{2x}$`,sol:R`기울기 $2$, 접선 $y=2x+1$이므로 $a+b=3$`},
+  {q:R`원점에서 곡선 $y=e^{x}$에 그은 접선의 접점의 $x$좌표를 구하시오.`,fields:[{label:'$x$좌표',ans:1}],hint:R`접점을 $(t,\ e^{t})$으로 놓고 접선이 원점을 지난다는 조건을 써요.`,sol:R`접선 $y-e^{t}=e^{t}(x-t)$가 $(0,0)$을 지나면 $-e^{t}=-te^{t}$, $t=1$`},
+  {q:R`곡선 $x^{2}+y^{2}=25$ 위의 점 $(3,\ 4)$에서의 접선의 $y$절편을 구하시오.`,fields:[{label:'$y$절편',ans:25/4}],hint:R`기울기는 $-\dfrac34$이에요.`,sol:R`$y-4=-\dfrac34(x-3)$, 즉 $3x+4y=25$이므로 $y$절편은 $\dfrac{25}{4}$`}],
  reflect:['여러 종류의 곡선에서 접선을 구해 보며 발견한 ‘공통의 원리’를 한 문장으로 적어 보세요.','곡선 밖의 점에서 접선을 구하는 방법을 처음 예상과 비교해 보세요.'],ex:exOf('tangent2')},
 {id:'concave',unit:'u4',codes:['12미적Ⅱ-02-09'],std:STDT['12미적Ⅱ-02-09'],title:'곡선이 휘는 방향: 이계도함수와 변곡점',lens:'변화의 변화',pages:null,tool:'볼록한 방향 색칠 그래프와 도함수 그래프, 굴러가는 접선',comp:'추론, 의사소통',
  big:R`도함수가 ‘올라가는지 내려가는지’를 알려 준다면, 그래프가 ‘어느 쪽으로 휘는지’는 무엇이 알려 줄까?`,
  predict:R`두 그래프가 모두 증가하는데, 하나는 점점 가파르게, 하나는 점점 완만하게 올라가요. 두 그래프의 차이를 도함수로 어떻게 설명할 수 있을지 예상해 보세요.`,
- f:[R`접선을 굴리면, 파란 부분에서 접선은 곡선의 위에 있나요, 아래에 있나요? 빨간 부분에서는요?`,R`아래 $f'$ 그래프가 증가하는 구간과 위 그래프가 파랗게 칠해진 구간은 어떤 관계인가요?`,R`$x^{4}$ 에서 $x=0$ 일 때 $f''(0)$ 은 얼마인가요? 이 점은 변곡점인가요?`],
- c:[R`$f''(x)>0$ 이면 곡선이 아래로 볼록인 이유를 ‘접선의 기울기가 커진다’는 말로 설명해 보세요.`,R`변곡점에서 $f''(x)$ 의 부호가 바뀌어야 하는 이유는 무엇인가요?`,R`$f'(a)=0$ 이고 $f''(a)<0$ 이면 극댓값인 이유를 볼록한 방향으로 설명해 보세요.`],
- d:[R`‘$f''(a)=0$ 이면 $(a,f(a))$ 는 변곡점이다’라는 주장에 대해 탐색 도구의 예를 근거로 반박하고, 올바른 판정 방법을 주장해 보세요.`],
- gen:R`$f'(x)$ 의 도함수 $f''(x)$ 를 이계도함수라 하며, $f''(x)>0$ 인 구간에서 곡선은 아래로 볼록, $f''(x)<0$ 인 구간에서 위로 볼록이다. $f''$ 의 부호는 접선의 기울기가 커지는지 작아지는지를 나타내기 때문이다. 볼록한 방향이 바뀌는 점이 변곡점이며, $f''(a)=0$ 이고 그 좌우에서 $f''$ 의 부호가 바뀌어야 한다.`,
- apply:[{q:R`곡선 $y=x^{3}-3x^{2}+2$ 의 변곡점의 $x$ 좌표를 구하시오.`,fields:[{label:'$x$',ans:1}],hint:R`$y''=6x-6$`,sol:R`$y''=6x-6=0$ 에서 $x=1$, 좌우에서 부호가 바뀌므로 변곡점`},
-  {q:R`곡선 $y=xe^{-x}$ 의 변곡점의 $x$ 좌표를 구하시오.`,fields:[{label:'$x$',ans:2}],hint:R`$y'=(1-x)e^{-x}$`,sol:R`$y''=(x-2)e^{-x}=0$ 에서 $x=2$`},
-  {q:R`곡선 $y=\ln(x^{2}+1)$ 의 두 변곡점의 $x$ 좌표의 곱을 구하시오.`,fields:[{label:'곱',ans:-1}],hint:R`$y'=\dfrac{2x}{x^{2}+1}$ 을 몫의 미분법으로 한 번 더 미분해요.`,sol:R`$y''=\dfrac{2(1-x^{2})}{(x^{2}+1)^{2}}=0$ 에서 $x=\pm1$, 곱은 $-1$`}],
+ f:[R`접선을 굴리면, 파란 부분에서 접선은 곡선의 위에 있나요, 아래에 있나요? 빨간 부분에서는요?`,R`아래 $f'$ 그래프가 증가하는 구간과 위 그래프가 파랗게 칠해진 구간은 어떤 관계인가요?`,R`$x^{4}$에서 $x=0$일 때 $f''(0)$은 얼마인가요? 이 점은 변곡점인가요?`],
+ c:[R`$f''(x)>0$이면 곡선이 아래로 볼록인 이유를 ‘접선의 기울기가 커진다’는 말로 설명해 보세요.`,R`변곡점에서 $f''(x)$의 부호가 바뀌어야 하는 이유는 무엇인가요?`,R`$f'(a)=0$이고 $f''(a)<0$이면 극댓값인 이유를 볼록한 방향으로 설명해 보세요.`],
+ d:[R`‘$f''(a)=0$이면 $(a,f(a))$는 변곡점이다’라는 주장에 대해 탐색 도구의 예를 근거로 반박하고, 올바른 판정 방법을 주장해 보세요.`],
+ gen:R`$f'(x)$의 도함수 $f''(x)$를 이계도함수라 하며, $f''(x)>0$인 구간에서 곡선은 아래로 볼록, $f''(x)<0$인 구간에서 위로 볼록이다. $f''$ 의 부호는 접선의 기울기가 커지는지 작아지는지를 나타내기 때문이다. 볼록한 방향이 바뀌는 점이 변곡점이며, $f''(a)=0$이고 그 좌우에서 $f''$ 의 부호가 바뀌어야 한다.`,
+ apply:[{q:R`곡선 $y=x^{3}-3x^{2}+2$의 변곡점의 $x$좌표를 구하시오.`,fields:[{label:'$x$',ans:1}],hint:R`$y''=6x-6$`,sol:R`$y''=6x-6=0$에서 $x=1$, 좌우에서 부호가 바뀌므로 변곡점`},
+  {q:R`곡선 $y=xe^{-x}$의 변곡점의 $x$좌표를 구하시오.`,fields:[{label:'$x$',ans:2}],hint:R`$y'=(1-x)e^{-x}$`,sol:R`$y''=(x-2)e^{-x}=0$에서 $x=2$`},
+  {q:R`곡선 $y=\ln(x^{2}+1)$의 두 변곡점의 $x$좌표의 곱을 구하시오.`,fields:[{label:'곱',ans:-1}],hint:R`$y'=\dfrac{2x}{x^{2}+1}$을 몫의 미분법으로 한 번 더 미분해요.`,sol:R`$y''=\dfrac{2(1-x^{2})}{(x^{2}+1)^{2}}=0$에서 $x=\pm1$, 곱은 $-1$`}],
  reflect:['‘변화의 변화’라는 말을 이번 차시의 그래프와 연결해 정리해 보세요.','변곡점의 판정에서 가장 헷갈렸던 점과 그것을 해결한 방법을 적어 보세요.'],ex:exOf('concave')},
 {id:'sketch2',unit:'u4',codes:['12미적Ⅱ-02-09'],std:STDT['12미적Ⅱ-02-09'],title:'식에서 모양을 읽다: 그래프의 개형 그리기',lens:'종합, 표현',pages:null,tool:'$f\'$, $f\'\'$, 극한을 차례로 켜는 개형 그리기 도구와 자동 표',comp:'의사소통, 정보처리',
  big:R`처음 보는 함수의 그래프 모양을, 점을 많이 찍지 않고 어떻게 정확하게 그릴 수 있을까?`,
- predict:R`$f(x)=xe^{-x}$ 의 그래프를 그려야 해요. 어떤 정보부터 조사하면 좋을지 순서를 정해 보고, 그래프의 모양을 예상해 그려 보세요.`,
- f:[R`① 만 켰을 때 각 함수의 극대·극소는 어디인가요?`,R`② 를 켜면 표의 $f(x)$ 행에 나타나는 모양 기호는 어떻게 바뀌나요?`,R`③ 을 켜면 어떤 점근선이 나타나나요? 그 근거가 된 극한은 무엇인가요?`],
+ predict:R`$f(x)=xe^{-x}$의 그래프를 그려야 해요. 어떤 정보부터 조사하면 좋을지 순서를 정해 보고, 그래프의 모양을 예상해 그려 보세요.`,
+ f:[R`① 만 켰을 때 각 함수의 극대·극소는 어디인가요?`,R`②를 켜면 표의 $f(x)$ 행에 나타나는 모양 기호는 어떻게 바뀌나요?`,R`③을 켜면 어떤 점근선이 나타나나요? 그 근거가 된 극한은 무엇인가요?`],
  c:[R`$f'$ 의 부호와 $f''$ 의 부호를 함께 보면 한 구간의 곡선 모양이 네 가지 중 하나로 정해지는 이유를 설명해 보세요.`,R`극한으로 점근선을 조사하지 않으면 그래프를 어떻게 잘못 그릴 수 있을까요?`,R`그래프를 그리는 순서(정의역 → 증감 → 볼록 → 극한)가 왜 효과적인지 설명해 보세요.`],
  d:[R`‘공학 도구로 그래프를 바로 그릴 수 있는데 개형 그리기를 배울 필요가 있을까?’라는 질문에 대해, 공학 도구가 놓칠 수 있는 점과 함께 토론해 보세요.`],
  gen:R`함수의 그래프의 개형은 정의역과 대칭성, 좌표축과의 교점, $f'$ 의 부호(증가·감소와 극값), $f''$ 의 부호(볼록한 방향과 변곡점), 정의역의 끝과 정의되지 않는 점 근처의 극한(점근선)을 차례로 조사하여 그린다. $f'$ 과 $f''$ 의 부호를 한 표에 모으면 각 구간의 모양이 정해지고, 극점과 변곡점은 그 모양이 바뀌는 경계가 된다.`,
- apply:[{q:R`함수 $f(x)=x^{2}e^{-x}$ 가 극대가 되는 $x$ 의 값을 구하시오.`,fields:[{label:'$x$',ans:2}],hint:R`$f'(x)=(2x-x^{2})e^{-x}$`,sol:R`$f'(x)=x(2-x)e^{-x}$, $x=2$ 의 좌우에서 $+$ 에서 $-$ 로 바뀌므로 극대`},
-  {q:R`곡선 $y=e^{-x^{2}}$ 의 변곡점의 개수를 구하시오.`,fields:[{label:'개수',ans:2}],hint:R`$y''=(4x^{2}-2)e^{-x^{2}}$`,sol:R`$4x^{2}-2=0$ 에서 $x=\pm\dfrac{1}{\sqrt2}$, 좌우에서 부호가 바뀌므로 $2$ 개`},
-  {q:R`함수 $f(x)=x-2\sin x\ (0\le x\le2\pi)$ 가 극소가 되는 $x$ 의 값을 $k\pi$ 라 할 때 $k$ 의 값을 구하시오.`,fields:[{label:'$k$',ans:1/3}],hint:R`$f'(x)=1-2\cos x=0$ 에서 $\cos x=\dfrac12$`,sol:R`$x=\dfrac{\pi}{3}$ 에서 $f'$ 이 $-$ 에서 $+$ 로, $x=\dfrac{5\pi}{3}$ 에서 $+$ 에서 $-$ 로 바뀌므로 극소는 $x=\dfrac{\pi}{3}$, $k=\dfrac13$`}],
+ apply:[{q:R`함수 $f(x)=x^{2}e^{-x}$이 극대가 되는 $x$의 값을 구하시오.`,fields:[{label:'$x$',ans:2}],hint:R`$f'(x)=(2x-x^{2})e^{-x}$`,sol:R`$f'(x)=x(2-x)e^{-x}$, $x=2$의 좌우에서 $+$에서 $-$로 바뀌므로 극대`},
+  {q:R`곡선 $y=e^{-x^{2}}$의 변곡점의 개수를 구하시오.`,fields:[{label:'개수',ans:2}],hint:R`$y''=(4x^{2}-2)e^{-x^{2}}$`,sol:R`$4x^{2}-2=0$에서 $x=\pm\dfrac{1}{\sqrt2}$, 좌우에서 부호가 바뀌므로 $2$개`},
+  {q:R`함수 $f(x)=x-2\sin x\ (0\le x\le2\pi)$가 극소가 되는 $x$의 값을 $k\pi$라 할 때 $k$의 값을 구하시오.`,fields:[{label:'$k$',ans:1/3}],hint:R`$f'(x)=1-2\cos x=0$에서 $\cos x=\dfrac12$`,sol:R`$x=\dfrac{\pi}{3}$에서 $f'$ 이 $-$에서 $+$로, $x=\dfrac{5\pi}{3}$에서 $+$에서 $-$로 바뀌므로 극소는 $x=\dfrac{\pi}{3}$, $k=\dfrac13$`}],
  reflect:['처음 예상한 그래프와 완성된 그래프를 비교해 무엇을 놓쳤는지 적어 보세요.','그래프를 그릴 때 나에게 가장 유용한 정보는 무엇이었고 그 이유는 무엇인가요?'],ex:exOf('sketch2')},
-{id:'eqineq2',unit:'u4',codes:['12미적Ⅱ-02-10'],std:STDT['12미적Ⅱ-02-10'],title:'그래프로 세고 최솟값으로 증명하기: 방정식과 부등식',lens:'변환, 최적',pages:null,tool:'수평선 $y=k$ 로 교점 세기, $h(x)=e^{x}-ax$ 의 최솟값 관찰',comp:'문제해결, 추론',
- big:R`풀 수 없는 방정식의 실근의 개수와, 모든 $x$ 에서 성립하는 부등식은 미분으로 어떻게 확인할 수 있을까?`,
- predict:R`방정식 $\ln x=kx$ 는 직접 풀 수 없어요. $k$ 의 값에 따라 실근의 개수가 어떻게 달라질지 예상해 보세요. (힌트: 양변을 $x$ 로 나누어 보세요.)`,
- f:[R`① 탭의 $\dfrac{\ln x}{x}=k$ 에서 $k$ 를 움직이면 교점의 개수는 어떻게 바뀌나요? 개수가 바뀌는 $k$ 는 어디인가요?`,R`① 탭의 $x^{2}e^{-x}=k$ 에서 교점이 $3$ 개인 $k$ 의 범위는 어디인가요?`,R`② 탭에서 $e^{x}\ge ax$ 가 모든 $x$ 에서 성립하는 $a$ 의 범위는 어디인가요?`],
- c:[R`상수 $k$ 를 한쪽으로 분리하면 실근의 개수를 세기 쉬워지는 이유를 설명해 보세요.`,R`정의역의 끝에서의 극한을 조사하지 않으면 교점의 개수를 잘못 셀 수 있는 이유는 무엇인가요?`,R`부등식 $f(x)\ge g(x)$ 를 증명할 때 $h(x)=f(x)-g(x)$ 의 최솟값을 조사하는 이유를 설명해 보세요.`],
+{id:'eqineq2',unit:'u4',codes:['12미적Ⅱ-02-10'],std:STDT['12미적Ⅱ-02-10'],title:'그래프로 세고 최솟값으로 증명하기: 방정식과 부등식',lens:'변환, 최적',pages:null,tool:'수평선 $y=k$로 교점 세기, $h(x)=e^{x}-ax$의 최솟값 관찰',comp:'문제해결, 추론',
+ big:R`풀 수 없는 방정식의 실근의 개수와, 모든 $x$에서 성립하는 부등식은 미분으로 어떻게 확인할 수 있을까?`,
+ predict:R`방정식 $\ln x=kx$는 직접 풀 수 없어요. $k$의 값에 따라 실근의 개수가 어떻게 달라질지 예상해 보세요. (힌트: 양변을 $x$로 나누어 보세요.)`,
+ f:[R`① 탭의 $\dfrac{\ln x}{x}=k$에서 $k$를 움직이면 교점의 개수는 어떻게 바뀌나요? 개수가 바뀌는 $k$는 어디인가요?`,R`① 탭의 $x^{2}e^{-x}=k$에서 교점이 $3$개인 $k$의 범위는 어디인가요?`,R`② 탭에서 $e^{x}\ge ax$가 모든 $x$에서 성립하는 $a$의 범위는 어디인가요?`],
+ c:[R`상수 $k$를 한쪽으로 분리하면 실근의 개수를 세기 쉬워지는 이유를 설명해 보세요.`,R`정의역의 끝에서의 극한을 조사하지 않으면 교점의 개수를 잘못 셀 수 있는 이유는 무엇인가요?`,R`부등식 $f(x)\ge g(x)$를 증명할 때 $h(x)=f(x)-g(x)$의 최솟값을 조사하는 이유를 설명해 보세요.`],
  d:[R`‘공학 도구로 그래프를 그려 교점을 세면 그것으로 증명이 된다’는 주장에 대해, 그래프가 보여 주지 못하는 부분(아주 먼 곳, 아주 가까운 두 근 등)을 근거로 토론해 보세요.`],
- gen:R`방정식 $f(x)=k$ 의 실근의 개수는 곡선 $y=f(x)$ 와 직선 $y=k$ 의 교점의 개수이며, 증감과 극값, 정의역의 끝에서의 극한을 조사하면 $k$ 에 따른 개수를 알 수 있다. 부등식 $f(x)\ge g(x)$ 가 어떤 구간에서 항상 성립함을 보이려면 $h(x)=f(x)-g(x)$ 의 그 구간에서의 최솟값이 $0$ 이상임을 보인다.`,
- apply:[{q:R`방정식 $e^{x}=x+k$ 가 오직 하나의 실근을 갖도록 하는 실수 $k$ 의 값을 구하시오.`,fields:[{label:'$k$',ans:1}],hint:R`$h(x)=e^{x}-x$ 의 최솟값을 조사해요.`,sol:R`$h'(x)=e^{x}-1=0$ 에서 $x=0$, 최솟값 $h(0)=1$. 직선 $y=k$ 가 최솟값에서만 만나야 하므로 $k=1$`},
-  {q:R`방정식 $x^{2}e^{-x}=k$ 가 서로 다른 세 실근을 갖도록 하는 $k$ 의 범위가 $0<k<\dfrac{p}{e^{2}}$ 일 때 $p$ 의 값을 구하시오.`,fields:[{label:'$p$',ans:4}],hint:R`$x=2$ 에서의 극댓값을 구해요.`,sol:R`극솟값 $f(0)=0$, 극댓값 $f(2)=\dfrac{4}{e^{2}}$, $x\to\infty$ 이면 $0$ 으로 가므로 $0<k<\dfrac{4}{e^{2}}$, $p=4$`},
-  {q:R`모든 실수 $x$ 에 대하여 $e^{x}\ge ax$ 가 성립하도록 하는 정수 $a$ 의 개수를 구하시오.`,fields:[{label:'개수',ans:3}],hint:'② 탭에서 찾은 범위를 식으로 확인해 보세요.',sol:R`$a>0$ 이면 최솟값 $a-a\ln a\ge0$ 에서 $a\le e$, $a=0$ 도 성립, $a<0$ 은 성립하지 않아요. $0\le a\le e$ 이므로 정수는 $0,\ 1,\ 2$ 의 $3$ 개`}],
+ gen:R`방정식 $f(x)=k$의 실근의 개수는 곡선 $y=f(x)$와 직선 $y=k$의 교점의 개수이며, 증감과 극값, 정의역의 끝에서의 극한을 조사하면 $k$에 따른 개수를 알 수 있다. 부등식 $f(x)\ge g(x)$가 어떤 구간에서 항상 성립함을 보이려면 $h(x)=f(x)-g(x)$의 그 구간에서의 최솟값이 $0$ 이상임을 보인다.`,
+ apply:[{q:R`방정식 $e^{x}=x+k$가 오직 하나의 실근을 갖도록 하는 실수 $k$의 값을 구하시오.`,fields:[{label:'$k$',ans:1}],hint:R`$h(x)=e^{x}-x$의 최솟값을 조사해요.`,sol:R`$h'(x)=e^{x}-1=0$에서 $x=0$, 최솟값 $h(0)=1$. 직선 $y=k$가 최솟값에서만 만나야 하므로 $k=1$`},
+  {q:R`방정식 $x^{2}e^{-x}=k$가 서로 다른 세 실근을 갖도록 하는 $k$의 범위가 $0<k<\dfrac{p}{e^{2}}$일 때 $p$의 값을 구하시오.`,fields:[{label:'$p$',ans:4}],hint:R`$x=2$에서의 극댓값을 구해요.`,sol:R`극솟값 $f(0)=0$, 극댓값 $f(2)=\dfrac{4}{e^{2}}$, $x\to\infty$이면 $0$으로 가므로 $0<k<\dfrac{4}{e^{2}}$, $p=4$`},
+  {q:R`모든 실수 $x$에 대하여 $e^{x}\ge ax$가 성립하도록 하는 정수 $a$의 개수를 구하시오.`,fields:[{label:'개수',ans:3}],hint:'② 탭에서 찾은 범위를 식으로 확인해 보세요.',sol:R`$a>0$이면 최솟값 $a-a\ln a\ge0$에서 $a\le e$, $a=0$도 성립, $a<0$은 성립하지 않아요. $0\le a\le e$이므로 정수는 $0,\ 1,\ 2$의 $3$개`}],
  reflect:['‘직접 풀 수 없는 방정식’을 다루는 방법에 대해 새로 알게 된 점을 적어 보세요.','부등식의 증명을 ‘최솟값 문제’로 바꾸는 아이디어를 다른 예에 적용해 보세요.'],ex:exOf('eqineq2')},
 {id:'motion2',unit:'u4',codes:['12미적Ⅱ-02-11'],std:STDT['12미적Ⅱ-02-11'],title:'진동하고 멈추는 운동: 속도와 가속도',lens:'운동, 모델링',pages:null,tool:'수직선 위 점의 운동과 위치·속도·가속도 그래프',comp:'연결, 문제해결',
  big:R`용수철의 진동처럼 다항함수로 나타낼 수 없는 운동도 미분으로 분석할 수 있을까?`,
  predict:R`용수철에 매달린 물체가 위아래로 진동해요. 물체가 가장 빠를 때와 가속도가 가장 클 때는 각각 어느 위치일지 예상해 보세요.`,
- f:[R`$x=2\sin t$ 에서 속도가 $0$ 인 순간 점은 어디에 있나요? 가속도는 어떤가요?`,R`$x=2\sin t$ 에서 가속도와 위치의 관계는 어떤가요?`,R`$x=2e^{-t/4}\cos2t$ 에서 시간이 지나면 운동은 어떻게 변하나요?`,R`$x=t-2\ln(t+1)$ 에서 운동 방향이 바뀌는 시각은 언제인가요?`],
- c:[R`속도와 가속도의 부호가 같으면 속력이 커지는 이유를 설명해 보세요.`,R`단진동에서 $a=-x$ 가 되는 것이 ‘가속도가 항상 원점 쪽을 향한다’는 뜻임을 설명해 보세요.`,R`감쇠 진동의 속도와 가속도에 $e^{-t/4}$ 가 계속 남아 있는 이유를 미분법으로 설명해 보세요.`],
- d:[R`‘속도가 $0$ 이면 물체는 멈춰 있는 것이다’라는 주장에 대해 단진동의 예를 들어 토론해 보세요.`],
- gen:R`수직선 위를 움직이는 점의 위치가 $x=f(t)$ 이면 속도 $v=f'(t)$, 가속도 $a=f''(t)$ 이며, 지수함수, 로그함수, 삼각함수의 미분법을 이용하면 진동이나 감쇠하는 운동도 분석할 수 있다. $v$ 의 부호는 운동 방향을, $v$ 와 $a$ 의 부호가 같은지는 속력이 커지는지 작아지는지를 알려 주며, $v=0$ 이고 부호가 바뀌는 순간 운동 방향이 바뀐다.`,
- apply:[{q:R`수직선 위를 움직이는 점 P의 시각 $t$ 에서의 위치가 $x=2\sin t$ 일 때, $t=\dfrac{\pi}{2}$ 에서의 가속도를 구하시오.`,fields:[{label:'가속도',ans:-2}],hint:R`$v=2\cos t,\ a=-2\sin t$`,sol:R`$a=-2\sin\dfrac{\pi}{2}=-2$`},
-  {q:R`수직선 위를 움직이는 점 P의 위치가 $x=t-2\ln(t+1)\ (t\ge0)$ 일 때, 점 P의 운동 방향이 바뀌는 시각을 구하시오.`,fields:[{label:'$t$',ans:1}],hint:R`$v=1-\dfrac{2}{t+1}$`,sol:R`$v=0$ 에서 $t=1$, $t<1$ 이면 $v<0$, $t>1$ 이면 $v>0$ 이므로 $t=1$`},
-  {q:R`수직선 위를 움직이는 점 P의 위치가 $x=\sin t+\cos t\ (t>0)$ 일 때, 속도가 처음으로 $0$ 이 되는 시각을 $k\pi$ 라 할 때 $k$ 의 값을 구하시오.`,fields:[{label:'$k$',ans:1/4}],hint:R`$v=\cos t-\sin t=0$`,sol:R`$\tan t=1$ 에서 처음 $t=\dfrac{\pi}{4}$, $k=\dfrac14$`}],
+ f:[R`$x=2\sin t$에서 속도가 $0$인 순간 점은 어디에 있나요? 가속도는 어떤가요?`,R`$x=2\sin t$에서 가속도와 위치의 관계는 어떤가요?`,R`$x=2e^{-t/4}\cos2t$에서 시간이 지나면 운동은 어떻게 변하나요?`,R`$x=t-2\ln(t+1)$에서 운동 방향이 바뀌는 시각은 언제인가요?`],
+ c:[R`속도와 가속도의 부호가 같으면 속력이 커지는 이유를 설명해 보세요.`,R`단진동에서 $a=-x$가 되는 것이 ‘가속도가 항상 원점 쪽을 향한다’는 뜻임을 설명해 보세요.`,R`감쇠 진동의 속도와 가속도에 $e^{-t/4}$이 계속 남아 있는 이유를 미분법으로 설명해 보세요.`],
+ d:[R`‘속도가 $0$이면 물체는 멈춰 있는 것이다’라는 주장에 대해 단진동의 예를 들어 토론해 보세요.`],
+ gen:R`수직선 위를 움직이는 점의 위치가 $x=f(t)$이면 속도 $v=f'(t)$, 가속도 $a=f''(t)$이며, 지수함수, 로그함수, 삼각함수의 미분법을 이용하면 진동이나 감쇠하는 운동도 분석할 수 있다. $v$의 부호는 운동 방향을, $v$와 $a$의 부호가 같은지는 속력이 커지는지 작아지는지를 알려 주며, $v=0$이고 부호가 바뀌는 순간 운동 방향이 바뀐다.`,
+ apply:[{q:R`수직선 위를 움직이는 점 P의 시각 $t$에서의 위치가 $x=2\sin t$일 때, $t=\dfrac{\pi}{2}$에서의 가속도를 구하시오.`,fields:[{label:'가속도',ans:-2}],hint:R`$v=2\cos t,\ a=-2\sin t$`,sol:R`$a=-2\sin\dfrac{\pi}{2}=-2$`},
+  {q:R`수직선 위를 움직이는 점 P의 위치가 $x=t-2\ln(t+1)\ (t\ge0)$일 때, 점 P의 운동 방향이 바뀌는 시각을 구하시오.`,fields:[{label:'$t$',ans:1}],hint:R`$v=1-\dfrac{2}{t+1}$`,sol:R`$v=0$에서 $t=1$, $t<1$이면 $v<0$, $t>1$이면 $v>0$이므로 $t=1$`},
+  {q:R`수직선 위를 움직이는 점 P의 위치가 $x=\sin t+\cos t\ (t>0)$일 때, 속도가 처음으로 $0$이 되는 시각을 $k\pi$라 할 때 $k$의 값을 구하시오.`,fields:[{label:'$k$',ans:1/4}],hint:R`$v=\cos t-\sin t=0$`,sol:R`$\tan t=1$에서 처음 $t=\dfrac{\pi}{4}$, $k=\dfrac14$`}],
  reflect:['미적분Ⅰ에서 다룬 다항함수의 운동과 비교해 이번 차시에서 새로 분석할 수 있게 된 운동을 적어 보세요.','물리나 공학에서 미분이 쓰이는 예를 하나 찾아 적어 보세요.'],ex:exOf('motion2')},
-{id:'antider2',unit:'v1',codes:['12미적Ⅱ-03-01'],std:STDT['12미적Ⅱ-03-01'],title:'$\\frac{1}{x}$ 의 넓이는 로그: 여러 가지 함수의 부정적분과 정적분',lens:'역관계, 예외',pages:null,tool:'$y=\\frac1x$ 아래 넓이와 $\\ln x$, 넓이로 보는 로그의 성질, $r\\to-1$ 의 극한',comp:'연결, 추론',
- big:R`$\displaystyle\int x^{r}\,dx=\frac{x^{r+1}}{r+1}+C$ 는 $r=-1$ 일 때 쓸 수 없어요. 그 빈자리는 어떤 함수가 채울까?`,
- predict:R`$y=\dfrac1x$ 의 그래프 아래에서 $x=1$ 부터 $x=2$ 까지의 넓이는 얼마쯤일까요? 이 넓이를 나타내는 함수가 무엇일지 예상해 보세요.`,
- f:[R`① 탭에서 $x$ 를 움직일 때 넓이와 $\ln x$ 의 값을 비교하면 어떤가요?`,R`② 탭에서 파란 넓이와 주황 넓이는 항상 같은가요?`,R`③ 탭에서 $r$ 을 $-1$ 에 가까이 가져가면 파란 곡선은 어떻게 되나요?`],
- c:[R`$\displaystyle\int\frac1x\,dx=\ln|x|+C$ 에서 절댓값이 필요한 이유를 설명해 보세요.`,R`② 탭의 결과가 로그의 성질 $\ln ab=\ln a+\ln b$ 를 설명하는 이유를 말해 보세요.`,R`$\displaystyle\int\sin x\,dx=-\cos x+C$ 에서 음의 부호가 붙는 이유를 미분과의 관계로 설명해 보세요.`],
- d:[R`$\displaystyle\int_{-1}^{1}\frac{1}{x^{2}}\,dx=\Big[-\frac1x\Big]_{-1}^{1}=-2$ 라고 계산한 친구가 있어요. 양수인 함수의 넓이가 음수가 나온 이유를 찾아, 미적분의 기본정리를 쓸 수 있는 조건에 대해 주장해 보세요.`],
- gen:R`부정적분은 미분의 역과정이므로 도함수 공식을 거꾸로 읽으면 $\displaystyle\int x^{r}\,dx=\frac{x^{r+1}}{r+1}+C\ (r\ne-1)$, $\displaystyle\int\frac1x\,dx=\ln|x|+C$, $\displaystyle\int e^{x}\,dx=e^{x}+C$, $\displaystyle\int a^{x}\,dx=\frac{a^{x}}{\ln a}+C$, $\displaystyle\int\sin x\,dx=-\cos x+C$, $\displaystyle\int\cos x\,dx=\sin x+C$, $\displaystyle\int\sec^{2}x\,dx=\tan x+C$ 등을 얻는다. 특히 $r=-1$ 인 경우는 넓이 함수 $\displaystyle\int_{1}^{x}\frac{dt}{t}=\ln x$ 가 채운다. 정적분은 구간에서 연속인 함수에 대해 $F(b)-F(a)$ 로 구한다.`,
- apply:[{q:R`$\displaystyle\int_{1}^{4}\sqrt x\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:14/3}],hint:R`$\sqrt x=x^{\frac12}$, 부정적분은 $\dfrac23x^{\frac32}$`,sol:R`$\dfrac23(8-1)=\dfrac{14}{3}$`},
-  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}(\sin x+\cos x)\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\Big[-\cos x+\sin x\Big]_{0}^{\frac{\pi}{2}}$`,sol:R`$(0+1)-(-1+0)=2$`},
-  {q:R`$\displaystyle\int_{1}^{e^{2}}\frac{2}{x}\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:4}],hint:R`$\Big[2\ln x\Big]_{1}^{e^{2}}$`,sol:R`$2\ln e^{2}-2\ln1=4$`}],
+{id:'antider2',unit:'v1',codes:['12미적Ⅱ-03-01'],std:STDT['12미적Ⅱ-03-01'],title:'$\\frac{1}{x}$의 넓이는 로그: 여러 가지 함수의 부정적분과 정적분',lens:'역관계, 예외',pages:null,tool:'$y=\\frac1x$ 아래 넓이와 $\\ln x$, 넓이로 보는 로그의 성질, $r\\to-1$의 극한',comp:'연결, 추론',
+ big:R`$\displaystyle\int x^{r}\,dx=\frac{x^{r+1}}{r+1}+C$는 $r=-1$일 때 쓸 수 없어요. 그 빈자리는 어떤 함수가 채울까?`,
+ predict:R`$y=\dfrac1x$의 그래프 아래에서 $x=1$부터 $x=2$까지의 넓이는 얼마쯤일까요? 이 넓이를 나타내는 함수가 무엇일지 예상해 보세요.`,
+ f:[R`① 탭에서 $x$를 움직일 때 넓이와 $\ln x$의 값을 비교하면 어떤가요?`,R`② 탭에서 파란 넓이와 주황 넓이는 항상 같은가요?`,R`③ 탭에서 $r$을 $-1$에 가까이 가져가면 파란 곡선은 어떻게 되나요?`],
+ c:[R`$\displaystyle\int\frac1x\,dx=\ln|x|+C$에서 절댓값이 필요한 이유를 설명해 보세요.`,R`② 탭의 결과가 로그의 성질 $\ln ab=\ln a+\ln b$를 설명하는 이유를 말해 보세요.`,R`$\displaystyle\int\sin x\,dx=-\cos x+C$에서 음의 부호가 붙는 이유를 미분과의 관계로 설명해 보세요.`],
+ d:[R`$\displaystyle\int_{-1}^{1}\frac{1}{x^{2}}\,dx=\Big[-\frac1x\Big]_{-1}^{1}=-2$라고 계산한 친구가 있어요. 양수인 함수의 넓이가 음수가 나온 이유를 찾아, 미적분의 기본정리를 쓸 수 있는 조건에 대해 주장해 보세요.`],
+ gen:R`부정적분은 미분의 역과정이므로 도함수 공식을 거꾸로 읽으면 $\displaystyle\int x^{r}\,dx=\frac{x^{r+1}}{r+1}+C\ (r\ne-1)$, $\displaystyle\int\frac1x\,dx=\ln|x|+C$, $\displaystyle\int e^{x}\,dx=e^{x}+C$, $\displaystyle\int a^{x}\,dx=\frac{a^{x}}{\ln a}+C$, $\displaystyle\int\sin x\,dx=-\cos x+C$, $\displaystyle\int\cos x\,dx=\sin x+C$, $\displaystyle\int\sec^{2}x\,dx=\tan x+C$ 등을 얻는다. 특히 $r=-1$인 경우는 넓이 함수 $\displaystyle\int_{1}^{x}\frac{dt}{t}=\ln x$가 채운다. 정적분은 구간에서 연속인 함수에 대해 $F(b)-F(a)$로 구한다.`,
+ apply:[{q:R`$\displaystyle\int_{1}^{4}\sqrt x\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:14/3}],hint:R`$\sqrt x=x^{\frac12}$, 부정적분은 $\dfrac23x^{\frac32}$`,sol:R`$\dfrac23(8-1)=\dfrac{14}{3}$`},
+  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}(\sin x+\cos x)\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\Big[-\cos x+\sin x\Big]_{0}^{\frac{\pi}{2}}$`,sol:R`$(0+1)-(-1+0)=2$`},
+  {q:R`$\displaystyle\int_{1}^{e^{2}}\frac{2}{x}\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:4}],hint:R`$\Big[2\ln x\Big]_{1}^{e^{2}}$`,sol:R`$2\ln e^{2}-2\ln1=4$`}],
  reflect:['로그함수를 ‘넓이’로 다시 본 경험이 로그에 대한 생각을 어떻게 바꾸었나요?','부정적분 공식을 외우지 않고 다시 만들어 내는 방법을 적어 보세요.'],ex:exOf('antider2')},
-{id:'subst',unit:'v1',codes:['12미적Ⅱ-03-02'],std:STDT['12미적Ⅱ-03-02'],title:'변수를 바꾸면 넓이는 그대로: 치환적분법',lens:'변환, 불변',pages:null,tool:'$x$ 축과 $u$ 축의 대응하는 넓이와 띠',comp:'추론, 연결',
+{id:'subst',unit:'v1',codes:['12미적Ⅱ-03-02'],std:STDT['12미적Ⅱ-03-02'],title:'변수를 바꾸면 넓이는 그대로: 치환적분법',lens:'변환, 불변',pages:null,tool:'$x$축과 $u$축의 대응하는 넓이와 띠',comp:'추론, 연결',
  big:R`적분하기 어려운 식을 다른 변수로 바꾸면 쉬워지는 이유는 무엇일까? 바꾸어도 값이 변하지 않는 까닭은 무엇일까?`,
- predict:R`$\displaystyle\int2x\cos(x^{2})\,dx$ 를 구해야 해요. 어떤 함수를 미분하면 $2x\cos(x^{2})$ 이 될지, 합성함수의 미분법을 떠올리며 예상해 보세요.`,
- f:[R`위끝 $b$ 를 바꾸어도 파란 넓이와 초록 넓이는 항상 같은가요?`,R`$x$ 가 $0$ 에서 $b$ 까지 움직일 때 $u$ 는 어디에서 어디까지 움직이나요?`,R`빨간 띠를 움직이면 두 그래프에서 띠의 폭과 높이는 각각 어떻게 다른가요?`],
- c:[R`치환적분법이 합성함수의 미분법을 거꾸로 쓴 것이라는 말을 설명해 보세요.`,R`$du=g'(x)\,dx$ 라는 표현을 띠의 폭과 높이로 설명해 보세요.`,R`정적분에서 치환할 때 적분 구간을 반드시 바꾸어야 하는 이유는 무엇인가요?`],
- d:[R`‘치환적분은 피적분함수에 $g'(x)$ 가 정확히 들어 있을 때만 쓸 수 있다’는 주장에 대해, 상수배가 다른 경우($\displaystyle\int x\cos x^{2}\,dx$ 등)를 예로 들어 토론해 보세요.`],
- gen:R`$g(x)=u$ 로 놓으면 $\displaystyle\int f(g(x))g'(x)\,dx=\int f(u)\,du$ 이고, 정적분에서는 $\displaystyle\int_{a}^{b}f(g(x))g'(x)\,dx=\int_{g(a)}^{g(b)}f(u)\,du$ 이다. 이것은 합성함수의 미분법 $\{F(g(x))\}'=f(g(x))g'(x)$ 를 거꾸로 쓴 것이며, 그래프에서는 $x$ 축의 띠의 폭이 $u$ 축에서 $g'(x)$ 배로 바뀌는 만큼 높이에 $g'(x)$ 가 곱해져 있어 넓이가 보존된다.`,
- apply:[{q:R`$\displaystyle\int_{0}^{1}2x(x^{2}+1)^{3}\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:15/4}],hint:R`$x^{2}+1=u$ 로 놓으면 $u$ 는 $1$ 에서 $2$ 까지 변해요.`,sol:R`$\displaystyle\int_{1}^{2}u^{3}\,du=\Big[\frac{u^{4}}{4}\Big]_{1}^{2}=\frac{16-1}{4}=\frac{15}{4}$`},
-  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}\sin^{2}x\cos x\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/3}],hint:R`$\sin x=u$ 로 놓아요.`,sol:R`$\displaystyle\int_{0}^{1}u^{2}\,du=\frac13$`},
-  {q:R`$\displaystyle\int_{1}^{e}\frac{\ln x}{x}\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\ln x=u$ 로 놓으면 $du=\dfrac1x\,dx$`,sol:R`$\displaystyle\int_{0}^{1}u\,du=\frac12$`}],
+ predict:R`$\displaystyle\int2x\cos(x^{2})\,dx$를 구해야 해요. 어떤 함수를 미분하면 $2x\cos(x^{2})$이 될지, 합성함수의 미분법을 떠올리며 예상해 보세요.`,
+ f:[R`위끝 $b$를 바꾸어도 파란 넓이와 초록 넓이는 항상 같은가요?`,R`$x$가 $0$에서 $b$까지 움직일 때 $u$는 어디에서 어디까지 움직이나요?`,R`빨간 띠를 움직이면 두 그래프에서 띠의 폭과 높이는 각각 어떻게 다른가요?`],
+ c:[R`치환적분법이 합성함수의 미분법을 거꾸로 쓴 것이라는 말을 설명해 보세요.`,R`$du=g'(x)\,dx$라는 표현을 띠의 폭과 높이로 설명해 보세요.`,R`정적분에서 치환할 때 적분 구간을 반드시 바꾸어야 하는 이유는 무엇인가요?`],
+ d:[R`‘치환적분은 피적분함수에 $g'(x)$가 정확히 들어 있을 때만 쓸 수 있다’는 주장에 대해, 상수배가 다른 경우($\displaystyle\int x\cos x^{2}\,dx$ 등)를 예로 들어 토론해 보세요.`],
+ gen:R`$g(x)=u$로 놓으면 $\displaystyle\int f(g(x))g'(x)\,dx=\int f(u)\,du$이고, 정적분에서는 $\displaystyle\int_{a}^{b}f(g(x))g'(x)\,dx=\int_{g(a)}^{g(b)}f(u)\,du$이다. 이것은 합성함수의 미분법 $\{F(g(x))\}'=f(g(x))g'(x)$를 거꾸로 쓴 것이며, 그래프에서는 $x$축의 띠의 폭이 $u$축에서 $g'(x)$배로 바뀌는 만큼 높이에 $g'(x)$가 곱해져 있어 넓이가 보존된다.`,
+ apply:[{q:R`$\displaystyle\int_{0}^{1}2x(x^{2}+1)^{3}\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:15/4}],hint:R`$x^{2}+1=u$로 놓으면 $u$는 $1$에서 $2$까지 변해요.`,sol:R`$\displaystyle\int_{1}^{2}u^{3}\,du=\Big[\frac{u^{4}}{4}\Big]_{1}^{2}=\frac{16-1}{4}=\frac{15}{4}$`},
+  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}\sin^{2}x\cos x\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:1/3}],hint:R`$\sin x=u$로 놓아요.`,sol:R`$\displaystyle\int_{0}^{1}u^{2}\,du=\frac13$`},
+  {q:R`$\displaystyle\int_{1}^{e}\frac{\ln x}{x}\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:1/2}],hint:R`$\ln x=u$로 놓으면 $du=\dfrac1x\,dx$`,sol:R`$\displaystyle\int_{0}^{1}u\,du=\frac12$`}],
  reflect:['피적분함수에서 ‘어떤 식과 그 도함수’를 찾아내는 나만의 요령을 적어 보세요.','넓이가 보존되는 그림이 치환적분을 이해하는 데 어떤 도움을 주었나요?'],ex:exOf('subst')},
-{id:'parts',unit:'v1',codes:['12미적Ⅱ-03-03'],std:STDT['12미적Ⅱ-03-03'],title:'직사각형에서 덜어 내기: 부분적분법',lens:'보완, 선택',pages:null,tool:'곡선 아래와 왼쪽 넓이의 합, $u$ 와 $v\'$ 선택 비교',comp:'문제해결, 추론',
+{id:'parts',unit:'v1',codes:['12미적Ⅱ-03-03'],std:STDT['12미적Ⅱ-03-03'],title:'직사각형에서 덜어 내기: 부분적분법',lens:'보완, 선택',pages:null,tool:'곡선 아래와 왼쪽 넓이의 합, $u$와 $v\'$ 선택 비교',comp:'문제해결, 추론',
  big:R`곱으로 된 함수의 적분은 어떻게 구할까? 곱의 미분법을 거꾸로 쓰면 무엇을 얻을 수 있을까?`,
- predict:R`$\displaystyle\int\ln x\,dx$ 는 어떤 함수를 미분하면 $\ln x$ 가 되는지 바로 떠오르지 않아요. $(x\ln x)'$ 을 계산해 보고, 이것이 어떻게 도움이 될지 예상해 보세요.`,
- f:[R`① 탭에서 파랑 넓이와 주황 넓이를 더하면 항상 무엇과 같나요?`,R`① 탭에서 $\displaystyle\int_{1}^{b}\ln x\,dx$ 를 직접 구하기 어려울 때, 주황 넓이는 어떤 적분으로 바뀌나요?`,R`② 탭에서 $u$ 와 $v'$ 을 바꾸어 고르면 남는 적분은 어떻게 달라지나요?`],
- c:[R`부분적분 공식을 곱의 미분법에서 이끌어 내 보세요.`,R`① 탭의 그림에서 ‘$uv$ 에서 쉬운 넓이를 빼면 어려운 넓이가 남는다’는 말을 설명해 보세요.`,R`$\ln x$ 나 다항식을 $u$ 로, $e^{x}$ 나 $\sin x$ 를 $v'$ 으로 고르는 경우가 많은 이유는 무엇인가요?`],
+ predict:R`$\displaystyle\int\ln x\,dx$는 어떤 함수를 미분하면 $\ln x$가 되는지 바로 떠오르지 않아요. $(x\ln x)'$ 을 계산해 보고, 이것이 어떻게 도움이 될지 예상해 보세요.`,
+ f:[R`① 탭에서 파랑 넓이와 주황 넓이를 더하면 항상 무엇과 같나요?`,R`① 탭에서 $\displaystyle\int_{1}^{b}\ln x\,dx$를 직접 구하기 어려울 때, 주황 넓이는 어떤 적분으로 바뀌나요?`,R`② 탭에서 $u$와 $v'$ 을 바꾸어 고르면 남는 적분은 어떻게 달라지나요?`],
+ c:[R`부분적분 공식을 곱의 미분법에서 이끌어 내 보세요.`,R`① 탭의 그림에서 ‘$uv$에서 쉬운 넓이를 빼면 어려운 넓이가 남는다’는 말을 설명해 보세요.`,R`$\ln x$ 나 다항식을 $u$로, $e^{x}$ 나 $\sin x$를 $v'$ 으로 고르는 경우가 많은 이유는 무엇인가요?`],
  d:[R`‘부분적분은 어떤 곱의 적분이든 풀 수 있는 만능 방법이다’라는 주장에 대해, 부분적분으로 풀리지 않는 예나 오히려 복잡해지는 예를 근거로 토론해 보세요.`],
- gen:R`곱의 미분법 $\{f(x)g(x)\}'=f'(x)g(x)+f(x)g'(x)$ 의 양변을 적분하면 $\displaystyle\int f(x)g'(x)\,dx=f(x)g(x)-\int f'(x)g(x)\,dx$ 를 얻는다. 그래프에서 $\displaystyle\int u\,dv+\int v\,du=\Big[uv\Big]$ 이므로, 구하기 어려운 넓이를 직사각형에서 구하기 쉬운 넓이를 뺀 것으로 바꾸는 방법이다. 남는 적분이 더 쉬워지도록 미분하면 간단해지는 쪽을 $f$, 적분해도 복잡해지지 않는 쪽을 $g'$ 으로 고른다.`,
- apply:[{q:R`$\displaystyle\int_{0}^{1}xe^{x}\,dx$ 의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:R`$f(x)=x,\ g'(x)=e^{x}$`,sol:R`$\Big[xe^{x}\Big]_{0}^{1}-\displaystyle\int_{0}^{1}e^{x}\,dx=e-(e-1)=1$`},
-  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}x\cos x\,dx=a\pi+b$ 일 때 $a+b$ 의 값을 구하시오. (단, $a,\ b$ 는 유리수)`,fields:[{label:'$a+b$',ans:-1/2}],hint:R`$f(x)=x,\ g'(x)=\cos x$`,sol:R`$\Big[x\sin x\Big]_{0}^{\frac{\pi}{2}}-\displaystyle\int_{0}^{\frac{\pi}{2}}\sin x\,dx=\frac{\pi}{2}-1$ 이므로 $a+b=\dfrac12-1=-\dfrac12$`},
-  {q:R`$\displaystyle\int_{1}^{e}x^{2}\ln x\,dx=\frac{ae^{3}+b}{9}$ 일 때 $a+b$ 의 값을 구하시오. (단, $a,\ b$ 는 정수)`,fields:[{label:'$a+b$',ans:3}],hint:R`$f(x)=\ln x,\ g'(x)=x^{2}$`,sol:R`$\Big[\dfrac{x^{3}}{3}\ln x\Big]_{1}^{e}-\displaystyle\int_{1}^{e}\frac{x^{2}}{3}\,dx=\frac{e^{3}}{3}-\frac{e^{3}-1}{9}=\frac{2e^{3}+1}{9}$, $a+b=3$`}],
- reflect:['‘직사각형에서 덜어 내기’ 그림을 보고 부분적분 공식이 어떻게 달리 보였나요?','$u$ 와 $v\'$ 을 고르는 나만의 기준을 정리해 보세요.'],ex:exOf('parts')},
+ gen:R`곱의 미분법 $\{f(x)g(x)\}'=f'(x)g(x)+f(x)g'(x)$의 양변을 적분하면 $\displaystyle\int f(x)g'(x)\,dx=f(x)g(x)-\int f'(x)g(x)\,dx$를 얻는다. 그래프에서 $\displaystyle\int u\,dv+\int v\,du=\Big[uv\Big]$이므로, 구하기 어려운 넓이를 직사각형에서 구하기 쉬운 넓이를 뺀 것으로 바꾸는 방법이다. 남는 적분이 더 쉬워지도록 미분하면 간단해지는 쪽을 $f$, 적분해도 복잡해지지 않는 쪽을 $g'$ 으로 고른다.`,
+ apply:[{q:R`$\displaystyle\int_{0}^{1}xe^{x}\,dx$의 값을 구하시오.`,fields:[{label:'값',ans:1}],hint:R`$f(x)=x,\ g'(x)=e^{x}$`,sol:R`$\Big[xe^{x}\Big]_{0}^{1}-\displaystyle\int_{0}^{1}e^{x}\,dx=e-(e-1)=1$`},
+  {q:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}x\cos x\,dx=a\pi+b$일 때 $a+b$의 값을 구하시오. (단, $a,\ b$는 유리수)`,fields:[{label:'$a+b$',ans:-1/2}],hint:R`$f(x)=x,\ g'(x)=\cos x$`,sol:R`$\Big[x\sin x\Big]_{0}^{\frac{\pi}{2}}-\displaystyle\int_{0}^{\frac{\pi}{2}}\sin x\,dx=\frac{\pi}{2}-1$이므로 $a+b=\dfrac12-1=-\dfrac12$`},
+  {q:R`$\displaystyle\int_{1}^{e}x^{2}\ln x\,dx=\frac{ae^{3}+b}{9}$일 때 $a+b$의 값을 구하시오. (단, $a,\ b$는 정수)`,fields:[{label:'$a+b$',ans:3}],hint:R`$f(x)=\ln x,\ g'(x)=x^{2}$`,sol:R`$\Big[\dfrac{x^{3}}{3}\ln x\Big]_{1}^{e}-\displaystyle\int_{1}^{e}\frac{x^{2}}{3}\,dx=\frac{e^{3}}{3}-\frac{e^{3}-1}{9}=\frac{2e^{3}+1}{9}$, $a+b=3$`}],
+ reflect:['‘직사각형에서 덜어 내기’ 그림을 보고 부분적분 공식이 어떻게 달리 보였나요?','$u$와 $v\'$ 을 고르는 나만의 기준을 정리해 보세요.'],ex:exOf('parts')},
 {id:'riemann',unit:'v2',codes:['12미적Ⅱ-03-04'],std:STDT['12미적Ⅱ-03-04'],title:'잘게 나누어 더하고 극한으로: 정적분과 급수의 합',lens:'근사, 극한',pages:null,tool:'직사각형 넓이의 합, 급수를 정적분으로 읽는 도구',comp:'정보처리, 연결',
  big:R`곡선 아래의 넓이를 직사각형들의 넓이의 합으로 어림하면, 그 극한이 왜 정적분과 같을까?`,
- predict:R`$y=x^{2}$ 아래 $0\le x\le1$ 의 넓이를 폭이 같은 직사각형 $10$ 개로 어림하면, 실제 넓이 $\dfrac13$ 보다 클까요 작을까요? 직사각형의 높이를 어디서 잡는지에 따라 어떻게 달라질지 예상해 보세요.`,
- f:[R`① 탭에서 $n$ 을 키우면 직사각형 넓이의 합과 정적분의 차는 어떻게 되나요?`,R`① 탭에서 왼쪽 끝, 오른쪽 끝, 가운데로 높이를 잡을 때 오차는 각각 어떤가요?`,R`② 탭에서 $\displaystyle\sum_{k=1}^{n}\frac{1}{n+k}$ 은 $n$ 이 커질 때 어떤 값에 가까워지나요?`],
- c:[R`$\displaystyle\sum_{k=1}^{n}f\!\left(\frac kn\right)\frac1n$ 에서 $f\!\left(\dfrac kn\right)$ 과 $\dfrac1n$ 은 각각 직사각형의 무엇을 나타내나요?`,R`높이를 어디서 잡든 $n\to\infty$ 이면 같은 값으로 가는 이유를 설명해 보세요.`,R`급수 $\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{n+k}$ 을 정적분으로 바꾸는 과정을 설명해 보세요.`],
+ predict:R`$y=x^{2}$ 아래 $0\le x\le1$의 넓이를 폭이 같은 직사각형 $10$개로 어림하면, 실제 넓이 $\dfrac13$보다 클까요 작을까요? 직사각형의 높이를 어디서 잡는지에 따라 어떻게 달라질지 예상해 보세요.`,
+ f:[R`① 탭에서 $n$을 키우면 직사각형 넓이의 합과 정적분의 차는 어떻게 되나요?`,R`① 탭에서 왼쪽 끝, 오른쪽 끝, 가운데로 높이를 잡을 때 오차는 각각 어떤가요?`,R`② 탭에서 $\displaystyle\sum_{k=1}^{n}\frac{1}{n+k}$은 $n$이 커질 때 어떤 값에 가까워지나요?`],
+ c:[R`$\displaystyle\sum_{k=1}^{n}f\!\left(\frac kn\right)\frac1n$에서 $f\!\left(\dfrac kn\right)$와 $\dfrac1n$은 각각 직사각형의 무엇을 나타내나요?`,R`높이를 어디서 잡든 $n\to\infty$이면 같은 값으로 가는 이유를 설명해 보세요.`,R`급수 $\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac{1}{n+k}$을 정적분으로 바꾸는 과정을 설명해 보세요.`],
  d:[R`‘정적분은 넓이다’와 ‘정적분은 급수의 합의 극한이다’ 중 어느 쪽을 정적분의 정의로 삼는 것이 더 좋을까요? 넓이가 음수인 경우와 넓이가 아닌 양(거리, 부피)을 근거로 토론해 보세요.`],
- gen:R`닫힌구간 $[a,b]$ 에서 연속인 함수 $f(x)$ 에 대하여 구간을 $n$ 등분한 직사각형들의 넓이의 합의 극한은 정적분과 같다. $\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}f(x_k)\Delta x=\int_{a}^{b}f(x)\,dx$. 높이를 어느 점에서 잡든 극한은 같다. 거꾸로 급수의 합은 $\dfrac kn$ 을 $x$, $\dfrac1n$ 을 $dx$ 로 읽어 정적분으로 바꾸어 구할 수 있다.`,
- apply:[{q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\left(\frac kn\right)^{3}\frac1n$ 의 값을 구하시오.`,fields:[{label:'값',ans:1/4}],hint:R`$\displaystyle\int_{0}^{1}x^{3}\,dx$ 로 바꾸어요.`,sol:R`$\displaystyle\int_{0}^{1}x^{3}\,dx=\frac14$`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac2n\left(1+\frac{2k}{n}\right)^{2}$ 의 값을 구하시오.`,fields:[{label:'값',ans:26/3}],hint:R`$1+\dfrac{2k}{n}$ 을 $x$ 로, $\dfrac2n$ 을 $dx$ 로 보면 $x$ 는 $1$ 에서 $3$ 까지 움직여요.`,sol:R`$\displaystyle\int_{1}^{3}x^{2}\,dx=\frac{27-1}{3}=\frac{26}{3}$`},
-  {q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac{\pi}{n}\sin\frac{k\pi}{n}$ 의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{k\pi}{n}$ 을 $x$, $\dfrac{\pi}{n}$ 을 $dx$ 로 보면 $x$ 는 $0$ 에서 $\pi$ 까지예요.`,sol:R`$\displaystyle\int_{0}^{\pi}\sin x\,dx=2$`}],
+ gen:R`닫힌구간 $[a,b]$에서 연속인 함수 $f(x)$에 대하여 구간을 $n$등분한 직사각형들의 넓이의 합의 극한은 정적분과 같다. $\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}f(x_k)\Delta x=\int_{a}^{b}f(x)\,dx$. 높이를 어느 점에서 잡든 극한은 같다. 거꾸로 급수의 합은 $\dfrac kn$를 $x$, $\dfrac1n$을 $dx$로 읽어 정적분으로 바꾸어 구할 수 있다.`,
+ apply:[{q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\left(\frac kn\right)^{3}\frac1n$의 값을 구하시오.`,fields:[{label:'값',ans:1/4}],hint:R`$\displaystyle\int_{0}^{1}x^{3}\,dx$로 바꾸어요.`,sol:R`$\displaystyle\int_{0}^{1}x^{3}\,dx=\frac14$`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac2n\left(1+\frac{2k}{n}\right)^{2}$의 값을 구하시오.`,fields:[{label:'값',ans:26/3}],hint:R`$1+\dfrac{2k}{n}$를 $x$로, $\dfrac2n$를 $dx$로 보면 $x$는 $1$에서 $3$까지 움직여요.`,sol:R`$\displaystyle\int_{1}^{3}x^{2}\,dx=\frac{27-1}{3}=\frac{26}{3}$`},
+  {q:R`$\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}\frac{\pi}{n}\sin\frac{k\pi}{n}$의 값을 구하시오.`,fields:[{label:'값',ans:2}],hint:R`$\dfrac{k\pi}{n}$를 $x$, $\dfrac{\pi}{n}$를 $dx$로 보면 $x$는 $0$에서 $\pi$까지예요.`,sol:R`$\displaystyle\int_{0}^{\pi}\sin x\,dx=2$`}],
  reflect:['급수를 정적분으로 바꾸는 과정에서 가장 헷갈린 부분과 해결 방법을 적어 보세요.','컴퓨터가 넓이를 계산하는 방법과 이 차시의 내용을 연결해 적어 보세요.'],ex:exOf('riemann')},
 {id:'area3',unit:'v2',codes:['12미적Ⅱ-03-05'],std:STDT['12미적Ⅱ-03-05'],title:'세로로 자를까 가로로 자를까: 곡선으로 둘러싸인 도형의 넓이',lens:'관점, 대칭',pages:null,tool:'두 곡선 사이 넓이, 가로 띠와 세로 띠 비교',comp:'문제해결, 연결',
  big:R`지수, 로그, 삼각함수의 그래프로 둘러싸인 도형의 넓이를 가장 효율적으로 구하려면 어떤 방향으로 잘라야 할까?`,
- predict:R`곡선 $y=\ln x$ 와 $y$ 축, 두 직선 $y=0,\ y=1$ 로 둘러싸인 넓이를 구하려고 해요. $x$ 에 대하여 적분하는 것과 $y$ 에 대하여 적분하는 것 중 어느 쪽이 쉬울지 예상해 보세요.`,
- f:[R`① 탭에서 $\sin x$ 와 $\cos x$ 로 둘러싸인 부분의 넓이는 얼마인가요?`,R`① 탭에서 $e^{x}$ 와 $e^{-x}$ 사이의 넓이는 $b$ 에 따라 어떻게 변하나요?`,R`② 탭에서 가로 띠로 나누면 각 띠의 길이는 무엇으로 나타나나요?`,R`② 탭에서 파랑과 주황 넓이의 합은 무엇과 같나요?`],
- c:[R`두 곡선 사이의 넓이를 구할 때 교점을 먼저 구하고, 위아래를 확인해야 하는 이유를 설명해 보세요.`,R`$y$ 에 대하여 적분하는 것이 편리한 경우는 언제인지 설명해 보세요.`,R`② 탭의 결과로 $\displaystyle\int_{1}^{e}\ln x\,dx$ 를 부분적분 없이 구하는 방법을 설명해 보세요.`],
- d:[R`‘넓이 문제는 언제나 $x$ 에 대하여 적분하면 된다’는 주장에 대해, 효율성과 가능성의 두 측면에서 토론해 보세요.`],
- gen:R`곡선으로 둘러싸인 도형의 넓이는 교점으로 구간을 나누고, 각 구간에서 (위쪽 곡선) $-$ (아래쪽 곡선)을 적분하여 구한다. 곡선이 $x=g(y)$ 꼴로 다루기 쉬우면 가로 띠로 나누어 $y$ 에 대하여 적분하며, 함수와 역함수의 그래프가 직선 $y=x$ 에 대칭이라는 사실을 이용하면 어려운 넓이를 쉬운 넓이로 바꿀 수 있다.`,
- apply:[{q:R`곡선 $y=e^{x}$ 와 $x$ 축 및 두 직선 $x=0,\ x=\ln4$ 로 둘러싸인 도형의 넓이를 구하시오.`,fields:[{label:'넓이',ans:3}],hint:R`$\displaystyle\int_{0}^{\ln4}e^{x}\,dx$`,sol:R`$e^{\ln4}-e^{0}=4-1=3$`},
-  {q:R`$\dfrac{\pi}{4}\le x\le\dfrac{5\pi}{4}$ 에서 두 곡선 $y=\sin x,\ y=\cos x$ 로 둘러싸인 도형의 넓이를 $S$ 라 할 때 $S^{2}$ 의 값을 구하시오.`,fields:[{label:'$S^{2}$',ans:8}],hint:R`이 구간에서 $\sin x\ge\cos x$ 예요.`,sol:R`$S=\Big[-\cos x-\sin x\Big]_{\frac{\pi}{4}}^{\frac{5\pi}{4}}=\sqrt2-(-\sqrt2)=2\sqrt2$, $S^{2}=8$`},
-  {q:R`곡선 $y=\dfrac1x$ 와 $x$ 축 및 두 직선 $x=1,\ x=e^{2}$ 으로 둘러싸인 도형의 넓이를 구하시오.`,fields:[{label:'넓이',ans:2}],hint:R`$\displaystyle\int_{1}^{e^{2}}\frac1x\,dx$`,sol:R`$\ln e^{2}-\ln1=2$`}],
+ predict:R`곡선 $y=\ln x$와 $y$축, 두 직선 $y=0,\ y=1$로 둘러싸인 넓이를 구하려고 해요. $x$에 대하여 적분하는 것과 $y$에 대하여 적분하는 것 중 어느 쪽이 쉬울지 예상해 보세요.`,
+ f:[R`① 탭에서 $\sin x$와 $\cos x$로 둘러싸인 부분의 넓이는 얼마인가요?`,R`① 탭에서 $e^{x}$과 $e^{-x}$ 사이의 넓이는 $b$에 따라 어떻게 변하나요?`,R`② 탭에서 가로 띠로 나누면 각 띠의 길이는 무엇으로 나타나나요?`,R`② 탭에서 파랑과 주황 넓이의 합은 무엇과 같나요?`],
+ c:[R`두 곡선 사이의 넓이를 구할 때 교점을 먼저 구하고, 위아래를 확인해야 하는 이유를 설명해 보세요.`,R`$y$에 대하여 적분하는 것이 편리한 경우는 언제인지 설명해 보세요.`,R`② 탭의 결과로 $\displaystyle\int_{1}^{e}\ln x\,dx$를 부분적분 없이 구하는 방법을 설명해 보세요.`],
+ d:[R`‘넓이 문제는 언제나 $x$에 대하여 적분하면 된다’는 주장에 대해, 효율성과 가능성의 두 측면에서 토론해 보세요.`],
+ gen:R`곡선으로 둘러싸인 도형의 넓이는 교점으로 구간을 나누고, 각 구간에서 (위쪽 곡선) $-$ (아래쪽 곡선)을 적분하여 구한다. 곡선이 $x=g(y)$ 꼴로 다루기 쉬우면 가로 띠로 나누어 $y$에 대하여 적분하며, 함수와 역함수의 그래프가 직선 $y=x$에 대칭이라는 사실을 이용하면 어려운 넓이를 쉬운 넓이로 바꿀 수 있다.`,
+ apply:[{q:R`곡선 $y=e^{x}$과 $x$축 및 두 직선 $x=0,\ x=\ln4$로 둘러싸인 도형의 넓이를 구하시오.`,fields:[{label:'넓이',ans:3}],hint:R`$\displaystyle\int_{0}^{\ln4}e^{x}\,dx$`,sol:R`$e^{\ln4}-e^{0}=4-1=3$`},
+  {q:R`$\dfrac{\pi}{4}\le x\le\dfrac{5\pi}{4}$에서 두 곡선 $y=\sin x,\ y=\cos x$로 둘러싸인 도형의 넓이를 $S$라 할 때 $S^{2}$의 값을 구하시오.`,fields:[{label:'$S^{2}$',ans:8}],hint:R`이 구간에서 $\sin x\ge\cos x$예요.`,sol:R`$S=\Big[-\cos x-\sin x\Big]_{\frac{\pi}{4}}^{\frac{5\pi}{4}}=\sqrt2-(-\sqrt2)=2\sqrt2$, $S^{2}=8$`},
+  {q:R`곡선 $y=\dfrac1x$과 $x$축 및 두 직선 $x=1,\ x=e^{2}$으로 둘러싸인 도형의 넓이를 구하시오.`,fields:[{label:'넓이',ans:2}],hint:R`$\displaystyle\int_{1}^{e^{2}}\frac1x\,dx$`,sol:R`$\ln e^{2}-\ln1=2$`}],
  reflect:['가로 띠와 세로 띠를 바꾸어 본 경험이 넓이를 보는 관점을 어떻게 넓혀 주었나요?','넓이 문제를 풀기 전에 확인해야 할 것들을 나만의 점검표로 만들어 보세요.'],ex:exOf('area3')},
 {id:'volume',unit:'v2',codes:['12미적Ⅱ-03-06'],std:STDT['12미적Ⅱ-03-06'],title:'얇게 썰어 쌓으면 부피가 보인다: 입체도형의 부피',lens:'분할, 누적',pages:null,tool:'단면을 쌓은 입체, 기울어진 동전 더미',comp:'추론, 연결',
  big:R`공식이 없는 입체도형의 부피를 어떻게 구할 수 있을까? 단면의 넓이만 알면 충분할까?`,
- predict:R`밑면이 곡선 $y=\sqrt x$ 아래의 영역이고, $x$ 축에 수직인 단면이 모두 정사각형인 입체를 상상해 보세요. 부피를 어떻게 구할 수 있을지 방법을 예상해 보세요.`,
- f:[R`① 탭에서 조각 수 $n$ 을 늘리면 기둥들의 부피의 합은 어떤 값에 가까워지나요?`,R`① 탭에서 단면의 모양(정사각형, 정삼각형, 반원)을 바꾸면 부피는 어떻게 달라지나요?`,R`② 탭에서 동전 더미를 비스듬히 밀어도 부피가 같다고 할 수 있나요?`],
- c:[R`얇은 조각 하나의 부피가 $S(x)\Delta x$ 에 가까운 이유를 설명해 보세요.`,R`입체의 부피를 $\displaystyle\int_{a}^{b}S(x)\,dx$ 로 구하는 것이 정적분과 급수의 합의 관계와 어떻게 연결되나요?`,R`단면의 넓이가 모든 높이에서 같은 두 입체의 부피가 같은 이유를 정적분으로 설명해 보세요.`],
+ predict:R`밑면이 곡선 $y=\sqrt x$ 아래의 영역이고, $x$축에 수직인 단면이 모두 정사각형인 입체를 상상해 보세요. 부피를 어떻게 구할 수 있을지 방법을 예상해 보세요.`,
+ f:[R`① 탭에서 조각 수 $n$을 늘리면 기둥들의 부피의 합은 어떤 값에 가까워지나요?`,R`① 탭에서 단면의 모양(정사각형, 정삼각형, 반원)을 바꾸면 부피는 어떻게 달라지나요?`,R`② 탭에서 동전 더미를 비스듬히 밀어도 부피가 같다고 할 수 있나요?`],
+ c:[R`얇은 조각 하나의 부피가 $S(x)\Delta x$에 가까운 이유를 설명해 보세요.`,R`입체의 부피를 $\displaystyle\int_{a}^{b}S(x)\,dx$로 구하는 것이 정적분과 급수의 합의 관계와 어떻게 연결되나요?`,R`단면의 넓이가 모든 높이에서 같은 두 입체의 부피가 같은 이유를 정적분으로 설명해 보세요.`],
  d:[R`‘부피를 구하려면 입체의 겉모양을 알아야 한다’는 주장과 ‘단면의 넓이만 알면 충분하다’는 주장 중 어느 쪽이 옳은지, 동전 더미의 예를 근거로 토론해 보세요.`],
- gen:R`입체도형을 $x$ 축에 수직인 평면으로 자른 단면의 넓이가 $S(x)$ 이고 연속일 때, 입체를 얇은 조각으로 나누면 각 조각의 부피는 $S(x_k)\Delta x$ 에 가깝고, 그 합의 극한으로 부피 $V=\displaystyle\int_{a}^{b}S(x)\,dx$ 를 얻는다. 따라서 단면의 넓이가 모든 위치에서 같은 두 입체는 겉모양이 달라도 부피가 같다.`,
- apply:[{q:R`밑면이 곡선 $y=\sqrt x$ 와 $x$ 축, 직선 $x=4$ 로 둘러싸인 영역이고, $x$ 축에 수직인 평면으로 자른 단면이 한 변의 길이가 $\sqrt x$ 인 정사각형인 입체의 부피를 구하시오.`,fields:[{label:'부피',ans:8}],hint:R`$S(x)=(\sqrt x)^{2}=x$`,sol:R`$\displaystyle\int_{0}^{4}x\,dx=8$`},
-  {q:R`어떤 입체를 $x$ 축 위의 점 $x$ 를 지나고 $x$ 축에 수직인 평면으로 자른 단면의 넓이가 $e^{x}$ 일 때, $0\le x\le\ln3$ 인 부분의 부피를 구하시오.`,fields:[{label:'부피',ans:2}],hint:R`$\displaystyle\int_{0}^{\ln3}e^{x}\,dx$`,sol:R`$e^{\ln3}-1=2$`},
-  {q:R`반지름이 $3$ 인 구를 중심에서 거리 $x$ 인 평면으로 자른 단면의 넓이는 $\pi(9-x^{2})$ 이다. 이를 이용하여 구한 구의 부피를 $k\pi$ 라 할 때 $k$ 의 값을 구하시오.`,fields:[{label:'$k$',ans:36}],hint:R`$\displaystyle\int_{-3}^{3}\pi(9-x^{2})\,dx$`,sol:R`$\pi\Big[9x-\dfrac{x^{3}}{3}\Big]_{-3}^{3}=\pi(18+18)=36\pi$, $k=36$`}],
+ gen:R`입체도형을 $x$축에 수직인 평면으로 자른 단면의 넓이가 $S(x)$이고 연속일 때, 입체를 얇은 조각으로 나누면 각 조각의 부피는 $S(x_k)\Delta x$에 가깝고, 그 합의 극한으로 부피 $V=\displaystyle\int_{a}^{b}S(x)\,dx$를 얻는다. 따라서 단면의 넓이가 모든 위치에서 같은 두 입체는 겉모양이 달라도 부피가 같다.`,
+ apply:[{q:R`밑면이 곡선 $y=\sqrt x$와 $x$축, 직선 $x=4$로 둘러싸인 영역이고, $x$축에 수직인 평면으로 자른 단면이 한 변의 길이가 $\sqrt x$인 정사각형인 입체의 부피를 구하시오.`,fields:[{label:'부피',ans:8}],hint:R`$S(x)=(\sqrt x)^{2}=x$`,sol:R`$\displaystyle\int_{0}^{4}x\,dx=8$`},
+  {q:R`어떤 입체를 $x$축 위의 점 $x$를 지나고 $x$축에 수직인 평면으로 자른 단면의 넓이가 $e^{x}$일 때, $0\le x\le\ln3$인 부분의 부피를 구하시오.`,fields:[{label:'부피',ans:2}],hint:R`$\displaystyle\int_{0}^{\ln3}e^{x}\,dx$`,sol:R`$e^{\ln3}-1=2$`},
+  {q:R`반지름이 $3$인 구를 중심에서 거리 $x$인 평면으로 자른 단면의 넓이는 $\pi(9-x^{2})$이다. 이를 이용하여 구한 구의 부피를 $k\pi$라 할 때 $k$의 값을 구하시오.`,fields:[{label:'$k$',ans:36}],hint:R`$\displaystyle\int_{-3}^{3}\pi(9-x^{2})\,dx$`,sol:R`$\pi\Big[9x-\dfrac{x^{3}}{3}\Big]_{-3}^{3}=\pi(18+18)=36\pi$, $k=36$`}],
  reflect:['중학교에서 배운 부피 공식을 이제 어떻게 설명할 수 있게 되었는지 적어 보세요.','단면으로 부피를 구하는 방법이 쓰이는 실제 예(의료 영상, 지형 등)를 하나 적어 보세요.'],ex:exOf('volume')},
 {id:'dist2',unit:'v2',codes:['12미적Ⅱ-03-07'],std:STDT['12미적Ⅱ-03-07'],title:'되돌아온 만큼은 지워질까: 속도와 거리',lens:'누적, 방향',pages:null,tool:'속도 그래프의 부호 있는 넓이와 수직선 위의 이동',comp:'연결, 문제해결',
  big:R`속도가 지수함수나 삼각함수로 주어질 때, 위치의 변화량과 실제로 움직인 거리는 어떻게 다르게 구할까?`,
- predict:R`속도가 $v(t)=\cos t$ 인 점이 $t=0$ 에서 $t=2\pi$ 까지 움직였어요. 처음 위치로 돌아올까요? 움직인 거리는 얼마일지 예상해 보세요.`,
- f:[R`$v(t)=\cos t$ 에서 $T=2\pi$ 일 때 위치의 변화량과 움직인 거리는 각각 얼마인가요?`,R`$v(t)=1-2e^{-t}$ 에서 점은 처음에 어느 방향으로 움직이나요? 방향이 바뀌는 시각은 언제인가요?`,R`위치의 변화량과 움직인 거리가 달라지기 시작하는 순간은 언제인가요?`],
- c:[R`위치의 변화량은 $\displaystyle\int v\,dt$, 움직인 거리는 $\displaystyle\int|v|\,dt$ 인 이유를 설명해 보세요.`,R`움직인 거리를 구할 때 $v(t)=0$ 인 시각으로 구간을 나누는 이유는 무엇인가요?`,R`미분(위치 → 속도)과 적분(속도 → 위치)이 서로 거꾸로인 관계를 이 차시의 도구로 설명해 보세요.`],
- d:[R`처음 위치를 모르면 속도 그래프만으로 시각 $t$ 에서의 위치를 알 수 없어요. 그렇다면 ‘속도를 알면 운동을 모두 안다’는 말은 옳을까요? 무엇이 더 필요한지 토론해 보세요.`],
- gen:R`수직선 위를 움직이는 점의 속도가 $v(t)$ 이면 $t=a$ 에서 $t=b$ 까지 위치의 변화량은 $\displaystyle\int_{a}^{b}v(t)\,dt$, 움직인 거리는 $\displaystyle\int_{a}^{b}|v(t)|\,dt$ 이며, 시각 $t$ 에서의 위치는 처음 위치에 위치의 변화량을 더한 것이다. 움직인 거리는 $v(t)=0$ 인 시각으로 구간을 나누어 음수인 구간의 부호를 바꾸어 더하며, 운동 방향이 바뀌지 않을 때만 두 값의 크기가 같다.`,
- apply:[{q:R`수직선 위를 움직이는 점의 속도가 $v(t)=\cos t$ 일 때, $t=0$ 에서 $t=\dfrac{\pi}{2}$ 까지 위치의 변화량을 구하시오.`,fields:[{label:'변화량',ans:1}],hint:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}\cos t\,dt$`,sol:R`$\sin\dfrac{\pi}{2}-\sin0=1$`},
-  {q:R`속도가 $v(t)=\cos t$ 인 점이 $t=0$ 에서 $t=\pi$ 까지 움직였을 때 위치의 변화량을 구하시오.`,fields:[{label:'변화량',ans:0}],hint:R`$\displaystyle\int_{0}^{\pi}\cos t\,dt$`,sol:R`$\sin\pi-\sin0=0$. 앞으로 $1$ 만큼 갔다가 뒤로 $1$ 만큼 돌아와요.`},
-  {q:R`속도가 $v(t)=\sin t$ 인 점이 $t=0$ 에서 $t=2\pi$ 까지 움직인 거리를 구하시오.`,fields:[{label:'거리',ans:4}],hint:R`$t=\pi$ 에서 운동 방향이 바뀌어요.`,sol:R`$\displaystyle\int_{0}^{\pi}\sin t\,dt+\int_{\pi}^{2\pi}(-\sin t)\,dt=2+2=4$`}],
+ predict:R`속도가 $v(t)=\cos t$인 점이 $t=0$에서 $t=2\pi$까지 움직였어요. 처음 위치로 돌아올까요? 움직인 거리는 얼마일지 예상해 보세요.`,
+ f:[R`$v(t)=\cos t$에서 $T=2\pi$일 때 위치의 변화량과 움직인 거리는 각각 얼마인가요?`,R`$v(t)=1-2e^{-t}$에서 점은 처음에 어느 방향으로 움직이나요? 방향이 바뀌는 시각은 언제인가요?`,R`위치의 변화량과 움직인 거리가 달라지기 시작하는 순간은 언제인가요?`],
+ c:[R`위치의 변화량은 $\displaystyle\int v\,dt$, 움직인 거리는 $\displaystyle\int|v|\,dt$인 이유를 설명해 보세요.`,R`움직인 거리를 구할 때 $v(t)=0$인 시각으로 구간을 나누는 이유는 무엇인가요?`,R`미분(위치 → 속도)과 적분(속도 → 위치)이 서로 거꾸로인 관계를 이 차시의 도구로 설명해 보세요.`],
+ d:[R`처음 위치를 모르면 속도 그래프만으로 시각 $t$에서의 위치를 알 수 없어요. 그렇다면 ‘속도를 알면 운동을 모두 안다’는 말은 옳을까요? 무엇이 더 필요한지 토론해 보세요.`],
+ gen:R`수직선 위를 움직이는 점의 속도가 $v(t)$이면 $t=a$에서 $t=b$까지 위치의 변화량은 $\displaystyle\int_{a}^{b}v(t)\,dt$, 움직인 거리는 $\displaystyle\int_{a}^{b}|v(t)|\,dt$이며, 시각 $t$에서의 위치는 처음 위치에 위치의 변화량을 더한 것이다. 움직인 거리는 $v(t)=0$인 시각으로 구간을 나누어 음수인 구간의 부호를 바꾸어 더하며, 운동 방향이 바뀌지 않을 때만 두 값의 크기가 같다.`,
+ apply:[{q:R`수직선 위를 움직이는 점의 속도가 $v(t)=\cos t$일 때, $t=0$에서 $t=\dfrac{\pi}{2}$까지 위치의 변화량을 구하시오.`,fields:[{label:'변화량',ans:1}],hint:R`$\displaystyle\int_{0}^{\frac{\pi}{2}}\cos t\,dt$`,sol:R`$\sin\dfrac{\pi}{2}-\sin0=1$`},
+  {q:R`속도가 $v(t)=\cos t$인 점이 $t=0$에서 $t=\pi$까지 움직였을 때 위치의 변화량을 구하시오.`,fields:[{label:'변화량',ans:0}],hint:R`$\displaystyle\int_{0}^{\pi}\cos t\,dt$`,sol:R`$\sin\pi-\sin0=0$. 앞으로 $1$만큼 갔다가 뒤로 $1$만큼 돌아와요.`},
+  {q:R`속도가 $v(t)=\sin t$인 점이 $t=0$에서 $t=2\pi$까지 움직인 거리를 구하시오.`,fields:[{label:'거리',ans:4}],hint:R`$t=\pi$에서 운동 방향이 바뀌어요.`,sol:R`$\displaystyle\int_{0}^{\pi}\sin t\,dt+\int_{\pi}^{2\pi}(-\sin t)\,dt=2+2=4$`}],
  reflect:['미적분Ⅱ 전체를 돌아보며 ‘극한, 미분, 적분’이 하나로 연결되는 그림을 그려 보세요.','미적분Ⅱ에서 가장 인상 깊었던 아이디어 하나와 그 이유를 적어 보세요.'],ex:exOf('dist2')}
 ];
 const L2=[];
@@ -2612,7 +2619,7 @@ function renderTeacher(){main.className='k1';main.replaceChildren(h('h1',{},'교
   h('p',{class:'lens'},'성취기준과 탐구 차시, 도구, 평가 관점의 연결'),
   h('section',{class:'sheet',style:'margin-top:20px'},h('h3',{},'설계 원리'),
     h('p',{},'각 차시는 〈미적분Ⅱ〉 내용 체계의 세 핵심 아이디어(수열의 극한은 무한을 수학적으로 다루는 도구이다, 다양한 미분법으로 여러 가지 함수의 도함수를 효율적으로 구하고 변화 현상을 심층적으로 탐구한다, 다양한 적분법으로 넓이와 부피, 속도와 거리를 효율적으로 계산한다)를 ‘핵심 질문’으로 바꾸어 제시합니다. 사실적 질문(무엇이 일어나는가) → 개념적 질문(왜, 어떤 관계인가) → 논쟁적 질문(언제까지 성립하는가)의 순서로 사고를 끌어올리고, 학생은 탐색 도구를 직접 움직여 사실을 모은 뒤 스스로 일반화 문장을 쓰고 교사용 일반화와 개념 정리로 비교하며 다듬습니다.'),
-    h('p',{},'교육과정의 과정·기능 요소(공학 도구로 수열의 극한, 급수, 미분과 적분 탐구하기, 곡선의 볼록한 방향 판정하기, 극한·미분·적분을 실생활과 타 교과에 연결하기, 미분과 적분을 수학의 여러 영역과 연결하기, 식·그래프·기호로 표현하기)를 차시별 탐색 도구에 녹였습니다. 띠로 보는 수열의 수렴, 수직선 위의 등비급수 뜀뛰기, 기울기의 자취, $x\to u\to y$ 배율 그림, 치환적분의 넓이 보존, 부분적분의 직사각형 그림, 단면을 쌓은 입체처럼 공식이 ‘왜’ 성립하는지를 눈으로 확인하는 도구를 중심에 두었습니다.'),
+    h('p',{},'교육과정의 과정·기능 요소(공학 도구로 수열의 극한, 급수, 미분과 적분 탐구하기, 곡선의 볼록한 방향 판정하기, 극한·미분·적분을 실생활과 타 교과에 연결하기, 미분과 적분을 수학의 여러 영역과 연결하기, 식·그래프·기호로 표현하기)를 차시별 탐색 도구에 녹였습니다. 띠로 보는 수열의 수렴, 수직선 위의 등비급수 뜀뛰기, 기울기의 자취, $x\to u\to y$배율 그림, 치환적분의 넓이 보존, 부분적분의 직사각형 그림, 단면을 쌓은 입체처럼 공식이 ‘왜’ 성립하는지를 눈으로 확인하는 도구를 중심에 두었습니다.'),
     h('p',{},'교수·학습 방법의 ‘단면의 넓이로부터 입체도형의 부피를 추측하고 일반화하게 한다’, ‘주어진 영역의 넓이를 직사각형 넓이의 합의 극한으로 나타내 보게 한다’를 각각 입체도형의 부피 차시와 정적분과 급수의 합 차시의 탐색 도구로 구현했습니다.'),
     h('p',{},'G-Man 멘토는 정답이나 완성된 풀이를 먼저 주지 않고, 학생이 다음 한 걸음을 스스로 내딛도록 질문 하나나 힌트 하나만 제공하도록 지시되어 있습니다. 멘토에는 현재 차시와 탐색 도구의 상태(슬라이더 값, 화면 결과)가 함께 전달되어, 학생이 보고 있는 화면에 맞추어 안내합니다.'),
     h('p',{},'개인정보: 학생 기록은 기기의 브라우저에만 저장되고, G-Man 멘토를 사용할 때만 보낸 말과 차시 정보가 Anthropic의 Claude로 전달됩니다. 운영자 정보와 자세한 조항은 ',h('a',{href:'#privacy'},'개인정보 처리방침'),'에 있습니다. 학교 도입 전 심의는 학교에서 별도로 받아야 합니다.'),
@@ -2713,15 +2720,15 @@ function mathField(ta,opt={}){
   palBox.hidden=!open;if(open)renderPal();
   let t;const upd=()=>{clearTimeout(t);t=setTimeout(()=>{prev.textContent=ta.value;prev.classList.toggle('empty',!ta.value.trim());if(ta.value.trim())typeset(prev);},280);};
   ta.addEventListener('input',upd);upd();
-  const w=h('div',{class:'mfield'+(opt.big?' big':'')},h('div',{class:'mbar'},toggle,h('span',{class:'mhint'},'수식은 $와 $ 사이에 LaTeX로 써요. 기호 단추를 누르면 자동으로 넣어 줘요.')),palBox,ta,h('div',{class:'mprev-l'},'미리보기'),prev);
+  const w=h('div',{class:'mfield'+(opt.big?' big':'')},h('div',{class:'mbar'},toggle,h('span',{class:'mhint'},'수식은 ',h('code',{},'$'),' 기호 두 개 사이에 LaTeX로 써요(예: ',h('code',{},'$x^{2}$'),'). 기호 단추를 누르면 수식을 자동으로 넣어 줘요.')),palBox,ta,h('div',{class:'mprev-l'},'미리보기'),prev);
   w.ta=ta;return w;}
 
 /* ---------- 수학 노트 (수식 편집기) ---------- */
 const REF=[[R`\displaystyle\lim_{n\to\infty}a_n=L`,'수열의 극한'],[R`\displaystyle\sum_{n=1}^{\infty}ar^{n-1}=\frac{a}{1-r}`,'등비급수의 합'],[R`\displaystyle\lim_{x\to0}\frac{\sin x}{x}=1`,'삼각함수의 극한'],[R`(e^{x})'=e^{x},\ (\ln x)'=\dfrac{1}{x}`,'지수·로그함수의 도함수'],[R`\sin(\alpha+\beta)=\sin\alpha\cos\beta+\cos\alpha\sin\beta`,'덧셈정리'],[R`\left\{\dfrac{f(x)}{g(x)}\right\}'=\dfrac{f'(x)g(x)-f(x)g'(x)}{\{g(x)\}^{2}}`,'몫의 미분법'],[R`\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}`,'합성함수의 미분법'],[R`\dfrac{dy}{dx}=\dfrac{dy/dt}{dx/dt}`,'매개변수의 미분법'],[R`f''(x)`,'이계도함수'],[R`\displaystyle\int f(g(x))g'(x)\,dx=\int f(u)\,du`,'치환적분법'],[R`\displaystyle\int f(x)g'(x)\,dx=f(x)g(x)-\int f'(x)g(x)\,dx`,'부분적분법'],[R`\displaystyle\lim_{n\to\infty}\sum_{k=1}^{n}f\!\left(\frac{k}{n}\right)\frac{1}{n}=\int_{0}^{1}f(x)\,dx`,'정적분과 급수의 합'],[R`V=\displaystyle\int_{a}^{b}S(x)\,dx`,'입체도형의 부피']];
 function newDoc(){const d={id:'d'+Date.now().toString(36),title:'새 수학 노트',body:'',t:Date.now()};store.docs.unshift(d);store.docCur=d.id;save();return d;}
-function renderEditor(){store.docs=store.docs||[];if(!store.docs.length){const d=newDoc();d.title='미분계수의 정의 정리';d.body=R`함수 $f(x)$의 $x=a$에서의 미분계수는
-$$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$$
-이 값은 곡선 $y=f(x)$ 위의 점 $(a,\ f(a))$에서의 접선의 기울기이다.`;save();}
+function renderEditor(){store.docs=store.docs||[];if(!store.docs.length){const d=newDoc();d.title='등비급수의 합 정리';d.body=R`첫째항이 $a$, 공비가 $r$인 등비급수는 $|r|<1$일 때 수렴하고, 그 합은
+$$\sum_{n=1}^{\infty}ar^{n-1}=\frac{a}{1-r}$$
+이다. 예를 들어 $\displaystyle\sum_{n=1}^{\infty}\left(\frac12\right)^{n}=1$이다.`;save();}
   let cur=store.docs.find(d=>d.id===store.docCur)||store.docs[0];store.docCur=cur.id;
   const list=h('ul',{class:'doclist'},store.docs.map(d=>h('li',{},h('button',{type:'button',class:d.id===cur.id?'on':'',onclick:()=>{store.docCur=d.id;save();renderEditor();}},h('b',{},d.title||'제목 없음'),h('span',{},new Date(d.t).toLocaleDateString('ko-KR'))))));
   const title=h('input',{type:'text',class:'doctitle',value:cur.title,'aria-label':'노트 제목'});title.oninput=()=>{cur.title=title.value;cur.t=Date.now();save();};
@@ -2731,7 +2738,7 @@ $$f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}$$
   const pdfMsg=h('p',{class:'muted',style:'margin:8px 0 0'});const pdfBtn=h('button',{class:'btn',type:'button'},'이 노트 PDF로 저장');
   pdfBtn.onclick=()=>{const doc=buildReport({scope:'none',docs:[cur]});const holder=h('div',{class:'offscreen'},doc);document.body.append(holder);typeset(doc);makePDF(doc,`${cur.title||'수학 노트'}.pdf`,pdfBtn,pdfMsg).finally(()=>holder.remove());};
   main.className='k1';
-  main.replaceChildren(h('h1',{},'✏️ 수학 노트'),h('p',{class:'lens'},'글과 수식을 함께 쓰는 수식 편집기예요. 수식은 $와 $ 사이(한 줄 가운데 수식은 $$와 $$ 사이)에 LaTeX로 쓰고, 기호 단추로 쉽게 넣을 수 있어요.'),
+  main.replaceChildren(h('h1',{},'✏️ 수학 노트'),h('p',{class:'lens'},'글과 수식을 함께 쓰는 수식 편집기예요. 수식은 ',h('code',{},'$'),' 기호 두 개 사이에, 한 줄 가운데에 크게 보일 수식은 ',h('code',{},'$$'),' 기호 두 개 사이에 LaTeX로 써요. 기호 단추를 누르면 쉽게 넣을 수 있어요.'),
     h('div',{class:'edgrid'},h('aside',{class:'sheet docside'},h('button',{class:'btn',type:'button',style:'width:100%;justify-content:center',onclick:()=>{newDoc();renderEditor();}},'+ 새 노트'),list),
       h('div',{},h('section',{class:'sheet'},title,field,h('div',{class:'row'},pdfBtn,h('a',{class:'btn ghost',href:'#report'},'모든 기록 모아 저장'),del),pdfMsg),
         h('section',{class:'sheet'},h('h3',{},'📘 자주 쓰는 LaTeX'),h('div',{class:'tbl-wrap'},h('table',{class:'map ref'},h('tr',{},h('th',{},'쓰는 법 (LaTeX)'),h('th',{},'보이는 모양'),h('th',{},'뜻')),REF.map(([c,m])=>h('tr',{},h('td',{},h('code',{},'$'+c+'$')),h('td',{},'$'+c+'$'),h('td',{},m)))))))));
