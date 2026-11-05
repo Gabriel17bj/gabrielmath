@@ -534,6 +534,9 @@ body.pm-open{overflow:hidden}
 /* ---------- 닫힌 G-Man 멘토 창: 그림자가 비치지 않고, 키보드 초점이 들어가지 않게 ---------- */
 .ai:not(.open){visibility:hidden;box-shadow:none;transition:transform .25s ease,visibility 0s .25s}
 .ai.open{visibility:visible}
+.home-btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.home-btn svg{width:18px;height:18px;flex:none}
+@media (max-width:640px){.home-btn span{display:none}.home-btn{padding-left:10px;padding-right:10px}}
 .mhint code,.lens code,.empty code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92em;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:0 5px;color:var(--ink);white-space:nowrap}
 </style>
 <script>
@@ -556,6 +559,7 @@ window.MathJax={
 </head>
 <body>
 <header class="top">
+  <a class="btn ghost home-btn" href="https://gabrielmath.kr/" title="gabrielmath.kr 홈으로 가기" aria-label="gabrielmath.kr 홈으로 가기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg><span>홈</span></a>
   <button class="btn ghost menu-btn" type="button" id="menuBtn" aria-label="차시 목록 열기">목차</button>
   <a class="brand" href="#home"><span class="logo">∫</span><span>미적분Ⅰ 개념 탐구 실험실<br><small>2022 개정 교육과정 미적분Ⅰ</small></span></a>
   <div class="prog" id="prog"></div>
@@ -1003,7 +1007,7 @@ lab({
       setRO(tb,tblHTML(["$x\\to1^{-}$","$f(x)$","$x\\to1^{+}$","$f(x)$"],rows,i=>i+1===Math.round(k)));
       const same=F.L===F.R&&isFinite(F.L);
       setRO(out,`좌극한 $\\displaystyle\\lim_{x\\to1^{-}}f(x)=${lim(F.L)}$<br>우극한 $\\displaystyle\\lim_{x\\to1^{+}}f(x)=${lim(F.R)}$<br>`+
-        (same?`<span class="ok">좌극한 = 우극한이므로 극한값 $${tnum(F.L)}$이 존재해요.</span>`:F.L===Infinity?`<span class="bad">양의 무한대로 발산해요. 극한값은 없어요.</span>`:`<span class="bad">좌극한 ≠ 우극한이므로 극한값이 존재하지 않아요.</span>`)+
+        (same?`<span class="ok">좌극한과 우극한이 같으므로 극한값이 존재해요. (극한값: $${tnum(F.L)}$)</span>`:F.L===Infinity?`<span class="bad">양의 무한대로 발산해요. 극한값은 없어요.</span>`:`<span class="bad">좌극한 ≠ 우극한이므로 극한값이 존재하지 않아요.</span>`)+
         `<br>함숫값 $f(1)$: ${F.v==null?"정의되지 않음":"$"+F.v+"$"}`);
     }
     upd();
@@ -1098,7 +1102,7 @@ lab({
     slider(R2,{label:"확대 배율",min:0,max:4,step:.5,value:zoom,fmt:v=>"× "+fmt(Math.pow(4,v),0),onInput:v=>{zoom=v;view();}});
     const o2=ro(); R2.append(o2);
     function view(){ const C=CS[ck],w=4/Math.pow(4,zoom),hh=6/Math.pow(4,zoom); P2.setView(C.a-w,C.a+w,C.L-hh,C.L+hh);
-      setRO(o2,`$\\displaystyle\\lim_{x\\to${C.a}}${C.tex}$<br>$x=${C.a}$을 넣으면 $\\dfrac{0}{0}$: 정의되지 않아요.<br>$${C.how}$이므로 $x\\ne${C.a}$일 때 $${C.tex}=${C.red}$<br><b>극한값 $=${tnum(C.L)}$</b> (구멍의 높이)`); }
+      setRO(o2,`$\\displaystyle\\lim_{x\\to${C.a}}${C.tex}$<br>$x$에 그대로 대입하면 $\\dfrac{0}{0}$ 꼴이 되어 값을 정할 수 없어요.<br>$${C.how}$이므로 $x\\ne${C.a}$일 때 $${C.tex}=${C.red}$<br><b>극한값 $=${tnum(C.L)}$</b> (구멍의 높이)`); }
     view();
     /* ③ */
     let n=2;
@@ -1174,7 +1178,7 @@ lab({
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Lm=1+k,Rm=2,ex=Math.abs(Lm-Rm)<1e-9,eq=ex&&Math.abs(c-2)<1e-9;
       const ok=t=>`<span class="ok">✓ ${t}</span>`,no=t=>`<span class="bad">✗ ${t}</span>`;
-      setRO(out,`(1) $f(1)=${tnum(c)}$으로 정의됨 ${ok("")}<br>(2) 좌극한 $${tnum(Lm)}$, 우극한 $2$: `+(ex?ok("극한값 존재"):no("극한값 없음"))+
+      setRO(out,`(1) 함숫값이 정의됨: $f(1)=${tnum(c)}$ ${ok("")}<br>(2) 좌극한 $${tnum(Lm)}$, 우극한 $2$: `+(ex?ok("극한값 존재"):no("극한값 없음"))+
         `<br>(3) $\\displaystyle\\lim_{x\\to1}f(x)=f(1)$: `+(eq?ok("같음"):no(ex?"다름":"비교 불가"))+`<br><b>`+(eq?`<span class="ok">$x=1$에서 연속이에요.</span>`:`<span class="bad">$x=1$에서 불연속이에요.</span>`)+"</b>"); }
     upd();
   },
@@ -1473,7 +1477,7 @@ lab({
     const lineTex=s=>{ const k=fp(s),b=f(s)-k*s; return `y=${ptex([k,b])}`; };
     function upd(){ P.render(); const T=tans(); let s="$f(x)=x^{3}-3x,\\ f'(x)=3x^{2}-3$<br>";
       if(mode===0) s+=`접점 $(${tnum(t)},\\ ${tnum(f(t))})$, 기울기 $f'(${tnum(t)})=${tnum(fp(t))}$<br>접선: $y-f(t)=f'(t)(x-t)$<br>$\\Rightarrow ${lineTex(t)}$`;
-      else if(mode===1) s+=`$3t^{2}-3=${tnum(m)}$을 풀면 접점 ${T.length}개<br>`+(T.map(x=>`$t=${fmt(x,3)}$: $${lineTex(x)}$`).join("<br>")||'<span class="bad">기울기가 $-3$보다 작은 접선은 없어요.</span>');
+      else if(mode===1) s+=`방정식 $3t^{2}-3=${tnum(m)}$의 해를 구하면 접점은 ${T.length}개<br>`+(T.map(x=>`$t=${fmt(x,3)}$: $${lineTex(x)}$`).join("<br>")||'<span class="bad">기울기가 $-3$보다 작은 접선은 없어요.</span>');
       else s+=`접점을 $(t,\\ f(t))$로 두고 접선이 P를 지난다는 조건:<br>$${tnum(q)}=f(t)+f'(t)(${tnum(p)}-t)$<br>실근의 개수 = 접선의 개수 = <b>${T.length}개</b><br>`+T.map(x=>`$t\\approx${fmt(x,3)}$`).join(", ");
       setRO(out,s); }
     show();
@@ -1736,7 +1740,7 @@ lab({
     slider(cbox,{label:"점의 $y$좌표",min:-4,max:6,step:.5,value:py,onInput:v=>{py=v;upd();}});
     const out=ro(); R.append(out);
     function upd(){ P.render(); const Fc=F(),c=cur();
-      setRO(out,`$\\displaystyle\\int ${ptex(FS[key])}\\,dx=${ptex(Fc)}+C$<br>지금 $C=${tnum(c)}$: $F(x)=${ptex([...Fc.slice(0,-1),c])}$<br>$x=${fmt(x0)}$에서 모든 곡선의 접선 기울기 $=f(${fmt(x0)})=${tnum(pv(FS[key],x0))}$`+(cond?`<br><span class="ok">점 $(${tnum(px)},\\ ${tnum(py)})$을 지나는 곡선은 하나뿐이에요.</span>`:"")); }
+      setRO(out,`$\\displaystyle\\int ${ptex(FS[key])}\\,dx=${ptex(Fc)}+C$<br>지금 $C=${tnum(c)}$: $F(x)=${ptex([...Fc.slice(0,-1),c])}$<br>$x=${fmt(x0)}$에서 모든 곡선의 접선 기울기 $=f(${fmt(x0)})=${tnum(pv(FS[key],x0))}$`+(cond?`<br><span class="ok">지나는 점이 $(${tnum(px)},\\ ${tnum(py)})$일 때, 그런 곡선은 하나뿐이에요.</span>`:"")); }
     upd();
     /* ② */
     let n=2; const t2=h("div");
@@ -1902,7 +1906,7 @@ lab({
     function u2(){ P2.render(); const r=findRoots(x=>g(x)-f(x),-6,6);
       if(r.length<2){ setRO(o2,`<span class="bad">두 그래프가 두 점에서 만나지 않아 둘러싸인 부분이 없어요.</span>`); return; }
       const [al,be]=r,A=simpson(x=>g(x)-f(x),al,be);
-      setRO(o2,`교점의 $x$좌표: $x^{2}=${ptex([m,k])}$에서 $\\alpha\\approx${fmt(al,3)},\\ \\beta\\approx${fmt(be,3)}$<br>$\\alpha\\le x\\le\\beta$에서 직선이 위쪽<br>넓이 $\\displaystyle\\int_{\\alpha}^{\\beta}\\{(${ptex([m,k])})-x^{2}\\}\\,dx\\approx${fmt(A,4)}$<br><span class="hint">$\\dfrac{(\\beta-\\alpha)^{3}}{6}=${fmt(Math.pow(be-al,3)/6,4)}$과 비교해 보세요.</span>`); }
+      setRO(o2,`교점의 $x$좌표: $x^{2}=${ptex([m,k])}$에서 $\\alpha\\approx${fmt(al,3)},\\ \\beta\\approx${fmt(be,3)}$<br>$\\alpha\\le x\\le\\beta$에서 직선이 위쪽<br>넓이 $\\displaystyle\\int_{\\alpha}^{\\beta}\\{(${ptex([m,k])})-x^{2}\\}\\,dx\\approx${fmt(A,4)}$<br><span class="hint">비교해 보세요: $\\dfrac{(\\beta-\\alpha)^{3}}{6}=${fmt(Math.pow(be-al,3)/6,4)}$</span>`); }
     u2();
   },
   concept:String.raw`<h4>곡선과 $x$축 사이의 넓이</h4>
