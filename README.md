@@ -14,6 +14,7 @@
 | [gabrielmath.kr/calculus1](https://gabrielmath.kr/calculus1/) | `calculus1/` | 미적분Ⅰ 개념 탐구 실험실 (미적분Ⅰ, 21차시) |
 | [gabrielmath.kr/calculus2](https://gabrielmath.kr/calculus2/) | `calculus2/` | 미적분Ⅱ 개념 탐구 실험실 (미적분Ⅱ, 27차시) |
 | [gabrielmath.kr/prob-stats](https://gabrielmath.kr/prob-stats/) | `prob-stats/` | 확률과 통계 개념 탐구 실험실 (확률과 통계, 20차시, 실험 16차시) |
+| [gabrielmath.kr/geo](https://gabrielmath.kr/geo/) | `geo/` | 기하 개념 탐구 실험실 (기하, 17차시, 3D 입체 10차시, 실험 11차시) |
 
 ## 폴더 구조
 
@@ -27,6 +28,7 @@ algebra/          대수 개념 탐구 실험실 (index.html, README.md, PRIVACY
 calculus1/        미적분Ⅰ 개념 탐구 실험실 (index.html, README.md, PRIVACY.md 등)
 calculus2/        미적분Ⅱ 개념 탐구 실험실 (index.html, README.md, PRIVACY.md 등)
 prob-stats/       확률과 통계 개념 탐구 실험실 (index.html, README.md, PRIVACY.md 등)
+geo/              기하 개념 탐구 실험실 (index.html, README.md, PRIVACY.md 등)
 README.md         이 문서
 ```
 
@@ -34,8 +36,8 @@ README.md         이 문서
 
 - **머리글:** 원형 로고, 메뉴(홈, 수학 웹앱), 웹앱 검색창
 - **표지:** ‘수학, 더 깊이, 더 즐겁게!’, Gabriel Math, Gabriel 쌤과 G-Man 그림, ‘지금 바로 시작하기’ 단추
-- **수학 웹앱:** 웹앱마다 배너 하나. 배너를 누르면 해당 폴더의 웹앱으로 이동. 배너 그림은 ‘Gabriel 쌤과 Gabriel Math’ 그림에서 잘라 낸 장면(미적분Ⅱ는 ‘AI와 함께 탐구하기’, 확률과 통계는 ‘학생과 함께 성장’)
-- **검색:** 검색창에 낱말(예: 로그, 행렬, 미분, 확률, 신뢰구간)을 넣으면 맞는 배너만 남음
+- **수학 웹앱:** 웹앱마다 배너 하나. 배너를 누르면 해당 폴더의 웹앱으로 이동. 배너 그림은 ‘Gabriel 쌤과 Gabriel Math’ 그림에서 잘라 낸 장면(미적분Ⅱ는 ‘AI와 함께 탐구하기’, 확률과 통계는 ‘학생과 함께 성장’, 기하는 ‘깊이있는 학습 설계’)
+- **검색:** 검색창에 낱말(예: 로그, 행렬, 미분, 확률, 신뢰구간, 정사영, 벡터)을 넣으면 맞는 배너만 남음
 - 로고와 그림은 `index.html` 안에 이미지 데이터로 들어 있어 따로 올릴 이미지 파일이 없습니다. 외부에서는 Google Fonts 글꼴만 불러옵니다.
 
 ## 새 웹앱 추가하기
@@ -45,7 +47,7 @@ README.md         이 문서
    - `href="/geometry/"` : 웹앱 주소
    - `data-k="..."` : 검색에 쓰일 낱말들 (단원명, 개념 등)
    - `chip`, `h3`, `p`, `meta` 안의 글자 : 과목, 제목, 소개, 차시 수
-   - 배너 색: `class="app m1"`은 파란색, `class="app alg"`는 보라색, `class="app cal"`은 청록색, `class="app c2"`는 장밋빛 빨강, `class="app ps"`는 호박색
+   - 배너 색: `class="app m1"`은 파란색, `class="app alg"`는 보라색, `class="app cal"`은 청록색, `class="app c2"`는 장밋빛 빨강, `class="app ps"`는 호박색, `class="app geo"`는 초록색
 3. **이 문서 고치기:** 위 ‘주소와 폴더’ 표에 한 줄을 추가합니다.
 4. **올리고 확인하기:** GitHub에 업로드(커밋)하고 1~2분 뒤 `gabrielmath.kr/geometry/`와 메인 페이지에서 확인합니다.
 
@@ -66,9 +68,9 @@ README.md         이 문서
 ## 개인정보
 
 - 회원가입과 로그인이 없고, 운영자는 서버를 운영하지 않습니다.
-- 학습 기록은 사용하는 기기의 브라우저에만 저장됩니다. math1, algebra, calculus1, calculus2, prob-stats의 기록은 따로 저장되고, G-Man 멘토 API 키 설정은 다섯 웹앱이 함께 씁니다.
+- 학습 기록은 사용하는 기기의 브라우저에만 저장됩니다. math1, algebra, calculus1, calculus2, prob-stats, geo의 기록은 따로 저장되고, G-Man 멘토 API 키 설정은 여섯 웹앱이 함께 씁니다.
 - G-Man 멘토를 쓸 때만 보낸 말과 차시 정보가 Anthropic의 Claude로 전달됩니다.
-- 웹앱별 처리방침: [math1/PRIVACY.md](./math1/PRIVACY.md), [algebra/PRIVACY.md](./algebra/PRIVACY.md), [calculus1/PRIVACY.md](./calculus1/PRIVACY.md), [calculus2/PRIVACY.md](./calculus2/PRIVACY.md), [prob-stats/PRIVACY.md](./prob-stats/PRIVACY.md)
+- 웹앱별 처리방침: [math1/PRIVACY.md](./math1/PRIVACY.md), [algebra/PRIVACY.md](./algebra/PRIVACY.md), [calculus1/PRIVACY.md](./calculus1/PRIVACY.md), [calculus2/PRIVACY.md](./calculus2/PRIVACY.md), [prob-stats/PRIVACY.md](./prob-stats/PRIVACY.md), [geo/PRIVACY.md](./geo/PRIVACY.md)
 - 개인정보 보호책임자: 전병제 (개인) · 문의: gabriel@gabrielmath.kr
 
 ## 문의
