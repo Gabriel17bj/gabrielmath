@@ -23,6 +23,7 @@
 
 - 학습 기록은 `algebra-inquiry-lab-v1` 이름으로 이 기기의 브라우저에만 저장되며, math1의 기록과 섞이지 않습니다.
 - G-Man 멘토 API 키 설정(`gman-mentor-key-v1`)은 같은 도메인의 math1과 함께 씁니다. 한 번 넣으면 두 앱에서 모두 작동합니다.
+- G-Man 멘토는 Claude(Anthropic), ChatGPT(OpenAI), Gemini(Google) 등 여러 회사의 API 키를 받습니다. 키 모양으로 회사를 자동으로 알아보고, 그 키로 쓸 수 있는 모델을 자동으로 고릅니다. 사용 방법은 앱의 ‘G-Man 멘토 그림 설명서’(#mentor)에 있습니다.
 - 자세한 조항은 [PRIVACY.md](./PRIVACY.md)에 있습니다.
 
 ## 내용의 출처
