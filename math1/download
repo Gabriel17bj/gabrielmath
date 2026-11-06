@@ -1,0 +1,7 @@
+# claude.ai 게시 환경의 설명 문서 사본 (앱 코드 아님)
+artifacts/
+# dorms-check 점검 결과 (필요하면 docs/SECURITY-CHECK.md만 공개)
+.dorms-check/
+node_modules/
+.DS_Store
+Thumbs.db
