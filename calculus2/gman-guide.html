@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>G-Man 멘토 그림 설명서 · 미적분Ⅱ 개념 탐구 실험실</title>
+<meta name="description" content="미적분Ⅱ 개념 탐구 실험실의 AI 학습 도우미 G-Man 멘토를 쓰는 방법을 그림으로 설명해요.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🤖%3C/text%3E%3C/svg%3E">
+<style>
+:root{--ink:#1B2A41;--mut:#5B6B82;--line:#D7DEE8;--bg:#F4F7FB;--paper:#fff;--rose:#C23A5B;--rose-s:#FCE8EE;--amb:#8A5A00;--amb-s:#FDF1D8;--green:#0F8466;--green-s:#E0F3EC}
+*{box-sizing:border-box}
+html{color-scheme:light}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;line-height:1.7;word-break:keep-all}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 48px}
+.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-weight:700;text-decoration:none;font-size:.95rem;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--rose);color:var(--rose)}
+.btn.main{background:var(--rose);border-color:var(--rose);color:#fff}
+.btn.main:hover{color:#fff;filter:brightness(1.05)}
+.btn:focus-visible{outline:3px solid var(--rose);outline-offset:2px}
+header.hero{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px 28px;margin-bottom:22px}
+.tag{display:inline-block;background:var(--rose-s);color:var(--rose);font-weight:700;font-size:.85rem;padding:3px 12px;border-radius:999px}
+h1{font-size:clamp(1.6rem,3.6vw,2.3rem);margin:10px 0 6px;line-height:1.3}
+.lead{color:var(--mut);margin:0;font-size:1.05rem}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
+.steps4 div{background:var(--bg);border-radius:14px;padding:10px 12px}
+.steps4 b{display:block;color:var(--rose)}
+.steps4 span{font-size:.9rem;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{position:relative;margin:0;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:14px 14px 16px;break-inside:avoid}
+.card .num{position:absolute;top:-10px;left:-10px;width:36px;height:36px;border-radius:50%;background:var(--rose);color:#fff;font-weight:800;display:grid;place-items:center;font-size:1.05rem;box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.card svg{width:100%;height:auto;display:block}
+.card h3{margin:12px 2px 4px;font-size:1.1rem}
+.card p{margin:0 2px;color:var(--mut)}
+section.box{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:20px 24px;margin-top:22px;break-inside:avoid}
+section.box h2{font-size:1.25rem;margin:0 0 10px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-size:.95rem}
+th{background:var(--bg)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bg);padding:1px 6px;border-radius:6px}
+a{color:var(--rose)}
+ul{margin:0;padding-left:1.2em} li{margin:4px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.good,.bad{border-radius:14px;padding:12px 14px}
+.good{background:var(--green-s)} .bad{background:var(--amb-s)}
+.good b{color:var(--green)} .bad b{color:var(--amb)}
+.warn{background:var(--amb-s);border-color:#F0D9A8}
+footer{text-align:center;color:var(--mut);font-size:.85rem;margin-top:28px}
+@media (max-width:720px){.steps4{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}header.hero{padding:20px}}
+@media print{body{background:#fff}.top{display:none}.wrap{padding:0}header.hero,section.box,.card{border-color:#bbb}.grid{grid-template-columns:1fr 1fr}a{color:var(--ink);text-decoration:none}}
+</style></head>
+<body><div class="wrap">
+<nav class="top" aria-label="이동">
+<a class="btn" href="https://gabrielmath.kr/">⌂ 홈</a>
+<a class="btn" href="./#mentor">← 실험실로 돌아가기</a>
+<button class="btn main" type="button" onclick="window.print()">🖨 인쇄하기</button>
+</nav>
+<header class="hero">
+<span class="tag">미적분Ⅱ 개념 탐구 실험실</span>
+<h1>🤖 G-Man 멘토 그림 설명서</h1>
+<p class="lead">G-Man은 답을 대신 알려 주는 AI가 아니라, 내가 스스로 생각을 이어 가도록 질문을 건네는 AI 친구예요.</p>
+<div class="steps4"><div><b>① 단추 누르기</b><span>오른쪽 위 ‘G-Man 멘토’</span></div><div><b>② 키 넣기</b><span>처음 한 번만 붙여 넣기</span></div><div><b>③ 생각 말하기</b><span>내 생각과 질문 보내기</span></div><div><b>④ 키 지우기</b><span>공용 컴퓨터라면 꼭</span></div></div>
+</header>
+<main>
+<div class="grid"><figure class="card"><div class="num">1</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="G-Man 멘토 단추 위치" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="16" y="18" width="328" height="44" rx="10" fill="#fff" stroke="#D7DEE8"/>
+   <rect x="28" y="28" width="38" height="24" rx="8" fill="#fff" stroke="#D7DEE8"/><text x="47" y="45" font-size="11" text-anchor="middle" fill="#1B2A41" font-weight="700">⌂ 홈</text>
+   <rect x="74" y="28" width="24" height="24" rx="6" fill="#C23A5B"/><text x="86" y="45" font-size="13" text-anchor="middle" fill="#fff">∫</text>
+   <text x="106" y="44" font-size="11" fill="#1B2A41" font-weight="700">미적분Ⅱ 실험실</text>
+   <rect x="246" y="26" width="88" height="28" rx="9" fill="#C23A5B"/><text x="290" y="45" font-size="12" text-anchor="middle" fill="#fff" font-weight="700">G-Man 멘토</text>
+   <circle cx="290" cy="40" r="26" fill="none" stroke="#C23A5B" stroke-width="2" stroke-dasharray="4 4" opacity=".7"/>
+   <rect x="16" y="76" width="200" height="128" rx="10" fill="#fff" stroke="#D7DEE8"/>
+   <rect x="30" y="92" width="120" height="10" rx="5" fill="#D7DEE8"/><rect x="30" y="112" width="170" height="8" rx="4" fill="#D7DEE8"/><rect x="30" y="128" width="150" height="8" rx="4" fill="#D7DEE8"/><rect x="30" y="150" width="170" height="40" rx="8" fill="#E4ECFC"/>
+   <rect x="228" y="76" width="116" height="128" rx="10" fill="#fff" stroke="#C23A5B" stroke-width="2"/>
+   <text x="286" y="96" font-size="11" text-anchor="middle" fill="#C23A5B" font-weight="700">G-Man 대화창</text>
+   <rect x="240" y="108" width="80" height="20" rx="10" fill="#E4ECFC"/><rect x="256" y="136" width="78" height="20" rx="10" fill="#FCE8EE"/>
+   <rect x="240" y="172" width="94" height="22" rx="7" fill="#F4F7FB" stroke="#D7DEE8"/>
+   <g transform="translate(296,46) scale(0.75)"><path d="M8 0c3 0 5 2 5 5v14l3-2c2-1 5 0 6 2l1 1 3-1c2-1 5 0 6 2l2-1c3-1 6 1 6 4v12c0 9-7 16-16 16h-4c-6 0-11-3-14-8l-9-15c-1-3 0-5 2-6 2-1 5 0 6 2l3 4V5c0-3 2-5 5-5z" fill="#fff" stroke="#1B2A41" stroke-width="2.2" stroke-linejoin="round"/></g></svg></div><figcaption><h3>G-Man 멘토 단추를 눌러요</h3><p>화면 오른쪽 위의 빨간 ‘G-Man 멘토’ 단추를 누르면 오른쪽에 대화창이 열려요.</p></figcaption></figure><figure class="card"><div class="num">2</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="API 키 만들고 복사하기" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="16" y="16" width="328" height="188" rx="12" fill="#fff" stroke="#D7DEE8"/>
+   <rect x="16" y="16" width="328" height="26" rx="12" fill="#F4F7FB"/><circle cx="32" cy="29" r="4" fill="#F28B82"/><circle cx="46" cy="29" r="4" fill="#FDD663"/><circle cx="60" cy="29" r="4" fill="#81C995"/>
+   <rect x="76" y="22" width="200" height="14" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="86" y="32.5" font-size="9" fill="#6B7A90">AI 회사 누리집 › API Keys</text>
+   <text x="34" y="68" font-size="14" fill="#1B2A41" font-weight="700">API Keys</text>
+   <rect x="234" y="54" width="94" height="24" rx="8" fill="#1B2A41"/><text x="281" y="70" font-size="11" text-anchor="middle" fill="#fff" font-weight="700">+ 새 키 만들기</text>
+   <rect x="34" y="94" width="294" height="52" rx="10" fill="#FDF1D8" stroke="#B97800"/>
+   <text x="48" y="114" font-size="10.5" fill="#B97800" font-weight="700">새 키가 만들어졌어요. 지금 복사해 두세요!</text>
+   <rect x="48" y="122" width="210" height="16" rx="5" fill="#fff" stroke="#D7DEE8"/><text x="56" y="134" font-size="10" fill="#1B2A41" font-family="monospace">sk-••••••••••••••••••••</text>
+   <rect x="266" y="120" width="50" height="20" rx="6" fill="#C23A5B"/><text x="291" y="134" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">복사</text>
+   <text x="34" y="172" font-size="10.5" fill="#6B7A90">키는 한 번만 보이는 경우가 많아요.</text>
+   <text x="34" y="190" font-size="10.5" fill="#6B7A90">다른 사람에게 보여 주지 않아요.</text>
+   <g transform="translate(280,134) scale(0.85)"><path d="M8 0c3 0 5 2 5 5v14l3-2c2-1 5 0 6 2l1 1 3-1c2-1 5 0 6 2l2-1c3-1 6 1 6 4v12c0 9-7 16-16 16h-4c-6 0-11-3-14-8l-9-15c-1-3 0-5 2-6 2-1 5 0 6 2l3 4V5c0-3 2-5 5-5z" fill="#fff" stroke="#1B2A41" stroke-width="2.2" stroke-linejoin="round"/></g></svg></div><figcaption><h3>AI 회사 누리집에서 API 키를 받아요</h3><p>API 키는 AI를 쓸 수 있게 해 주는 ‘비밀번호’예요. Claude, ChatGPT, Gemini 등 AI 회사의 누리집에서 새 키를 만들고 ‘복사’를 눌러요.</p></figcaption></figure><figure class="card"><div class="num">3</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="키 붙여 넣고 연결하기" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="60" y="14" width="240" height="192" rx="12" fill="#fff" stroke="#C23A5B" stroke-width="2"/>
+   <text x="80" y="40" font-size="13" fill="#1B2A41" font-weight="700">G-Man 멘토</text><rect x="232" y="27" width="52" height="18" rx="9" fill="#FCE8EE"/><text x="258" y="40" font-size="9.5" text-anchor="middle" fill="#C23A5B" font-weight="700">키 필요</text>
+   <text x="80" y="66" font-size="10.5" fill="#1B2A41">🔑 API 키를 붙여 넣어 주세요.</text>
+   <rect x="80" y="76" width="160" height="28" rx="8" fill="#fff" stroke="#2356C2" stroke-width="2"/><text x="90" y="94" font-size="11" fill="#1B2A41" font-family="monospace">••••••••••••••</text>
+   <rect x="246" y="78" width="38" height="24" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="265" y="94" font-size="10" text-anchor="middle" fill="#1B2A41">보기</text>
+   <rect x="80" y="116" width="12" height="12" rx="3" fill="#fff" stroke="#6B7A90"/><text x="98" y="126" font-size="9.5" fill="#6B7A90">이 기기에 기억하기 (내 기기에서만)</text>
+   <rect x="80" y="142" width="132" height="30" rx="9" fill="#C23A5B"/><text x="146" y="161" font-size="11.5" text-anchor="middle" fill="#fff" font-weight="700">키 저장하고 연결</text>
+   <text x="284" y="198" font-size="9.5" text-anchor="end" fill="#6B7A90">Ctrl+V(맥은 ⌘+V)로 붙여 넣기</text>
+   <g transform="translate(132,158) scale(0.75)"><path d="M8 0c3 0 5 2 5 5v14l3-2c2-1 5 0 6 2l1 1 3-1c2-1 5 0 6 2l2-1c3-1 6 1 6 4v12c0 9-7 16-16 16h-4c-6 0-11-3-14-8l-9-15c-1-3 0-5 2-6 2-1 5 0 6 2l3 4V5c0-3 2-5 5-5z" fill="#fff" stroke="#1B2A41" stroke-width="2.2" stroke-linejoin="round"/></g></svg></div><figcaption><h3>대화창에 키를 붙여 넣어요</h3><p>대화창의 입력 칸에 키를 붙여 넣고 ‘키 저장하고 연결’을 눌러요. 어느 회사의 키인지는 G-Man이 알아서 알아내요.</p></figcaption></figure><figure class="card"><div class="num">4</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="연결 확인 화면" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="60" y="14" width="240" height="192" rx="12" fill="#fff" stroke="#D7DEE8"/>
+   <rect x="80" y="32" width="200" height="46" rx="10" fill="#E0F3EC" stroke="#0F8466"/>
+   <circle cx="100" cy="55" r="11" fill="#0F8466"/><path d="M95 55l4 4 7-8" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+   <text x="118" y="51" font-size="12" fill="#0F8466" font-weight="700">연결됐어요!</text><text x="118" y="67" font-size="9.5" fill="#1B2A41">Gemini (Google) 키로 연결</text>
+   <text x="80" y="102" font-size="10" fill="#6B7A90">사용할 모델</text>
+   <rect x="80" y="108" width="200" height="26" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="90" y="125" font-size="10.5" fill="#1B2A41">자동으로 고른 모델 (추천)</text><path d="M266 118l5 5 5-5" fill="none" stroke="#6B7A90" stroke-width="2"/>
+   <rect x="80" y="148" width="60" height="24" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="110" y="164" font-size="10" text-anchor="middle" fill="#1B2A41">키 교체</text>
+   <rect x="148" y="148" width="64" height="24" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="180" y="164" font-size="10" text-anchor="middle" fill="#1B2A41">연결 확인</text>
+   <rect x="220" y="148" width="60" height="24" rx="7" fill="#fff" stroke="#D7DEE8"/><text x="250" y="164" font-size="10" text-anchor="middle" fill="#1B2A41">키 삭제</text>
+   <text x="80" y="194" font-size="9.5" fill="#6B7A90">모델은 바꾸지 않아도 괜찮아요.</text></svg></div><figcaption><h3>‘연결됐어요’를 확인해요</h3><p>초록색 표시가 나오면 준비 끝이에요. 연결된 AI 이름과 쓰는 모델이 함께 보여요.</p></figcaption></figure><figure class="card"><div class="num">5</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="G-Man과 대화하는 모습" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="40" y="14" width="280" height="192" rx="12" fill="#fff" stroke="#D7DEE8"/>
+   <rect x="120" y="30" width="184" height="44" rx="14" fill="#E4ECFC"/><text x="132" y="49" font-size="10.5" fill="#1B2A41">공비가 −1이면 왜 발산해요?</text><text x="132" y="65" font-size="10.5" fill="#1B2A41">값이 커지지는 않는데요.</text>
+   <text x="300" y="86" font-size="9" text-anchor="end" fill="#6B7A90">나</text>
+   <rect x="56" y="94" width="210" height="62" rx="14" fill="#FCE8EE"/>
+   <text x="68" y="113" font-size="10.5" fill="#1B2A41">좋은 관찰이에요! 값이 커지지 않는</text><text x="68" y="129" font-size="10.5" fill="#1B2A41">건 맞아요. 그럼 항을 다섯 개 써 보면</text><text x="68" y="145" font-size="10.5" fill="#1B2A41">어느 한 값에 가까워지나요?</text>
+   <text x="60" y="168" font-size="9" fill="#C23A5B" font-weight="700">G-Man</text>
+   <rect x="56" y="176" width="200" height="22" rx="7" fill="#F4F7FB" stroke="#D7DEE8"/><text x="66" y="191" font-size="9.5" fill="#6B7A90">내 생각을 적어 보세요…</text>
+   <rect x="262" y="176" width="42" height="22" rx="7" fill="#C23A5B"/><text x="283" y="191" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">보내기</text></svg></div><figcaption><h3>내 생각을 말하고 질문해요</h3><p>G-Man은 답을 바로 알려 주지 않아요. 내가 생각한 것을 말하면, 다음에 생각해 볼 질문이나 힌트를 하나 줘요.</p></figcaption></figure><figure class="card"><div class="num">6</div><div class="art"><svg viewBox="0 0 360 220" role="img" aria-label="키 삭제하기" xmlns="http://www.w3.org/2000/svg" style="font-family:'IBM Plex Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"><rect x="1" y="1" width="358" height="218" rx="16" fill="#F4F7FB" stroke="#D7DEE8"/><rect x="60" y="14" width="240" height="192" rx="12" fill="#fff" stroke="#D7DEE8"/>
+   <text x="80" y="42" font-size="12" fill="#1B2A41" font-weight="700">🔑 저장된 키</text>
+   <rect x="80" y="52" width="200" height="24" rx="7" fill="#F4F7FB"/><text x="90" y="68" font-size="10" fill="#1B2A41" font-family="monospace">AIza••••••••3f9Q</text>
+   <rect x="80" y="92" width="200" height="36" rx="10" fill="#C23A5B"/>
+   <g transform="translate(116,99)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M2 5h18M8 5V2h6v3M5 5l1 16h10l1-16M9 9v8M13 9v8"/></g>
+   <text x="190" y="115" font-size="12" text-anchor="middle" fill="#fff" font-weight="700">키 삭제</text>
+   <rect x="80" y="142" width="200" height="50" rx="10" fill="#FDF1D8"/>
+   <text x="92" y="162" font-size="10" fill="#B97800" font-weight="700">공용 컴퓨터라면 꼭!</text><text x="92" y="180" font-size="9.5" fill="#1B2A41">다음 사람이 내 키를 쓰지 못하게 해요.</text>
+   <g transform="translate(210,112) scale(0.85)"><path d="M8 0c3 0 5 2 5 5v14l3-2c2-1 5 0 6 2l1 1 3-1c2-1 5 0 6 2l2-1c3-1 6 1 6 4v12c0 9-7 16-16 16h-4c-6 0-11-3-14-8l-9-15c-1-3 0-5 2-6 2-1 5 0 6 2l3 4V5c0-3 2-5 5-5z" fill="#fff" stroke="#1B2A41" stroke-width="2.2" stroke-linejoin="round"/></g></svg></div><figcaption><h3>다 쓰면 키를 지워요</h3><p>학교 컴퓨터처럼 여러 사람이 쓰는 기기라면, 다 쓴 뒤 ‘키 삭제’를 눌러요. ‘이 기기에 기억하기’를 켜지 않았다면 탭을 닫을 때 저절로 지워져요.</p></figcaption></figure></div>
+<section class="box"><h2>🔑 API 키가 뭐예요?</h2>
+<p>API 키는 AI 회사의 서비스를 쓸 수 있게 해 주는 <b>비밀번호 같은 긴 글자</b>예요. 이 실험실은 서버가 없어서, G-Man이 대답하려면 내가 가진 키로 AI 회사에 직접 물어봐야 해요.</p>
+<ul>
+<li><b>어느 회사 키든 돼요.</b> 아래 표의 회사 중 어디에서 받은 키든 붙여 넣으면, G-Man이 어느 회사 키인지 알아내고 알맞은 모델을 골라요.</li>
+<li><b>claude.ai에서 열면 키가 필요 없어요.</b> gabrielmath.kr에서 열 때만 키가 필요해요.</li>
+<li><b>요금은 키 주인에게 청구돼요.</b> 무료로 쓸 수 있는 양이 있는 곳도 있지만, 넘으면 요금이 나올 수 있어요. 키를 만들 때 사용 한도를 낮게 정해 두면 안심이에요.</li>
+<li><b>나이 조건을 확인해요.</b> 회사마다 가입할 수 있는 나이가 정해져 있어요. 학생이 직접 만들기 어렵다면 선생님이나 보호자와 함께 준비해요.</li>
+</ul></section>
+<section class="box"><h2>🏢 키를 받을 수 있는 곳</h2>
+<div class="tbl"><table><thead><tr><th>AI</th><th>키를 만드는 곳</th><th>키 모양</th></tr></thead><tbody><tr><td>Claude (Anthropic)</td><td><a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Anthropic Console</a></td><td><code>sk-ant-</code></td></tr><tr><td>ChatGPT (OpenAI)</td><td><a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI Platform</a></td><td><code>sk-</code></td></tr><tr><td>Gemini (Google)</td><td><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google AI Studio</a></td><td><code>AIza</code></td></tr><tr><td>OpenRouter</td><td><a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer">OpenRouter</a></td><td><code>sk-or-</code></td></tr><tr><td>Groq</td><td><a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">GroqCloud</a></td><td><code>gsk_</code></td></tr><tr><td>Grok (xAI)</td><td><a href="https://console.x.ai" target="_blank" rel="noopener noreferrer">xAI Console</a></td><td><code>xai-</code></td></tr><tr><td>DeepSeek</td><td><a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer">DeepSeek Platform</a></td><td><code>sk-</code></td></tr><tr><td>Mistral</td><td><a href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener noreferrer">Mistral Console</a></td><td><code>정해진 시작 글자 없음</code></td></tr></tbody></table></div>
+<p style="color:var(--mut);margin:10px 0 0">각 누리집에서 ‘API Keys’ 또는 ‘API 키 만들기’ 메뉴를 찾아 새 키를 만들고, 나온 키를 바로 복사해요. 키는 한 번만 보여 주는 곳이 많아요.</p></section>
+<section class="box"><h2>💬 G-Man과 잘 이야기하는 법</h2>
+<div class="two">
+<div class="good"><b>👍 이렇게 말해요</b><ul><li>“r = 0.9로 바꿨더니 점이 0에 가까워졌어요. 왜 그럴까요?”처럼 탐색 도구에서 본 것을 함께 적어요.</li><li>“나는 이렇게 생각했는데 맞을까?”처럼 내 생각을 먼저 말해요.</li><li>수식은 <code>$x^{2}$</code>처럼 달러 기호로 감싸 써요.</li></ul></div>
+<div class="bad"><b>✋ 이렇게는 말하지 않아요</b><ul><li>“답만 알려 줘.” G-Man은 정답 대신 생각할 질문을 줘요.</li><li>이름, 학번, 전화번호, 주소 같은 개인정보</li><li>API 키 자체를 대화창에 적기</li></ul></div>
+</div>
+<p style="color:var(--mut);margin:12px 0 0">AI도 틀릴 수 있어요. 이상하다 싶으면 교과서를 보거나 선생님께 여쭤봐요.</p></section>
+<section class="box warn"><h2>🔒 꼭 지켜요</h2>
+<ul>
+<li>API 키는 비밀번호예요. 친구에게 보여 주거나 메신저, 과제, 화면 공유에 올리지 않아요.</li>
+<li>학교 컴퓨터에서는 ‘이 기기에 기억하기’를 켜지 않고, 다 쓰면 ‘키 삭제’를 눌러요.</li>
+<li>선생님의 키를 학생 기기에 기억해 두지 않아요.</li>
+<li>키가 남에게 알려진 것 같으면 그 키를 만든 누리집에서 바로 삭제하고 새로 만들어요.</li>
+<li>키는 이 기기에서 그 AI 회사로만 보내지고, 선생님이나 앱 운영자에게는 보내지 않아요. 자세한 내용은 <a href="./#privacy">개인정보 처리방침</a>에 있어요.</li>
+</ul></section>
+</main>
+<footer>Gabriel Math · gabrielmath.kr/calculus2</footer>
+</div></body></html>

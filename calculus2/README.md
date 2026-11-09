@@ -27,12 +27,32 @@
 
 ## 실행
 
-설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.7MB입니다.
+설치나 빌드가 필요 없는 HTML 파일(`index.html`)과, 학생용 G-Man 그림 설명서(`gman-guide.html`)로 이루어져 있습니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.8MB입니다.
+
+## G-Man 멘토 (AI 학습 도우미)
+
+- claude.ai 게시 화면에서는 API 키 없이 바로 작동합니다.
+- gabrielmath.kr 등 그 밖의 곳에서는 API 키가 필요하며, **어느 회사의 키든 붙여 넣으면 됩니다.** 키 모양으로 회사를 짐작하고, 실제로 모델 목록을 불러와 확인한 뒤 알맞은 모델을 자동으로 고릅니다.
+
+| AI | 키를 만드는 곳 | 키 모양 |
+|---|---|---|
+| Claude (Anthropic) | console.anthropic.com | `sk-ant-` |
+| ChatGPT (OpenAI) | platform.openai.com | `sk-` |
+| Gemini (Google) | aistudio.google.com | `AIza` |
+| OpenRouter | openrouter.ai | `sk-or-` |
+| Groq | console.groq.com | `gsk_` |
+| Grok (xAI) | console.x.ai | `xai-` |
+| DeepSeek | platform.deepseek.com | `sk-` |
+| Mistral | console.mistral.ai | 정해진 시작 글자 없음 |
+
+- 학생용 그림 설명서: [gman-guide.html](./gman-guide.html) (앱의 ‘G-Man 멘토 사용법’ 화면에도 같은 그림이 들어 있습니다)
+- 키는 이용자 브라우저에서 해당 AI 회사로만 직접 전송되며, 운영자 서버를 거치지 않습니다.
 
 ## 저장과 개인정보
 
 - 학습 기록은 `calculus2-inquiry-lab-v1` 이름으로 이 기기의 브라우저에만 저장되며, math1, algebra, calculus1의 기록과 섞이지 않습니다.
-- G-Man 멘토 API 키 설정(`gman-mentor-key-v1`)은 같은 도메인의 다른 웹앱과 함께 씁니다. 한 번 넣으면 모든 앱에서 작동합니다.
+- Anthropic 키는 같은 도메인의 다른 실험실과 함께 쓰는 `gman-mentor-key-v1`에, 그 밖의 회사 키는 이 실험실 전용 `gman-mentor-key-any-v1`에 저장합니다. (다른 실험실은 아직 Anthropic 키만 지원하므로, 다른 회사 키를 넣어도 그 실험실에는 영향이 없습니다.)
+- 기본은 탭을 닫으면 지워지는 임시 저장소이며, ‘이 기기에 기억하기’를 고른 경우에만 계속 저장됩니다.
 - 자세한 조항은 [PRIVACY.md](./PRIVACY.md)에 있습니다.
 
 ## 내용의 출처
