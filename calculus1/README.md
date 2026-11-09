@@ -24,12 +24,30 @@
 
 ## 실행
 
-설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.6MB입니다.
+설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 3MB입니다. G-Man 사용 설명서 그림도 파일 안에 들어 있습니다.
 
 ## 저장과 개인정보
 
 - 학습 기록은 `calculus1-inquiry-lab-v1` 이름으로 이 기기의 브라우저에만 저장되며, math1, algebra의 기록과 섞이지 않습니다.
-- G-Man 멘토 API 키 설정(`gman-mentor-key-v1`)은 같은 도메인의 math1, algebra와 함께 씁니다. 한 번 넣으면 세 앱에서 모두 작동합니다.
+- G-Man 멘토 API 키(`gman-mentor-key-v1`)는 같은 도메인의 math1, algebra와 함께 씁니다. 다만 math1, algebra는 아직 Claude(Anthropic) 키만 쓸 수 있어, 다른 회사 키를 넣으면 그 두 앱에서는 멘토가 작동하지 않습니다.
+- 연결 설정(고른 AI 서비스, 모델)은 `gman-mentor-cfg-v2`에 저장됩니다.
+
+## G-Man 멘토와 API 키
+
+- claude.ai 게시 화면에서는 키 없이 작동하고, 그 밖의 곳(gabrielmath.kr, 내 컴퓨터)에서는 API 키가 필요합니다.
+- 어느 회사의 키든 붙여 넣으면 키 앞부분으로 회사를 알아내 연결합니다.
+
+| AI 서비스 | 키 모양 | 연결 방식 |
+|---|---|---|
+| Claude (Anthropic) | `sk-ant-…` | Messages API |
+| ChatGPT (OpenAI) | `sk-…`, `sk-proj-…` | Chat Completions |
+| Gemini (Google) | `AIza…` | Gemini API |
+| OpenRouter, Groq, Grok(xAI), Solar(Upstage), Perplexity | `sk-or-…`, `gsk_…`, `xai-…`, `up_…`, `pplx-…` | OpenAI 호환 |
+| DeepSeek, Mistral, 그 밖의 OpenAI 호환 서비스 | 자동 감지 불가 | ‘AI 서비스 직접 고르기’에서 선택(그 밖의 서비스는 주소 직접 입력) |
+
+- 키를 넣으면 그 키로 쓸 수 있는 모델 목록을 불러와 알맞은 모델을 자동으로 고릅니다. 고른 모델이 없어지면 다시 찾아 한 번 더 시도합니다.
+- 회사에 따라 웹 브라우저에서 직접 API를 부르는 것(CORS)을 막아 둔 곳이 있습니다. 그런 서비스는 연결 오류가 나며, Claude, ChatGPT, Gemini 키로 바꾸면 됩니다.
+- 학생과 교사용 그림 설명서: 앱의 ‘G-Man 사용 설명서’ 화면, 인쇄용은 [G-Man_사용설명서.pdf](./G-Man_사용설명서.pdf)
 - 자세한 조항은 [PRIVACY.md](./PRIVACY.md)에 있습니다.
 
 ## 내용의 출처
