@@ -28,13 +28,19 @@
 
 ## 실행
 
-설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.7MB입니다. 실험의 난수는 브라우저 안에서 만들며, 결과는 매번 달라집니다.
+설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 같은 폴더의 `gman-guide.html`, `gman-guide.pdf`는 G-Man 멘토 설명서입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.7MB입니다. 실험의 난수는 브라우저 안에서 만들며, 결과는 매번 달라집니다.
 
 ## 저장과 개인정보
 
 - 학습 기록은 `geo-inquiry-lab-v1` 이름으로 이 기기의 브라우저에만 저장되며, math1, algebra, calculus1, calculus2, prob-stats의 기록과 섞이지 않습니다.
-- G-Man 멘토 API 키 설정(`gman-mentor-key-v1`)은 같은 도메인의 다른 웹앱과 함께 씁니다. 한 번 넣으면 모든 앱에서 작동합니다.
+- G-Man 멘토 API 키 칸(`gman-mentor-key-v1`)은 같은 도메인의 다른 웹앱과 함께 씁니다. 이 앱은 Claude뿐 아니라 ChatGPT(OpenAI), Gemini(Google), OpenRouter, Groq, Grok(xAI), Solar(Upstage), DeepSeek, Mistral, Perplexity의 키도 받습니다. 키 앞부분으로 회사를 자동으로 찾고(`sk-`처럼 겹치는 모양은 OpenAI → DeepSeek 순서로 시도), 쓸 수 없는 모델이면 다음 모델로 바꾸어 다시 시도합니다. 찾은 회사와 모델은 `gman-mentor-provider-v1`에 저장합니다. 목록에 없는 회사도 OpenAI 호환 주소를 직접 넣어 쓸 수 있습니다.
+- 다른 실험실이 아직 Claude 키만 받는다면, 그 실험실에서는 Claude 키를 넣어야 합니다.
 - 자세한 조항은 [PRIVACY.md](./PRIVACY.md)에 있습니다.
+
+## G-Man 멘토 사용 설명서
+
+- 앱 안: 왼쪽 메뉴의 ‘G-Man 멘토 사용 설명서’(`#mentor`)에 그림 6장으로 사용 순서, API 키 받는 곳, 약속 세 가지를 담았습니다.
+- 인쇄용: [gman-guide.pdf](./gman-guide.pdf) (A4 3쪽), 웹에서 보기: [gman-guide.html](./gman-guide.html)
 
 ## 내용의 출처
 

@@ -603,6 +603,22 @@ body.pm-open{overflow:hidden}
 .alab .g3 canvas.plot:active{cursor:grabbing}
 .alab select{width:100%;border:1px solid var(--line2);background:var(--sheet);color:var(--ink);border-radius:8px;padding:6px 10px;font:inherit;font-size:.9rem}
 .alab .cands{display:flex;flex-wrap:wrap;gap:6px}
+/* ---------- G-Man 멘토 그림 설명서 ---------- */
+.gm-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.gm-step{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--sheet,#fff)}
+.gm-step .gm-pic svg{display:block;width:100%;height:auto;margin-bottom:10px}
+.gm-step b{display:block;font-size:1rem;margin-bottom:4px}
+.gm-step p{margin:0;font-size:.92rem;line-height:1.7;color:var(--ink)}
+.gm-promise{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.gm-promise>div{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--paper)}
+.gm-promise .gm-ic{font-size:1.6rem;display:block}
+.gm-promise b{display:block;margin:4px 0}
+.gm-promise p{margin:0;font-size:.9rem;color:var(--muted)}
+.keyadv{margin-top:10px;font-size:.88rem}
+.keyadv summary{cursor:pointer;color:var(--muted);font-weight:600}
+.keyadv .sl{margin-top:8px}
+.keyadv select{width:100%;border:1px solid var(--line2,var(--line));border-radius:8px;padding:6px 10px;font:inherit;background:#fff;color:var(--ink)}
+.ai-notice b{font-weight:700}
 @media (prefers-reduced-motion: reduce){.alab .g3-bar .btn{transition:none}}
 </style>
 <script>
@@ -636,12 +652,12 @@ window.MathJax={
   <nav class="side" id="side" aria-label="차시 목록"></nav>
   <main id="main"></main>
 </div>
-<footer class="site-foot"><a href="#privacy">개인정보 처리방침</a><span aria-hidden="true">·</span><a href="#terms">이용 안내</a><span aria-hidden="true">·</span><a href="#mentor">G-Man 멘토 사용 안내</a><span aria-hidden="true">·</span><span>문의: <a href="mailto:gabriel@gabrielmath.kr">gabriel@gabrielmath.kr</a> (개인정보 보호책임자 전병제)</span><span aria-hidden="true">·</span><span>학습 기록은 이 기기에만 저장돼요</span></footer>
+<footer class="site-foot"><a href="#privacy">개인정보 처리방침</a><span aria-hidden="true">·</span><a href="#terms">이용 안내</a><span aria-hidden="true">·</span><a href="#mentor">G-Man 멘토 사용 설명서</a><span aria-hidden="true">·</span><span>문의: <a href="mailto:gabriel@gabrielmath.kr">gabriel@gabrielmath.kr</a> (개인정보 보호책임자 전병제)</span><span aria-hidden="true">·</span><span>학습 기록은 이 기기에만 저장돼요</span></footer>
 <div class="scrim" id="scrim"></div>
 <aside class="ai" id="ai" aria-label="G-Man 멘토">
-  <div class="ai-head"><h2>G-Man 멘토</h2><span class="aimode" id="aiMode"></span><button class="btn ghost sm" type="button" id="aiKey" title="API 키 설정">🔑 키</button><button class="btn ghost" type="button" id="aiClose">닫기</button></div>
+  <div class="ai-head"><h2>G-Man 멘토</h2><span class="aimode" id="aiMode"></span><button class="btn ghost sm" type="button" id="aiKey" title="API 키 넣기, 바꾸기, 지우기">🔑 키</button><button class="btn ghost" type="button" id="aiClose">닫기</button></div>
   <div class="ai-ctx" id="aiCtx"></div>
-  <p class="ai-notice">보낸 내용은 Anthropic의 AI 모델 Claude로 전달돼요. 이름, 학번, 연락처 같은 개인정보는 쓰지 마세요. 멘토의 답은 틀릴 수 있어요. claude.ai 밖에서는 내 API 키가 필요해요. <a href="#mentor">사용 안내</a> · <a href="#privacy">개인정보 처리방침</a></p>
+  <p class="ai-notice">💡 G-Man은 AI 선생님이에요. 내가 쓴 글은 AI 회사로 보내지니 <b>이름, 학번, 전화번호는 쓰지 마세요.</b> AI도 틀릴 수 있으니 중요한 것은 교과서와 선생님께 확인해요. <a href="#mentor">사용 설명서</a> · <a href="#privacy">개인정보 처리방침</a></p>
   <div class="chat" id="chat"></div>
   <form class="ai-form" id="aiForm"><textarea id="aiInput" placeholder="생각이나 궁금한 점을 적어 보세요" aria-label="G-Man 멘토에게 보낼 말"></textarea><button class="btn" type="submit" id="aiSend">보내기</button></form>
 </aside>
@@ -2335,7 +2351,7 @@ function renderNav(){const cid=curCourse(),co=courseById(cid),ls=lessonsOf(cid);
       h('li',{},h('a',{href:'#editor',class:route==='editor'?'on':''},h('span',{class:'dot'},'✏️'),'수학 노트 (수식 편집기)')),
       h('li',{},h('a',{href:'#report',class:route==='report'?'on':''},h('span',{class:'dot'},'📄'),'내 기록 PDF로 저장')),
       h('li',{},h('a',{href:'#teacher',class:route==='teacher'?'on':''},h('span',{class:'dot'},'📋'),'교사용 안내')),
-      h('li',{},h('a',{href:'#mentor',class:route==='mentor'?'on':''},h('span',{class:'dot'},'🔑'),'G-Man 멘토 사용 안내')),
+      h('li',{},h('a',{href:'#mentor',class:route==='mentor'?'on':''},h('span',{class:'dot'},'🔑'),'G-Man 멘토 사용 설명서')),
       h('li',{},h('a',{href:'#privacy',class:route==='privacy'?'on':''},h('span',{class:'dot'},'🔒'),'개인정보 처리방침')))));
   const cl=curLesson();store.navOpen=store.navOpenV2=store.navOpenV2||{};const cu=UNITS.filter(u=>u.course===cid),uls=[];
   const allBtn=h('button',{type:'button',class:'navall'},'');
@@ -2350,7 +2366,7 @@ function renderNav(){const cid=curCourse(),co=courseById(cid),ls=lessonsOf(cid);
   side.insertBefore(h('div',{class:'navhead'},h('span',{},'단원'),allBtn),side.querySelector('.navunit'));
   const d=doneOf(cid);$('#prog').replaceChildren(h('span',{class:'lbt'},co.name),h('div',{class:'bar'},h('i',{style:`width:${d/ls.length*100}%`})),h('b',{},`${d}/${ls.length}`));typeset(side);}
 function ring(p,color='var(--teal)'){const r=60,c=2*Math.PI*r;const sv=s('svg',{viewBox:'0 0 150 150','aria-hidden':'true'});s('circle',{cx:75,cy:75,r,fill:'none',stroke:'var(--line)','stroke-width':14},sv);s('circle',{cx:75,cy:75,r,fill:'none',stroke:color,'stroke-width':14,'stroke-linecap':'round','stroke-dasharray':`${c*p} ${c}`,transform:'rotate(-90 75 75)'},sv);return sv;}
-const toolsEl=()=>h('div',{},h('h2',{class:'sec-t'},'함께 쓰는 도구'),h('div',{class:'tools'},h('a',{class:'tool',href:'#editor'},h('span',{class:'ti'},'✏️'),h('b',{},'수학 노트'),h('span',{},'기호 단추로 LaTeX 수식을 넣고, 수식이 보이는 모양을 바로 확인할 수 있는 편집기')),h('a',{class:'tool',href:'#report'},h('span',{class:'ti'},'📄'),h('b',{},'내 기록 PDF로 저장'),h('span',{},'차시별 예상, 일반화, 문제 답, 성찰과 노트를 한 문서로 모아 저장')),h('a',{class:'tool',href:'#mentor'},h('span',{class:'ti'},'🔑'),h('b',{},'G-Man 멘토 사용 안내'),h('span',{},'claude.ai 밖에서 멘토를 쓰기 위한 내 API 키 넣기, 교체, 삭제')),h('a',{class:'tool',href:'#privacy'},h('span',{class:'ti'},'🔒'),h('b',{},'개인정보 처리방침'),h('span',{},'어떤 정보가 어디에 저장되고 어디로 전달되는지, 기록 지우는 방법'))));
+const toolsEl=()=>h('div',{},h('h2',{class:'sec-t'},'함께 쓰는 도구'),h('div',{class:'tools'},h('a',{class:'tool',href:'#editor'},h('span',{class:'ti'},'✏️'),h('b',{},'수학 노트'),h('span',{},'기호 단추로 LaTeX 수식을 넣고, 수식이 보이는 모양을 바로 확인할 수 있는 편집기')),h('a',{class:'tool',href:'#report'},h('span',{class:'ti'},'📄'),h('b',{},'내 기록 PDF로 저장'),h('span',{},'차시별 예상, 일반화, 문제 답, 성찰과 노트를 한 문서로 모아 저장')),h('a',{class:'tool',href:'#mentor'},h('span',{class:'ti'},'🔑'),h('b',{},'G-Man 멘토 사용 설명서'),h('span',{},'그림으로 보는 G-Man 멘토 사용법과 API 키 넣기(Claude, ChatGPT, Gemini 등)')),h('a',{class:'tool',href:'#privacy'},h('span',{class:'ti'},'🔒'),h('b',{},'개인정보 처리방침'),h('span',{},'어떤 정보가 어디에 저장되고 어디로 전달되는지, 기록 지우는 방법'))));
 const cycleEl=()=>h('ol',{class:'cycle','aria-label':'탐구 순환'},STAGES.map((st,i)=>h('li',{},h('span',{class:'e'},st.e),h('b',{},`${i+1}. ${st.name}`),h('span',{},st.hint))));
 function renderHome(){
   main.replaceChildren(
@@ -2360,7 +2376,7 @@ function renderHome(){
         h('p',{class:'clead'},c.lead),h('div',{class:'cunits'},UNITS.filter(u=>u.course===c.id).map(u=>h('span',{class:'uchip '+u.id},`${u.ic} ${u.name}`))),
         h('div',{class:'cprog'},h('div',{class:'bar'},h('i',{style:`width:${d/ls.length*100}%`})),h('span',{},`완료 ${d}/${ls.length}`)),
         h('div',{class:'go'},h('a',{class:'btn big',href:'#'+c.id},`${c.name} 들어가기`),last?h('a',{class:'btn ghost big',href:'#'+last.id},'이어서 하기'):null));})),
-    h('h2',{class:'sec-t'},'함께 쓰는 도구'),h('div',{class:'tools'},h('a',{class:'tool',href:'#editor'},h('span',{class:'ti'},'✏️'),h('b',{},'수학 노트'),h('span',{},'기호 단추로 LaTeX 수식을 넣고, 수식이 보이는 모양을 바로 확인할 수 있는 편집기')),h('a',{class:'tool',href:'#report'},h('span',{class:'ti'},'📄'),h('b',{},'내 기록 PDF로 저장'),h('span',{},'차시별 예상, 일반화, 문제 답, 성찰과 노트를 한 문서로 모아 저장')),h('a',{class:'tool',href:'#mentor'},h('span',{class:'ti'},'🔑'),h('b',{},'G-Man 멘토 사용 안내'),h('span',{},'claude.ai 밖에서 멘토를 쓰기 위한 내 API 키 넣기, 교체, 삭제')),h('a',{class:'tool',href:'#privacy'},h('span',{class:'ti'},'🔒'),h('b',{},'개인정보 처리방침'),h('span',{},'어떤 정보가 어디에 저장되고 어디로 전달되는지, 기록 지우는 방법'))),
+    h('h2',{class:'sec-t'},'함께 쓰는 도구'),h('div',{class:'tools'},h('a',{class:'tool',href:'#editor'},h('span',{class:'ti'},'✏️'),h('b',{},'수학 노트'),h('span',{},'기호 단추로 LaTeX 수식을 넣고, 수식이 보이는 모양을 바로 확인할 수 있는 편집기')),h('a',{class:'tool',href:'#report'},h('span',{class:'ti'},'📄'),h('b',{},'내 기록 PDF로 저장'),h('span',{},'차시별 예상, 일반화, 문제 답, 성찰과 노트를 한 문서로 모아 저장')),h('a',{class:'tool',href:'#mentor'},h('span',{class:'ti'},'🔑'),h('b',{},'G-Man 멘토 사용 설명서'),h('span',{},'그림으로 보는 G-Man 멘토 사용법과 API 키 넣기(Claude, ChatGPT, Gemini 등)')),h('a',{class:'tool',href:'#privacy'},h('span',{class:'ti'},'🔒'),h('b',{},'개인정보 처리방침'),h('span',{},'어떤 정보가 어디에 저장되고 어디로 전달되는지, 기록 지우는 방법'))),
     h('h2',{class:'sec-t'},'한 차시는 이렇게 진행돼요'),cycleEl());typeset(main);}
 function renderCourse(cid){const co=courseById(cid),ls=lessonsOf(cid),d=doneOf(cid);const last=ls.find(l=>l.id===store.lastBy[cid])||ls.find(l=>!store.done[l.id])||ls[0];
   main.className=co.cls;store.course=cid;save();
@@ -2380,7 +2396,7 @@ function renderTeacher(){main.className='k1';main.replaceChildren(h('h1',{},'교
     h('p',{},'교육과정의 ‘이차곡선의 그래프와 방정식 사이의 관계를 다룰 때 공학 도구를 이용할 수 있다’, ‘공간도형의 성질은 관찰을 통해 직관적으로 이해한 후 증명하게 한다’, ‘평면도형과 공간도형을 다룰 때 공학 도구를 이용할 수 있다’를 탐색 도구로 구현했습니다. 17개 차시 중 10개 차시에 끌어서 돌려 보는 3D 입체 화면이 있습니다: 원뿔의 단면, 정육면체의 위치 관계, 삼수선 정리, 정사영과 이면각, 좌표공간과 대칭이동, 내분점과 무게중심, 구와 단면, 공간벡터의 성분, 공간의 직선, 평면과 구의 벡터방정식.'),
     h('p',{},'11개 차시에는 🧪 실험(무작위 시행을 1번, 10번, 100번, 1000번 반복하거나 계속 실행)이 들어 있습니다. 조건을 만족하는 무작위 점만 남겨 포물선, 타원, 쌍곡선, 구, 평면이 저절로 나타나게 하는 ‘자취 실험’, 접선을 모아 곡선을 드러내는 실험, 이차곡선 거울에 광선을 쏘는 반사 실험, 정육면체의 두 모서리를 무작위로 고르는 실험, 삼수선 정리와 정사영의 넓이 비, 내적의 두 계산법을 무작위 상황에서 확인하는 실험이 있습니다. 실험은 증명을 대신하지 않고, ‘언제나 성립하는 것 같다’는 추측을 만들고 증명의 필요성을 느끼게 하는 데 씁니다.'),
     h('p',{},'G-Man 멘토는 정답이나 완성된 풀이를 먼저 주지 않고, 학생이 다음 한 걸음을 스스로 내딛도록 질문 하나나 힌트 하나만 제공하도록 지시되어 있습니다. 멘토에는 현재 차시와 탐색 도구의 상태(슬라이더 값, 화면 결과)가 함께 전달되어, 학생이 보고 있는 화면과 실험 결과에 맞추어 안내합니다.'),
-    h('p',{},'개인정보: 학생 기록은 기기의 브라우저에만 저장되고, G-Man 멘토를 사용할 때만 보낸 말과 차시 정보가 Anthropic의 Claude로 전달됩니다. 운영자 정보와 자세한 조항은 ',h('a',{href:'#privacy'},'개인정보 처리방침'),'에 있습니다. 학교 도입 전 심의는 학교에서 별도로 받아야 합니다.'),
+    h('p',{},'개인정보: 학생 기록은 기기의 브라우저에만 저장되고, G-Man 멘토를 사용할 때만 보낸 말과 차시 정보가 claude.ai(Anthropic) 또는 이용자가 넣은 API 키를 발급한 AI 회사로 전달됩니다. API 키는 Claude, ChatGPT, Gemini 등 여러 회사의 키를 받으며, 키 모양으로 회사를 자동으로 찾습니다. 운영자 정보와 자세한 조항은 ',h('a',{href:'#privacy'},'개인정보 처리방침'),'에 있습니다. 학교 도입 전 심의는 학교에서 별도로 받아야 합니다.'),
     h('p',{},'같은 사이트의 〈공통수학〉, 〈대수〉, 〈미적분Ⅰ〉, 〈미적분Ⅱ〉, 〈확률과 통계〉 실험실과 학습 기록은 따로 저장되고, G-Man 멘토의 API 키 설정은 함께 씁니다.')),
   h('section',{class:'sheet k1'},h('h3',{},'〈기하〉 성취기준과 차시 연결'),teacherTable('c1'),
     h('p',{class:'muted',style:'margin-top:12px'},'성취기준 14개를 17차시로 엮었습니다. 단원과 차시 순서는 교육과정의 세 영역(이차곡선, 공간도형과 공간좌표, 벡터)과 성취기준 순서를 따랐고, 이차곡선 단원에는 원뿔의 단면과 일반형 방정식으로 세 곡선을 묶는 통합 차시와 접선을 활용하는 반사 성질 차시를 더했습니다. 공간좌표의 성취기준(12기하02-04)은 ‘두 점 사이의 거리’와 ‘내분점’ 두 차시로 나누었습니다. 탐색 상황과 적용 문제 51개는 모두 성취기준 수준의 자체 제작입니다.')),
@@ -2557,9 +2573,9 @@ const OPERATOR={org:'전병제 (개인)',officer:'전병제 (개인)',email:'gab
 function policySummary(){return h('div',{class:'pv-sum'},
   h('div',{},h('b',{},'회원가입·로그인 없음'),h('span',{},'이름, 연락처, 기기 식별값을 수집하지 않아요.')),
   h('div',{},h('b',{},'학습 기록은 내 기기에만'),h('span',{},'운영자는 서버를 운영하지 않고, 기록을 볼 수 없어요.')),
-  h('div',{},h('b',{},'G-Man 멘토에 보낸 말만 AI로'),h('span',{},'멘토를 쓸 때만 보낸 말이 Anthropic의 Claude로 전송돼요.')),
+  h('div',{},h('b',{},'G-Man 멘토에 보낸 말만 AI로'),h('span',{},'멘토를 쓸 때만 보낸 말이 키를 만든 AI 회사(Claude, ChatGPT, Gemini 등)로 전송돼요.')),
   h('div',{},h('b',{},'쿠키·광고·방문 분석 없음'),h('span',{},'추적 도구를 쓰지 않아요.')));}
-function deleteAllBtn(msg){return h('button',{class:'btn',type:'button',onclick:()=>{if(!confirm('이 기기에 저장된 학습 기록, 수학 노트, 이름과 학번, 진행 상태, G-Man 멘토 API 키를 모두 지울까요? 지운 기록은 되살릴 수 없어요.'))return;try{localStorage.removeItem(KEY);localStorage.removeItem(CFGSTORE);}catch(e){}setKey('');store={done:{},notes:{},lastBy:{},docs:[],student:{}};for(const k in liveState)delete liveState[k];for(const k in chats)delete chats[k];msg.className='good';msg.textContent='이 기기에 저장된 기록을 모두 지웠어요.';renderNav();}},'이 기기의 내 기록 모두 지우기');}
+function deleteAllBtn(msg){return h('button',{class:'btn',type:'button',onclick:()=>{if(!confirm('이 기기에 저장된 학습 기록, 수학 노트, 이름과 학번, 진행 상태, G-Man 멘토 API 키를 모두 지울까요? 지운 기록은 되살릴 수 없어요.'))return;try{localStorage.removeItem(KEY);localStorage.removeItem(CFGSTORE);localStorage.removeItem(PROVSTORE);}catch(e){}setKey('');store={done:{},notes:{},lastBy:{},docs:[],student:{}};for(const k in liveState)delete liveState[k];for(const k in chats)delete chats[k];msg.className='good';msg.textContent='이 기기에 저장된 기록을 모두 지웠어요.';renderNav();}},'이 기기의 내 기록 모두 지우기');}
 const ART_TITLES=['처리하는 개인정보 항목','개인정보의 처리 목적','보유 및 이용 기간과 파기 절차','개인정보의 안전성 확보 조치','정보주체의 권리·의무 및 행사 방법','만 14세 미만 아동의 개인정보 처리','개인정보 보호책임자 및 연락처','개인정보의 제3자 제공 및 국외 이전','개인정보 처리 업무의 위탁','자동 수집 장치와 외부 리소스','외부 데이터베이스 및 서버 미사용에 관한 해당 없음 고지','개인정보 처리방침의 변경'];
 function policyToc(scrollRoot){return h('nav',{class:'ptoc','aria-label':'조항 목차'},h('b',{},'목차'),h('ol',{},ART_TITLES.map((t,i)=>h('li',{},h('button',{type:'button',onclick:()=>{const el=scrollRoot.querySelector('#art-'+(i+1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}},`제${i+1}조 ${t}`)))));}
 function policyArticles(){const art=(n,...kids)=>h('section',{class:'art',id:'art-'+n},h('h4',{},`제${n}조 (${ART_TITLES[n-1]})`),...kids);
@@ -2571,21 +2587,21 @@ function policyArticles(){const art=(n,...kids)=>h('section',{class:'art',id:'ar
       '다음 정보는 이용자가 직접 입력할 때에만 이용자 기기의 브라우저 저장소에 저장되며, 운영자의 서버로 전송되지 않습니다. 운영자는 이 앱을 위한 서버를 운영하지 않습니다.'),
     h('ul',{class:'art-ul'},h('li',{},h('b',{},'이름, 학번(선택): '),'‘내 기록 PDF로 저장’ 화면에서 PDF 문서 머리글에 표시하기 위한 용도'),
       h('li',{},h('b',{},'학습 기록: '),'예상, 관찰 메모, 일반화 문장, 적용 문제 답, 토론 입장, 성찰, 진행 상태, 수학 노트'),
-      h('li',{},h('b',{},'Anthropic API 키(선택): '),'claude.ai 밖에서 G-Man 멘토를 쓸 때. 기본은 탭을 닫으면 지워지는 임시 저장소에 두고, ‘이 기기에 기억하기’를 고른 경우에만 브라우저 저장소에 저장'))),
+      h('li',{},h('b',{},'AI API 키와 회사·모델 설정(선택): '),'claude.ai 밖에서 G-Man 멘토를 쓸 때(Anthropic, OpenAI, Google 등 이용자가 고른 AI 회사의 키). 키는 기본적으로 탭을 닫으면 지워지는 임시 저장소에 두고, ‘이 기기에 기억하기’를 고른 경우에만 브라우저 저장소에 저장'))),
   art(2,ol('제1조의 정보는 이용자 기기 안에서 학습 활동을 이어 하고, 기록을 PDF로 저장하고, G-Man 멘토 요청을 인증하는 데에만 쓰입니다.','운영자는 이 정보를 열람, 수집, 분석하지 않으며 성적, 평가, 광고에 이용하지 않습니다.','앱 안에서 이루어지는 수식 계산과 그래프 탐색은 교육용 시뮬레이션 목적에만 한정됩니다.')),
   art(3,ol('운영자의 서버에 저장하는 정보가 없으므로 운영자가 보유하는 기간은 없습니다.','이용자 기기에 저장된 기록은 이용자가 지울 때까지 남으며, 다음 방법으로 즉시 영구 삭제됩니다: 제5조의 [이 기기의 내 기록 모두 지우기] 버튼, 브라우저의 사이트 데이터 삭제, G-Man 멘토 설정의 [키 삭제](API 키). 임시 저장소의 API 키는 탭을 닫으면 삭제됩니다.','G-Man 멘토에 보낸 내용의 보관은 제8조에 따릅니다.')),
   art(4,ol('학습 기록과 API 키를 운영자의 서버로 보내지 않고 이용자 기기에만 둡니다.','이 앱은 HTTPS(TLS 암호화)를 제공하는 호스팅(claude.ai, GitHub Pages)을 통해 제공됩니다. 응답 보안 헤더는 각 호스팅이 정하며, 운영자가 따로 설정하지 않습니다.','API 키는 입력할 때 가려서 표시하고, 저장한 뒤에도 일부만 보여 줍니다. 앱 코드와 공개 저장소에는 키를 넣지 않습니다.','이용자가 입력한 글은 화면에 텍스트로만 표시하며, 프로그램 코드로 실행하지 않습니다.')),
   art(5,ol('이용자는 언제든지 자기 기기에 저장된 기록을 ‘내 기록 PDF로 저장’ 화면에서 확인하고, 아래 버튼이나 브라우저 설정으로 즉시 삭제할 수 있습니다.','이용자는 G-Man 멘토에 자신이나 다른 사람의 개인정보(이름, 학번, 연락처, 주소 등)를 입력하지 않아야 합니다.','개인정보 관련 문의는 제7조의 보호책임자에게 언제든지 요청할 수 있습니다.'),
     h('div',{class:'row'},deleteAllBtn(delMsg)),delMsg),
-  art(6,h('p',{},'이 앱은 만 14세 미만 학생을 포함한 모든 이용자의 개인정보를 운영자가 수집하지 않으므로, 법정대리인의 별도 동의가 필요한 개인정보 처리가 발생하지 않습니다. 다만 이용자가 Anthropic API 키를 직접 만들어 쓰는 경우에는 Anthropic의 이용 조건(연령 조건 포함)을 따라야 합니다.')),
+  art(6,h('p',{},'이 앱은 만 14세 미만 학생을 포함한 모든 이용자의 개인정보를 운영자가 수집하지 않으므로, 법정대리인의 별도 동의가 필요한 개인정보 처리가 발생하지 않습니다. 다만 이용자가 AI 회사의 API 키를 직접 만들어 쓰는 경우에는 그 회사의 이용 조건(연령 조건 포함)을 따라야 합니다.')),
   art(7,h('ul',{class:'art-ul'},h('li',{},h('b',{},'운영 기관: '),OPERATOR.org),h('li',{},h('b',{},'개인정보 보호책임자: '),OPERATOR.officer),h('li',{},h('b',{},'문의 창구(전자우편): '),h('a',{href:'mailto:'+OPERATOR.email},OPERATOR.email)))),
-  art(8,ol('운영자는 이용자의 개인정보를 제3자에게 제공하거나 국외로 이전하지 않습니다.','다만 이용자가 G-Man 멘토를 사용하면, AI 응답을 만들기 위해 다음 내용이 Anthropic, PBC(미국)의 AI 모델 Claude로 전송됩니다.'),
+  art(8,ol('운영자는 이용자의 개인정보를 제3자에게 제공하거나 국외로 이전하지 않습니다.','다만 이용자가 G-Man 멘토를 사용하면, AI 응답을 만들기 위해 다음 내용이 이용자가 입력한 API 키를 발급한 AI 회사(예: Anthropic의 Claude, OpenAI의 ChatGPT, Google의 Gemini. 대부분 미국 소재)로 전송됩니다. claude.ai 게시 화면에서는 Anthropic, PBC(미국)의 Claude로 전송됩니다.'),
     h('ul',{class:'art-ul'},h('li',{},h('b',{},'전송 항목: '),'이용자가 보낸 말, 피드백을 요청한 일반화 문장, 현재 차시 정보와 탐색 도구 상태. 이름, 학번, 그 밖의 학습 기록은 보내지 않습니다.'),
-      h('li',{},h('b',{},'전송 경로: '),'claude.ai 게시 화면에서는 claude.ai를 통해, 그 밖의 곳에서는 이용자 브라우저에서 api.anthropic.com으로 직접 전송(이때 API 키는 요청 인증에만 사용)'),
+      h('li',{},h('b',{},'전송 경로: '),'claude.ai 게시 화면에서는 claude.ai를 통해, 그 밖의 곳에서는 이용자 브라우저에서 키를 발급한 회사의 API 주소(예: api.anthropic.com, api.openai.com, generativelanguage.googleapis.com)로 직접 전송(이때 API 키는 요청 인증에만 사용). 회사를 자동으로 찾을 때 키 모양이 같은 회사가 둘 이상이면(예: sk-로 시작하는 키) 차례로 연결을 시도할 수 있음'),
       h('li',{},h('b',{},'전송 시점: '),'이용자가 [보내기] 또는 [G-Man 멘토에게 피드백 받기]를 누를 때'),
-      h('li',{},h('b',{},'보관 기간: '),'Anthropic(과 claude.ai)의 개인정보 처리방침과 이용 조건에 따름'),
+      h('li',{},h('b',{},'보관 기간: '),'전송받은 AI 회사(와 claude.ai)의 개인정보 처리방침과 이용 조건에 따름'),
       h('li',{},h('b',{},'거부 방법: '),'G-Man 멘토를 쓰지 않으면 아무것도 전송되지 않으며, 그 밖의 학습 기능 이용에는 제한이 없습니다.'))),
-  art(9,h('p',{},'운영자는 개인정보 처리 업무를 외부 기관이나 제3자에게 위탁하지 않습니다. G-Man 멘토 요청은 이용자가 이용하는 claude.ai 또는 이용자 본인이 입력한 API 키로 처리됩니다.')),
+  art(9,h('p',{},'운영자는 개인정보 처리 업무를 외부 기관이나 제3자에게 위탁하지 않습니다. G-Man 멘토 요청은 이용자가 이용하는 claude.ai 또는 이용자 본인이 입력한 API 키를 발급한 AI 회사에서 처리됩니다.')),
   art(10,ol('이 앱은 쿠키, 방문 분석, 광고 도구를 쓰지 않습니다.','화면 표시를 위해 다음 외부 리소스를 불러오며, 이때 접속 정보(IP 주소, 브라우저 정보)가 해당 서비스에 전달될 수 있습니다: Google Fonts(fonts.googleapis.com, fonts.gstatic.com)의 글꼴, jsDelivr(cdn.jsdelivr.net)의 PDF 저장 도구(‘PDF 파일로 저장’을 처음 누를 때). 수식 표시 도구는 앱 안에 들어 있어 외부로 요청하지 않습니다.')),
   art(11,h('p',{},'이 앱은 교육 목적의 정적 웹 애플리케이션으로, 보안 진단 및 점검 항목 중 다음 사항이 [해당 없음]임을 밝힙니다.'),
     h('ol',{class:'art-ol'},h('li',{},h('b',{},'외부 데이터베이스(Supabase, PostgreSQL 등)와 RLS 보안 제어: [해당 없음] '),'외부 중앙 DB 서버를 구축하거나 운영하지 않으며, 모든 학습 데이터는 이용자의 브라우저 저장소에서만 처리됩니다.'),
@@ -2611,7 +2627,7 @@ document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest
 const NOTICE_KEY='gman-privacy-notice-geo-v1';
 function showPrivacyNotice(){try{if(localStorage.getItem(NOTICE_KEY))return;}catch(e){}
   const bar=h('div',{class:'pnotice',role:'region','aria-label':'개인정보 안내'},
-    h('p',{},'🔒 이 앱은 회원가입 없이 쓰며 개인정보를 수집하지 않아요. 학습 기록은 이 기기에만 저장되고, G-Man 멘토에 보낸 말만 AI(Anthropic의 Claude)로 전달돼요.'),
+    h('p',{},'🔒 이 앱은 회원가입 없이 쓰며 개인정보를 수집하지 않아요. 학습 기록은 이 기기에만 저장되고, G-Man 멘토에 보낸 말만 키를 만든 AI 회사(Claude, ChatGPT, Gemini 등)로 전달돼요.'),
     h('div',{class:'row',style:'margin:0'},h('button',{class:'btn ghost sm',type:'button',onclick:()=>openPolicy()},'개인정보 처리방침 보기'),h('button',{class:'btn sm',type:'button',onclick:()=>{try{localStorage.setItem(NOTICE_KEY,'1');}catch(e){}bar.remove();}},'확인')));
   document.body.append(bar);}
 
@@ -2624,101 +2640,226 @@ function renderPrivacy(){main.className='k1';
 function renderTerms(){main.className='k1';
   main.replaceChildren(h('h1',{},'📘 이용 안내'),h('p',{class:'lens'},`시행일: ${POLICY_DATE}`),
     h('section',{class:'sheet'},h('h3',{},'1. 앱의 목적'),h('p',{},'2022 개정 교육과정 〈기하〉의 개념을 학생이 그래프와 3D 입체를 움직이고 실험하며 직접 탐구하도록 돕는 학습 자료예요. 성적 처리나 평가 도구가 아니에요.')),
-    h('section',{class:'sheet'},h('h3',{},'2. G-Man 멘토'),h('ul',{class:'pv-list'},h('li',{},'G-Man 멘토는 AI(Anthropic의 Claude)가 답하는 학습 도우미예요. 정답을 바로 알려 주지 않고 생각을 이어 갈 질문을 건네요.'),h('li',{},'답이 틀리거나 부정확할 수 있어요. 중요한 내용은 교과서와 선생님께 확인하세요.'),h('li',{},'claude.ai 게시 화면에서는 바로 쓸 수 있고, 그 밖의 곳에서는 내 Anthropic API 키를 넣어야 해요. 키를 쓰면 사용 요금은 키 주인의 계정에 청구돼요. ',h('a',{href:'#mentor'},'G-Man 멘토 사용 안내')))),
+    h('section',{class:'sheet'},h('h3',{},'2. G-Man 멘토'),h('ul',{class:'pv-list'},h('li',{},'G-Man 멘토는 AI(Claude, ChatGPT, Gemini 등)가 답하는 학습 도우미예요. 정답을 바로 알려 주지 않고 생각을 이어 갈 질문을 건네요.'),h('li',{},'답이 틀리거나 부정확할 수 있어요. 중요한 내용은 교과서와 선생님께 확인하세요.'),h('li',{},'claude.ai 게시 화면에서는 바로 쓸 수 있고, 그 밖의 곳에서는 내 API 키(Claude, ChatGPT, Gemini 등 어느 회사 것이든)를 넣어야 해요. 키를 쓰면 사용 요금은 키 주인의 계정에 청구돼요. ',h('a',{href:'#mentor'},'G-Man 멘토 사용 설명서')))),
     h('section',{class:'sheet'},h('h3',{},'3. 내용의 출처'),h('ul',{class:'pv-list'},h('li',{},`성취기준, 성취기준 해설, 핵심 아이디어: ${CURR}`),h('li',{},'단원 구성: 교육과정 〈기하〉의 세 영역(이차곡선, 공간도형과 공간좌표, 벡터)과 성취기준의 순서를 따랐어요. 탐색 상황과 수치는 모두 새로 정했어요.'),h('li',{},`적용 문제 ${L.reduce((a,l)=>a+l.apply.length,0)}문항: 모두 성취기준을 바탕으로 새로 만들었어요(자체 제작 표시).`),h('li',{},'각 차시의 ‘질문하기’와 ‘적용과 전이’ 단계에 그 차시의 출처를 모아 두었어요.'))),
     h('section',{class:'sheet'},h('h3',{},'4. 사용한 오픈소스'),h('ul',{class:'pv-list'},h('li',{},'KaTeX 0.16.9 (MIT 라이선스), MathJax 3.2.2 (Apache License 2.0): 수식 표시'),h('li',{},'html2canvas 1.4.1, jsPDF 2.5.1 (MIT 라이선스): PDF 저장'),h('li',{},'IBM Plex Sans KR, Nanum Myeongjo, STIX Two Text, Noto Sans Math (SIL Open Font License 1.1): 글꼴'))),
     h('section',{class:'sheet'},h('h3',{},'5. 개인정보'),h('p',{},'정보 처리에 대한 자세한 내용은 ',h('a',{href:'#privacy'},'개인정보 처리방침'),'을 확인하세요.')));
   typeset(main);}
 
-/* ---------- G-Man 멘토 연결: claude.ai 또는 내 API 키 ---------- */
-const KEYSTORE='gman-mentor-key-v1',CFGSTORE='gman-mentor-cfg-v1';
-const MODELS=[['claude-sonnet-5-5','Claude Sonnet 5.5 (권장: 성능과 비용의 균형)'],['claude-haiku-5-5','Claude Haiku 5.5 (빠르고 저렴)'],['claude-opus-5-5','Claude Opus 5.5 (가장 높은 성능, 비용 높음)']];
+/* ---------- G-Man 멘토 그림 설명서 (앱 안 화면과 인쇄용 설명서가 함께 씀) ---------- */
+const GM_SVG=(()=>{
+  const W='#FFFFFF',INK='#1A2440',MU='#6B7590',LN='#D9E0EC',PA='#F4F6FB',RED='#C8344B',BLU='#2356C2',GRN='#0F8466',YEL='#FFF4CC',AMB='#B97800';
+  const f='font-family="IBM Plex Sans KR,Noto Sans CJK KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif"';
+  const box=(x,y,w,h,fill=W,st=LN,r=10)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${st}" stroke-width="1.5"/>`;
+  const tx=(x,y,s,size=13,fill=INK,w=500,anchor='start')=>`<text x="${x}" y="${y}" ${f} font-size="${size}" font-weight="${w}" fill="${fill}" text-anchor="${anchor}">${s}</text>`;
+  const btn=(x,y,w,s,fill=RED,col=W)=>`<rect x="${x}" y="${y}" width="${w}" height="28" rx="8" fill="${fill}"/>`+tx(x+w/2,y+19,s,12.5,col,700,'middle');
+  const ring=(x,y,w,h=28)=>`<rect x="${x-6}" y="${y-6}" width="${w+12}" height="${h+12}" rx="12" fill="none" stroke="${AMB}" stroke-width="3" stroke-dasharray="6 4"/>`;
+  const hand=(x,y)=>`<g transform="translate(${x} ${y})"><path d="M8 0 L8 18 L4 15 L1 18 L7 26 L19 26 L21 13 L12 11 L12 0 Z" fill="${W}" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/></g>`;
+  const frame=inner=>`<svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img">${box(1,1,318,188,PA,LN,14)}${inner}</svg>`;
+  return [
+    /* 1. 오른쪽 위 단추 */
+    frame(box(14,16,292,40,W)+`<rect x="24" y="25" width="22" height="22" rx="6" fill="${RED}"/>`+tx(35,41,'G',13,W,800,'middle')+tx(54,41,'기하 개념 탐구 실험실',12.5,INK,700)
+      +btn(214,22,82,'G-Man 멘토')+ring(214,22,82)+hand(276,40)
+      +box(14,70,292,104,W)+tx(30,98,'차시 화면',13,MU,600)+`<rect x="30" y="110" width="170" height="10" rx="5" fill="${LN}"/><rect x="30" y="130" width="230" height="10" rx="5" fill="${LN}"/><rect x="30" y="150" width="120" height="10" rx="5" fill="${LN}"/>`),
+    /* 2. 키 받기 */
+    frame(tx(160,30,'API 키 = AI를 쓰는 비밀 열쇠',14,INK,700,'middle')
+      +[['Claude',BLU],['ChatGPT',GRN],['Gemini',AMB]].map(([n,c],i)=>box(18+i*100,48,84,40,W,c)+tx(60+i*100,73,n,13,c,700,'middle')).join('')
+      +`<path d="M160 98 v18" stroke="${MU}" stroke-width="2"/><path d="M153 110 l7 8 7-8" fill="none" stroke="${MU}" stroke-width="2"/>`
+      +box(60,124,200,44,YEL,AMB)+`<g transform="translate(74 134)"><circle cx="10" cy="12" r="8" fill="none" stroke="${AMB}" stroke-width="3"/><path d="M18 12 h20 M30 12 v7 M36 12 v5" stroke="${AMB}" stroke-width="3" stroke-linecap="round"/></g>`+tx(122,151,'sk-…  AIza…',14,INK,700)),
+    /* 3. 붙여 넣기 */
+    frame(box(14,14,292,162,W)+tx(28,40,'🔑 API 키를 붙여 넣어 주세요',13,INK,700)
+      +box(28,52,200,32,PA)+tx(40,73,'••••••••••••••••••',13,MU,600)+btn(236,54,58,'보기','#E9EDF5',INK)
+      +`<rect x="28" y="96" width="14" height="14" rx="3" fill="${W}" stroke="${MU}" stroke-width="1.5"/>`+tx(48,108,'이 기기에 기억하기 (내 기기에서만)',11.5,MU,500)
+      +btn(28,124,128,'키 저장하고 연결')+ring(28,124,128)+hand(150,140)),
+    /* 4. 연결 확인 */
+    frame(box(14,14,292,162,W)+`<circle cx="44" cy="52" r="16" fill="#E0F3EC"/><path d="M36 52 l6 6 11-12" fill="none" stroke="${GRN}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>`
+      +tx(70,48,'연결됐어요!',15,GRN,800)+tx(70,67,'앱이 맞는 AI 회사를 스스로 찾았어요.',11.5,MU,500)
+      +box(28,86,264,30,PA)+tx(40,106,'회사: ChatGPT (OpenAI) · 모델: 자동',12,INK,600)
+      +btn(28,130,80,'연결 확인','#E9EDF5',INK)+btn(116,130,80,'키 바꾸기','#E9EDF5',INK)+btn(204,130,80,'키 지우기','#E9EDF5',INK)),
+    /* 5. 대화 */
+    frame(box(14,14,292,162,W)+`<rect x="120" y="28" width="172" height="44" rx="12" fill="${BLU}"/>`+tx(132,46,'타원 위의 점은 왜 두 초점까지',11.5,W,600)+tx(132,63,'거리의 합이 같아요?',11.5,W,600)
+      +`<rect x="28" y="84" width="200" height="44" rx="12" fill="${PA}" stroke="${LN}"/>`+tx(40,102,'실의 길이를 바꾸면 무엇이',11.5,INK,600)+tx(40,119,'달라지는지 먼저 해 볼까요?',11.5,INK,600)
+      +box(28,138,200,28,W)+tx(38,157,'생각이나 궁금한 점…',11.5,MU,500)+btn(236,138,56,'보내기')),
+    /* 6. 일반화 피드백 */
+    frame(box(14,14,292,162,W)+tx(28,40,'💡 개념화하기 · 나의 일반화',13,INK,700)
+      +box(28,50,264,56,PA)+tx(38,72,'두 초점까지의 거리의 합이 일정한',11.5,INK,500)+tx(38,92,'점들이 모이면 타원이 된다…',11.5,INK,500)
+      +btn(28,112,190,'G-Man 멘토에게 피드백 받기')+ring(28,112,190)+hand(214,128)+tx(28,166,'잘한 점, 보탤 점, 다듬을 질문을 알려 줘요.',11,MU,500))
+  ];
+})();
+const GM_STEPS=[
+  ['G-Man 멘토 단추 누르기','화면 오른쪽 위의 빨간 ‘G-Man 멘토’ 단추를 누르면 대화창이 열려요. 휴대전화에서는 화면 위쪽에 있어요.'],
+  ['API 키 준비하기','API 키는 AI를 쓸 수 있게 해 주는 비밀 열쇠예요. Claude, ChatGPT, Gemini 등 어느 회사의 키든 쓸 수 있어요. 선생님께 받거나, 아래 표의 사이트에서 직접 만들어요.'],
+  ['키 붙여 넣고 연결하기','대화창의 칸에 키를 붙여 넣고 ‘키 저장하고 연결’을 눌러요. 내 기기에서만 ‘이 기기에 기억하기’를 고르세요. 학교 공용 컴퓨터에서는 고르지 마세요.'],
+  ['연결됐는지 보기','앱이 키 모양을 보고 맞는 AI 회사를 스스로 찾아 연결해요. ‘연결됐어요’가 보이면 준비 끝이에요. 키를 바꾸거나 지울 때는 대화창 위의 ‘🔑 키’를 눌러요.'],
+  ['생각을 말하고 질문하기','탐색하며 알게 된 것, 헷갈리는 것, 내 추측을 써서 보내요. G-Man은 정답 대신 생각을 이어 갈 질문이나 힌트를 줘요. 수식은 $ 기호 한 쌍 사이에 써요(예: $x^{2}$).'],
+  ['일반화 피드백 받기','‘개념화하기’ 단계에서 나의 일반화를 쓰고 ‘G-Man 멘토에게 피드백 받기’를 누르면, 잘한 점과 보탤 점, 스스로 다듬을 질문을 알려 줘요.']];
+const GM_KEYS=[
+  ['Claude (Anthropic)','sk-ant-…','console.anthropic.com','https://console.anthropic.com/settings/keys'],
+  ['ChatGPT (OpenAI)','sk-proj-… 또는 sk-…','platform.openai.com','https://platform.openai.com/api-keys'],
+  ['Gemini (Google)','AIza…','aistudio.google.com','https://aistudio.google.com/apikey'],
+  ['OpenRouter (여러 AI 모음)','sk-or-…','openrouter.ai','https://openrouter.ai/keys'],
+  ['Groq','gsk_…','console.groq.com','https://console.groq.com/keys'],
+  ['Grok (xAI)','xai-…','console.x.ai','https://console.x.ai'],
+  ['Solar (Upstage)','up_…','console.upstage.ai','https://console.upstage.ai'],
+  ['DeepSeek','sk-…','platform.deepseek.com','https://platform.deepseek.com/api_keys'],
+  ['Mistral','32자리 영문·숫자','console.mistral.ai','https://console.mistral.ai/api-keys'],
+  ['Perplexity','pplx-…','perplexity.ai','https://www.perplexity.ai/settings/api']];
+const GM_PROMISES=[
+  ['🙅','개인정보는 쓰지 않아요','이름, 학번, 전화번호, 주소는 G-Man에게 쓰지 않아요. 내가 쓴 글은 AI 회사로 보내져요.'],
+  ['🔑','키는 비밀번호처럼 지켜요','키를 친구에게 보여 주거나, 단체방이나 과제에 올리지 않아요. 키 주인의 계정에서 사용 요금이 나가요.'],
+  ['🤔','AI의 답도 확인해요','AI도 틀릴 수 있어요. 중요한 내용은 교과서와 선생님께 다시 확인해요.']];
+
+/* ---------- G-Man 멘토 연결: claude.ai 또는 내 API 키 (여러 AI 회사 지원) ---------- */
+const KEYSTORE='gman-mentor-key-v1',CFGSTORE='gman-mentor-cfg-v1',PROVSTORE='gman-mentor-provider-v1';
+const PROVIDERS={
+  anthropic:{name:'Claude (Anthropic)',short:'Claude',kind:'anthropic',url:'https://api.anthropic.com/v1/messages',models:['claude-sonnet-5-5','claude-haiku-5-5','claude-opus-5-5','claude-sonnet-4-5','claude-haiku-4-5'],site:'Anthropic Console'},
+  openai:{name:'ChatGPT (OpenAI)',short:'ChatGPT',kind:'chat',url:'https://api.openai.com/v1/chat/completions',models:['gpt-5-mini','gpt-4.1-mini','gpt-4o-mini'],site:'OpenAI Platform'},
+  gemini:{name:'Gemini (Google)',short:'Gemini',kind:'gemini',url:'https://generativelanguage.googleapis.com/v1beta/models/',models:['gemini-2.5-flash','gemini-flash-latest','gemini-2.0-flash'],site:'Google AI Studio'},
+  openrouter:{name:'OpenRouter',short:'OpenRouter',kind:'chat',url:'https://openrouter.ai/api/v1/chat/completions',models:['openrouter/auto'],site:'OpenRouter'},
+  groq:{name:'Groq',short:'Groq',kind:'chat',url:'https://api.groq.com/openai/v1/chat/completions',models:['llama-3.3-70b-versatile','openai/gpt-oss-120b'],site:'Groq Console'},
+  xai:{name:'Grok (xAI)',short:'Grok',kind:'chat',url:'https://api.x.ai/v1/chat/completions',models:['grok-3-mini','grok-4'],site:'xAI Console'},
+  upstage:{name:'Solar (Upstage)',short:'Solar',kind:'chat',url:'https://api.upstage.ai/v1/chat/completions',models:['solar-pro2','solar-mini'],site:'Upstage Console'},
+  deepseek:{name:'DeepSeek',short:'DeepSeek',kind:'chat',url:'https://api.deepseek.com/chat/completions',models:['deepseek-chat'],site:'DeepSeek Platform'},
+  mistral:{name:'Mistral',short:'Mistral',kind:'chat',url:'https://api.mistral.ai/v1/chat/completions',models:['mistral-small-latest'],site:'Mistral Console'},
+  perplexity:{name:'Perplexity',short:'Perplexity',kind:'chat',url:'https://api.perplexity.ai/chat/completions',models:['sonar'],site:'Perplexity'},
+  custom:{name:'그 밖의 회사 (OpenAI 호환 주소 직접 입력)',short:'직접 입력',kind:'chat',url:'',models:[],site:'키를 만든 사이트'}};
+/* 키의 앞부분 모양으로 회사를 짐작해요. 모양이 같은 회사가 둘이면 차례로 시도해요. */
+function guessProviders(k){
+  if(/^sk-ant-/.test(k))return ['anthropic']; if(/^sk-or-/.test(k))return ['openrouter']; if(/^AIza/.test(k))return ['gemini'];
+  if(/^gsk_/.test(k))return ['groq']; if(/^xai-/.test(k))return ['xai']; if(/^up_/.test(k))return ['upstage']; if(/^pplx-/.test(k))return ['perplexity'];
+  if(/^sk-(proj|svcacct|admin)-/.test(k))return ['openai']; if(/^sk-/.test(k))return ['openai','deepseek']; if(/^[A-Za-z0-9]{32}$/.test(k))return ['mistral'];
+  return [];}
 let memKey='';
 function getKey(){try{return sessionStorage.getItem(KEYSTORE)||localStorage.getItem(KEYSTORE)||memKey||'';}catch(e){return memKey||'';}}
 function setKey(k,remember){memKey=k||'';try{sessionStorage.removeItem(KEYSTORE);}catch(e){}try{localStorage.removeItem(KEYSTORE);}catch(e){}if(!k)return;try{(remember?localStorage:sessionStorage).setItem(KEYSTORE,k);}catch(e){}}
 function keyRemembered(){try{return !!localStorage.getItem(KEYSTORE);}catch(e){return false;}}
-function mentorCfg(){let c={};try{c=JSON.parse(localStorage.getItem(CFGSTORE)||'{}');}catch(e){}return Object.assign({model:MODELS[0][0]},c);}
-function saveCfg(c){try{localStorage.setItem(CFGSTORE,JSON.stringify(c));}catch(e){}}
-const maskKey=k=>k?k.slice(0,10)+'••••••••'+k.slice(-4):'';
+function provCfg(){let c={};try{c=JSON.parse(localStorage.getItem(PROVSTORE)||'{}');}catch(e){}return c;}
+function saveProv(c){try{localStorage.setItem(PROVSTORE,JSON.stringify(c));}catch(e){}if(c.provider==='anthropic'&&c.model){try{const o=JSON.parse(localStorage.getItem(CFGSTORE)||'{}');o.model=c.model;localStorage.setItem(CFGSTORE,JSON.stringify(o));}catch(e){}}}
+function curProvider(){const c=provCfg(),k=getKey();if(c.provider&&PROVIDERS[c.provider]&&(!c.keyTail||k.slice(-4)===c.keyTail))return c.provider;const g=guessProviders(k);return g[0]||c.provider||'';}
+const maskKey=k=>k?k.slice(0,Math.min(8,Math.floor(k.length/4)))+'••••••••'+k.slice(-4):'';
 function mentorMode(){if(sample)return 'claude';if(getKey())return 'key';return 'none';}
+const mkErr=(code,msg)=>{const e=new Error(msg||'');e.code=code;return e;};
+async function readSSE(res,onLine){const reader=res.body&&res.body.getReader?res.body.getReader():null;if(!reader)return false;const dec=new TextDecoder();let buf='';
+  for(;;){const {done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
+    while((i=buf.indexOf('\n'))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);if(!line.startsWith('data:'))continue;const data=line.slice(5).trim();if(!data||data==='[DONE]')continue;let ev;try{ev=JSON.parse(data);}catch(e){continue;}onLine(ev);}}
+  return true;}
+async function httpErr(res){let msg='';try{const j=await res.json();const e=Array.isArray(j)?j[0]&&j[0].error:j.error;msg=(e&&(e.message||e.status))||j.message||'';}catch(e){}
+  let code='http'+res.status;if(res.status===400&&/api[ _]?key|API_KEY_INVALID|invalid.*key|key.*invalid/i.test(msg))code='http401';return mkErr(code,msg);}
+async function callProvider(pid,model,key,messages,onText,base){const P=PROVIDERS[pid];let res,text='';
+  try{
+    if(P.kind==='anthropic') res=await fetch(P.url,{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model,max_tokens:1024,stream:true,messages})});
+    else if(P.kind==='gemini') res=await fetch(P.url+encodeURIComponent(model)+':streamGenerateContent?alt=sse&key='+encodeURIComponent(key),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({contents:messages.map(m=>({role:m.role==='assistant'?'model':'user',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:1024}})});
+    else { const url=pid==='custom'?base:P.url; if(!url) throw mkErr('nobase'); const hd={'content-type':'application/json',authorization:'Bearer '+key}; if(pid==='openrouter'){hd['HTTP-Referer']=location.origin||'https://gabrielmath.kr';hd['X-Title']='G-Man Mentor';}
+      res=await fetch(url,{method:'POST',headers:hd,body:JSON.stringify({model,messages,stream:true})}); }
+  }catch(e){ if(e.code) throw e; throw mkErr('network'); }
+  if(!res.ok) throw await httpErr(res);
+  const streamed=await readSSE(res,ev=>{
+    if(P.kind==='anthropic'){ if(ev.type==='content_block_delta'&&ev.delta&&ev.delta.type==='text_delta'){text+=ev.delta.text;onText&&onText(text);} else if(ev.type==='error') throw mkErr(ev.error&&ev.error.type==='overloaded_error'?'http529':'stream',ev.error&&ev.error.message); }
+    else if(P.kind==='gemini'){ const parts=(((ev.candidates||[])[0]||{}).content||{}).parts||[]; const t=parts.map(p=>p.text||'').join(''); if(t){text+=t;onText&&onText(text);} if(ev.error) throw mkErr('stream',ev.error.message); }
+    else { if(ev.error) throw mkErr('stream',ev.error.message||''); const d=((ev.choices||[])[0]||{}).delta||{}; if(d.content){text+=d.content;onText&&onText(text);} }
+  });
+  if(!streamed){ const j=await res.json(); text=P.kind==='anthropic'?(j.content||[]).map(c=>c.text||'').join(''):P.kind==='gemini'?((((j.candidates||[])[0]||{}).content||{}).parts||[]).map(p=>p.text||'').join(''):((((j.choices||[])[0]||{}).message)||{}).content||''; onText&&onText(text); }
+  return text;}
+const modelMissing=e=>e&&(e.code==='http404'||((e.code==='http400'||e.code==='http422')&&/model/i.test(e.message||'')));
+/* 저장된 회사와 모델로 보내고, 모델을 못 쓰면 다음 모델로 바꾸어 다시 시도해요. */
+async function askVia(pid,key,messages,onText){const c=provCfg(),P=PROVIDERS[pid];const list=[];if(c.provider===pid&&c.model)list.push(c.model);P.models.forEach(m=>{if(!list.includes(m))list.push(m);});
+  if(!list.length) throw mkErr('nomodel'); let last;
+  for(const m of list){ try{ const t=await callProvider(pid,m,key,messages,onText,c.base); if(c.provider!==pid||c.model!==m) saveProv(Object.assign({},c,{provider:pid,model:m,keyTail:key.slice(-4)})); return t; }catch(e){ last=e; if(!modelMissing(e)) throw e; } }
+  throw last;}
 async function askMentor(input,onText){
   if(sample){const r=await sample(input,{cache:false,onText:({text})=>onText&&onText(text)});return r.text;}
-  const key=getKey();if(!key){const e=new Error('nokey');e.code='nokey';throw e;}
-  const messages=typeof input==='string'?[{role:'user',content:input}]:input;let res;
-  try{res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:mentorCfg().model,max_tokens:1024,stream:true,messages})});}
-  catch(e){const er=new Error('network');er.code='network';throw er;}
-  if(!res.ok){let msg='';try{const j=await res.json();msg=(j.error&&j.error.message)||'';}catch(e){}const er=new Error(msg);er.code='http'+res.status;throw er;}
-  const reader=res.body&&res.body.getReader?res.body.getReader():null;
-  if(!reader){const j=await res.json();const t=(j.content||[]).map(c=>c.text||'').join('');onText&&onText(t);return t;}
-  const dec=new TextDecoder();let buf='',text='';
-  for(;;){const {done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});let i;
-    while((i=buf.indexOf('\n'))>=0){const line=buf.slice(0,i).trim();buf=buf.slice(i+1);if(!line.startsWith('data:'))continue;const data=line.slice(5).trim();if(!data)continue;let ev;try{ev=JSON.parse(data);}catch(e){continue;}
-      if(ev.type==='content_block_delta'&&ev.delta&&ev.delta.type==='text_delta'){text+=ev.delta.text;onText&&onText(text);}
-      else if(ev.type==='error'){const er=new Error((ev.error&&ev.error.message)||'');er.code=ev.error&&ev.error.type==='overloaded_error'?'http529':'stream';throw er;}}}
-  return text;}
-function mentorErr(e){const c=e&&e.code,m=(e&&e.message)||'';
-  if(c==='nokey')return 'G-Man 멘토를 쓰려면 내 API 키를 먼저 넣어 주세요.';
-  if(c==='rate_limited'||c==='http429')return '요청이 많거나 사용 한도에 닿았어요. 잠시 뒤 다시 보내 주세요.';
+  const key=getKey();if(!key) throw mkErr('nokey');
+  const messages=typeof input==='string'?[{role:'user',content:input}]:input;
+  const pid=curProvider();if(!pid) throw mkErr('unknown');
+  return askVia(pid,key,messages,onText);}
+/* 새 키를 넣을 때: 고른 회사, 또는 키 모양으로 짐작한 회사들을 차례로 시도해요. */
+async function connectKey(key,chosen,base,model){
+  const cands=chosen?[chosen]:guessProviders(key); if(!cands.length) throw mkErr('unknown'); let last;
+  for(const pid of cands){ saveProv({provider:pid,model:model||'',base:pid==='custom'?base:'',keyTail:key.slice(-4)});
+    try{ await askVia(pid,key,[{role:'user',content:'연결 확인입니다. “연결됐어요”라고만 답해 주세요.'}]); return pid; }
+    catch(e){ last=e; if(!(e.code==='http401'||e.code==='http403'||e.code==='network')||cands.length===1) throw e; } }
+  throw last;}
+function mentorErr(e){const c=e&&e.code,m=(e&&e.message)||'',P=PROVIDERS[curProvider()]||{},site=P.site||'키를 만든 사이트';
+  if(c==='nokey')return 'G-Man 멘토와 이야기하려면 먼저 API 키를 넣어 주세요.';
+  if(c==='unknown')return '어느 AI 회사의 키인지 알아내지 못했어요. 아래 ‘어느 회사 키인지 직접 고르기’에서 회사를 골라 주세요.';
+  if(c==='nobase')return '그 밖의 회사를 고를 때는 요청 주소(https://…/chat/completions)를 꼭 써 주세요.';
+  if(c==='nomodel')return '사용할 모델 이름을 써 주세요. 모델 이름은 키를 만든 사이트의 안내에 있어요.';
+  if(c==='rate_limited'||c==='http429')return '지금 요청이 너무 많거나 이 키의 사용 한도를 다 썼어요. 잠시 뒤 다시 보내 보세요.';
   if(c==='not_granted')return 'AI 사용이 허용되지 않아 G-Man 멘토를 쓸 수 없어요.';
-  if(c==='http401')return 'API 키가 올바르지 않아요. ‘키 교체’로 키를 다시 넣어 주세요.';
-  if(c==='http403')return '이 API 키로는 요청할 권한이 없어요. Anthropic Console에서 키 권한과 결제 상태를 확인해 주세요.';
-  if(c==='http404'||(c==='http400'&&/model/i.test(m)))return '선택한 모델을 쓸 수 없어요. 키 설정에서 다른 모델을 골라 보세요.';
-  if(c==='http400'&&/credit|balance|billing/i.test(m))return 'API 계정의 크레딧이 부족해요. Anthropic Console에서 결제 상태를 확인해 주세요.';
-  if(c==='http400')return '요청을 처리하지 못했어요. ('+m.slice(0,120)+')';
-  if(c==='http529'||c==='http500'||c==='http503')return 'AI 서버가 바빠요. 잠시 뒤 다시 보내 주세요.';
-  if(c==='network')return 'AI 서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요. (claude.ai 게시 화면에서는 내 API 키로 직접 연결할 수 없어요.)';
-  return '응답을 받지 못했어요. 다시 보내 주세요.';}
+  if(c==='http401')return 'API 키가 맞지 않아요. 키를 끝까지 빠짐없이 복사했는지 확인하고 ‘키 바꾸기’로 다시 넣어 주세요.';
+  if(c==='http402'||(/credit|balance|billing|quota|insufficient/i.test(m)))return `이 키의 계정에 남은 사용량(크레딧)이 없어요. ${site}에서 결제나 사용량을 확인해 주세요.`;
+  if(c==='http403')return `이 키로는 쓸 수 없다고 해요. ${site}에서 키 권한과 결제 상태를 확인해 주세요.`;
+  if(modelMissing(e))return '이 키로 쓸 수 있는 모델을 찾지 못했어요. ‘고급 설정’에서 모델 이름을 직접 써 보세요.';
+  if(c==='http400'||c==='http422')return '요청을 처리하지 못했어요. ('+m.slice(0,120)+')';
+  if(c==='http529'||c==='http500'||c==='http502'||c==='http503')return 'AI 서버가 바빠요. 잠시 뒤 다시 보내 주세요.';
+  if(c==='network')return 'AI 회사의 서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요. 어떤 회사는 웹 브라우저에서 바로 연결하는 것을 막아 두기도 해요. 그럴 때는 Claude, ChatGPT, Gemini 키로 바꿔 보세요.';
+  return '답을 받지 못했어요. 다시 보내 주세요.';}
 function mentorSetup(opt={}){const box=h('div',{class:'keybox'+(opt.compact?' compact':'')});
   function draw(editing){box.replaceChildren();const mode=mentorMode();
-    if(mode==='claude'){box.append(h('p',{class:'keystat ok'},'✅ claude.ai 게시 화면에서 열려 있어 API 키 없이 G-Man 멘토가 작동해요.'),h('p',{class:'note'},'GitHub Pages나 내 컴퓨터에서 앱을 열 때는 그 화면에서 내 API 키를 넣어야 해요.'),opt.compact?h('a',{href:'#mentor',class:'keylink'},'G-Man 멘토 사용 안내 보기'):null);return;}
-    const key=getKey(),cfg=mentorCfg();
+    if(mode==='claude'){box.append(h('p',{class:'keystat ok'},'✅ claude.ai에서 열었기 때문에 API 키 없이 바로 쓸 수 있어요.'),h('p',{class:'note'},'gabrielmath.kr이나 내 컴퓨터에서 열 때는 API 키를 한 번 넣어야 해요.'),opt.compact?h('a',{href:'#mentor',class:'keylink'},'그림으로 보는 사용 설명서'):null);return;}
+    const key=getKey(),c=provCfg(),pid=curProvider(),P=PROVIDERS[pid];
     if(key&&!editing){
-      box.append(h('p',{class:'keystat ok'},'🔑 내 API 키로 연결돼 있어요.'),
-        h('p',{class:'keyline'},h('span',{},'저장된 키 '),h('code',{},maskKey(key)),h('span',{class:'muted'},keyRemembered()?'  이 기기에 기억됨':'  이 탭에서만 (탭을 닫으면 지워짐)')));
-      const sel=h('select',{'aria-label':'사용할 모델'},MODELS.map(([v,t])=>h('option',{value:v},t)));sel.value=MODELS.some(m=>m[0]===cfg.model)?cfg.model:MODELS[0][0];sel.onchange=()=>{saveCfg(Object.assign(cfg,{model:sel.value}));};
+      box.append(h('p',{class:'keystat ok'},'🔑 연결됐어요'+(P?': '+P.name:'')),
+        h('p',{class:'keyline'},h('span',{},'저장된 키 '),h('code',{},maskKey(key)),h('span',{class:'muted'},keyRemembered()?'  이 기기에 기억됨':'  이 창에서만 (창을 닫으면 지워져요)')));
       const msg=h('p',{class:'muted',style:'margin:6px 0 0'});
-      const test=h('button',{class:'btn ghost sm',type:'button',onclick:async()=>{test.disabled=true;msg.className='muted';msg.textContent='연결을 확인하는 중…';try{await askMentor('연결 확인입니다. “연결됐어요”라고만 답해 주세요.');msg.className='good';msg.textContent='연결됐어요. G-Man 멘토를 쓸 수 있어요.';}catch(e){msg.className='bad';msg.textContent=mentorErr(e);}test.disabled=false;}},'연결 확인');
-      box.append(h('label',{class:'sl'},h('span',{class:'sl-l'},'사용할 모델'),sel),
-        h('div',{class:'row'},h('button',{class:'btn sm',type:'button',onclick:()=>draw(true)},'키 교체'),test,h('button',{class:'btn ghost sm',type:'button',onclick:()=>{if(!confirm('저장된 API 키를 이 기기에서 지울까요?'))return;setKey('');draw(false);opt.onChange&&opt.onChange();}},'키 삭제')),msg);
-      if(opt.compact)box.append(h('a',{href:'#mentor',class:'keylink'},'키 발급 방법과 주의 사항 보기'));return;}
-    box.append(h('p',{class:'keystat'},key?'🔁 새 API 키로 교체해요.':'🔑 G-Man 멘토를 쓰려면 내 Anthropic API 키를 넣어 주세요.'),
-      h('p',{class:'note'},'키는 이 브라우저에서 Anthropic(api.anthropic.com)으로 바로 보내져요. 앱 운영자에게는 보내지 않아요. 사용 요금은 키 주인의 Anthropic 계정에 청구돼요.'));
-    const inp=h('input',{type:'password',class:'keyinput',placeholder:'sk-ant-로 시작하는 API 키를 붙여 넣으세요',autocomplete:'off',spellcheck:'false','aria-label':'Anthropic API 키'});
+      const test=h('button',{class:'btn ghost sm',type:'button',onclick:async()=>{test.disabled=true;msg.className='muted';msg.textContent='연결을 확인하는 중…';try{await askMentor('연결 확인입니다. “연결됐어요”라고만 답해 주세요.');msg.className='good';msg.textContent='연결됐어요. G-Man 멘토와 이야기할 수 있어요.';draw(false);}catch(e){msg.className='bad';msg.textContent=mentorErr(e);}test.disabled=false;}},'연결 확인');
+      const mdl=h('input',{type:'text',class:'keyinput',value:(c.provider===pid&&c.model)||'',placeholder:P&&P.models[0]?'비워 두면 자동 ('+P.models[0]+')':'모델 이름','aria-label':'모델 이름',autocomplete:'off',spellcheck:'false'});
+      const adv=h('details',{class:'keyadv'},h('summary',{},'고급 설정 (모델 바꾸기)'),h('label',{class:'sl'},h('span',{class:'sl-l'},'모델 이름'),mdl),
+        h('p',{class:'note'},'보통은 비워 두면 돼요. 앱이 쓸 수 있는 모델을 차례로 찾아요.'),
+        h('button',{class:'btn ghost sm',type:'button',onclick:()=>{saveProv(Object.assign({},provCfg(),{provider:pid,model:mdl.value.trim(),keyTail:key.slice(-4)}));msg.className='good';msg.textContent='모델 설정을 저장했어요. ‘연결 확인’으로 확인해 보세요.';}},'모델 저장'));
+      box.append(h('div',{class:'row'},test,h('button',{class:'btn sm',type:'button',onclick:()=>draw(true)},'키 바꾸기'),h('button',{class:'btn ghost sm',type:'button',onclick:()=>{if(!confirm('저장된 API 키를 이 기기에서 지울까요?'))return;setKey('');try{localStorage.removeItem(PROVSTORE);}catch(e){}draw(false);opt.onChange&&opt.onChange();}},'키 지우기')),msg,adv);
+      if(opt.compact)box.append(h('a',{href:'#mentor',class:'keylink'},'그림으로 보는 사용 설명서'));return;}
+    box.append(h('p',{class:'keystat'},key?'🔁 새 API 키로 바꿔요.':'🔑 API 키를 붙여 넣어 주세요.'),
+      h('p',{class:'note'},'API 키는 AI를 쓸 수 있게 해 주는 비밀 열쇠예요. Claude, ChatGPT, Gemini 등 어느 회사의 키든 괜찮아요. 앱이 키 모양을 보고 맞는 회사를 찾아 연결해요.'+(opt.compact?'':' 키는 이 기기에서 그 회사로만 보내지고, 앱을 만든 선생님께는 보내지지 않아요.')));
+    const inp=h('input',{type:'password',class:'keyinput',placeholder:'API 키를 여기에 붙여 넣으세요',autocomplete:'off',spellcheck:'false','aria-label':'API 키'});
     const showBtn=h('button',{class:'btn ghost sm',type:'button',onclick:()=>{inp.type=inp.type==='password'?'text':'password';showBtn.textContent=inp.type==='password'?'보기':'숨기기';}},'보기');
     const rem=h('input',{type:'checkbox',id:'keyRemember'+Math.random().toString(36).slice(2,6)});rem.checked=keyRemembered();
+    const sel=h('select',{'aria-label':'AI 회사'},h('option',{value:''},'자동으로 찾기 (추천)'),...Object.entries(PROVIDERS).map(([k,v])=>h('option',{value:k},v.name)));
+    const base=h('input',{type:'text',class:'keyinput',placeholder:'요청 주소 예: https://…/v1/chat/completions',autocomplete:'off',spellcheck:'false','aria-label':'요청 주소'});
+    const mdl=h('input',{type:'text',class:'keyinput',placeholder:'모델 이름 (비워 두면 자동)',autocomplete:'off',spellcheck:'false','aria-label':'모델 이름'});
+    const baseWrap=h('div',{},h('label',{class:'sl'},h('span',{class:'sl-l'},'요청 주소'),base));baseWrap.hidden=true;sel.onchange=()=>{baseWrap.hidden=sel.value!=='custom';};
+    const adv=h('details',{class:'keyadv'},h('summary',{},'어느 회사 키인지 직접 고르기'),h('label',{class:'sl'},h('span',{class:'sl-l'},'AI 회사'),sel),baseWrap,h('label',{class:'sl'},h('span',{class:'sl-l'},'모델 이름 (선택)'),mdl),h('p',{class:'note'},'자동으로 찾지 못할 때만 고르면 돼요.'));
     const msg=h('p',{class:'muted',style:'margin:6px 0 0'});
-    const saveBtn=h('button',{class:'btn sm',type:'button',onclick:async()=>{const k=inp.value.trim();if(!k){msg.className='bad';msg.textContent='API 키를 붙여 넣어 주세요.';return;}
-      if(!/^sk-ant-[A-Za-z0-9_\-]{20,}$/.test(k)){msg.className='bad';msg.textContent='Anthropic API 키는 sk-ant-로 시작해요. 복사한 키를 다시 확인해 주세요.';return;}
-      setKey(k,rem.checked);inp.value='';saveBtn.disabled=true;msg.className='muted';msg.textContent='키를 저장했어요. 연결을 확인하는 중…';
-      try{await askMentor('연결 확인입니다. “연결됐어요”라고만 답해 주세요.');opt.onChange&&opt.onChange();draw(false);}catch(e){msg.className='bad';msg.textContent='키는 저장했지만 연결에 실패했어요. '+mentorErr(e);saveBtn.disabled=false;}}},key?'새 키로 교체':'키 저장하고 연결');
-    box.append(h('div',{class:'keyrow'},inp,showBtn),h('label',{class:'keyrem',for:rem.id},rem,h('span',{},'이 기기에 기억하기 (공용 컴퓨터에서는 선택하지 마세요)')),
-      h('div',{class:'row'},saveBtn,key?h('button',{class:'btn ghost sm',type:'button',onclick:()=>draw(false)},'취소'):null,h('a',{href:'#mentor',class:'keylink'},'API 키는 어디서 받나요?')),msg);}
+    const saveBtn=h('button',{class:'btn sm',type:'button',onclick:async()=>{const k=inp.value.replace(/\s+/g,'');if(!k){msg.className='bad';msg.textContent='API 키를 붙여 넣어 주세요.';return;}
+      if(k.length<20||/[^\x21-\x7e]/.test(k)){msg.className='bad';msg.textContent='키가 너무 짧거나 키에 쓰이지 않는 글자가 섞여 있어요. 키를 처음부터 끝까지 다시 복사해 주세요.';return;}
+      if(!sel.value&&!guessProviders(k).length){adv.open=true;msg.className='bad';msg.textContent='키 모양만으로는 어느 회사 키인지 알 수 없어요. ‘어느 회사 키인지 직접 고르기’에서 회사를 골라 주세요.';return;}
+      if(sel.value==='custom'&&!/^https:\/\//.test(base.value.trim())){msg.className='bad';msg.textContent='요청 주소는 https://로 시작해야 해요.';return;}
+      setKey(k,rem.checked);saveBtn.disabled=true;msg.className='muted';msg.textContent='키를 저장했어요. 맞는 AI 회사를 찾아 연결하는 중…';
+      try{await connectKey(k,sel.value,base.value.trim(),mdl.value.trim());inp.value='';opt.onChange&&opt.onChange();draw(false);}
+      catch(e){msg.className='bad';msg.textContent='키는 저장했지만 연결하지 못했어요. '+mentorErr(e);saveBtn.disabled=false;}}},key?'새 키로 바꾸기':'키 저장하고 연결');
+    box.append(h('div',{class:'keyrow'},inp,showBtn),h('label',{class:'keyrem',for:rem.id},rem,h('span',{},'이 기기에 기억하기 (내 기기에서만! 학교 공용 컴퓨터에서는 고르지 마세요)')),
+      h('div',{class:'row'},saveBtn,key?h('button',{class:'btn ghost sm',type:'button',onclick:()=>draw(false)},'취소'):null,h('a',{href:'#mentor',class:'keylink'},'API 키는 어디서 받나요?')),msg,adv);}
   draw(!!opt.editing);return box;}
+/* 단계 설명 속 $…$는 입력 예이므로 수식으로 바꾸지 않고 그대로 보여 줘요. */
+const gmText=t=>t.split(/(\$[^$]+\$)/).map(s=>/^\$/.test(s)?h('code',{},s):s);
 function renderMentor(){main.className='k1';
-  const step=(n,t,d)=>h('li',{},h('b',{},`${n}. ${t}`),h('span',{},d));
-  main.replaceChildren(h('h1',{},'🔑 G-Man 멘토 사용 안내'),h('p',{class:'lens'},'G-Man 멘토는 정답 대신 질문으로 생각을 이어 주는 AI 학습 도우미예요. 앱을 연 곳에 따라 내 API 키가 필요해요.'),
-    h('section',{class:'sheet'},h('h3',{},'1. 어디서 열었는지에 따라 달라요'),h('div',{class:'tbl-wrap'},h('table',{class:'map'},h('tr',{},h('th',{},'앱을 연 곳'),h('th',{},'API 키'),h('th',{},'요금')),
-      h('tr',{},h('td',{},'claude.ai 게시 화면'),h('td',{},'필요 없어요. 바로 작동해요.'),h('td',{},'앱을 보는 사람의 claude.ai 이용 조건을 따라요.')),
-      h('tr',{},h('td',{},'GitHub Pages, 내 컴퓨터 등 그 밖의 곳'),h('td',{},'내 Anthropic API 키가 필요해요.'),h('td',{},'키 주인의 Anthropic 계정에 사용량만큼 청구돼요.')))),
-      h('p',{class:'keystat',style:'margin-top:12px'},mentorMode()==='claude'?'지금은 claude.ai 게시 화면이라 키 없이 작동해요.':mentorMode()==='key'?'지금은 내 API 키로 연결돼 있어요.':'지금은 API 키가 없어 G-Man 멘토가 쉬고 있어요.')),
-    h('section',{class:'sheet'},h('h3',{},'2. API 키 받는 순서'),h('ol',{class:'steps-list'},
-      step(1,'Anthropic Console 가입','console.anthropic.com에 접속해 계정을 만들어요. 학생이 직접 만들 때는 Anthropic 이용 약관(연령 조건 포함)과 학교 방침을 먼저 확인하세요.'),
-      step(2,'결제 설정','Console의 결제(Billing) 메뉴에서 결제 수단이나 크레딧을 준비해요. 크레딧이 없으면 키가 있어도 답을 받을 수 없어요.'),
-      step(3,'사용 한도 정하기','예상치 못한 요금을 막으려면 Console에서 월 사용 한도를 낮게 정해 두세요.'),
-      step(4,'API 키 만들기','API Keys 메뉴에서 새 키를 만들고 이름(예: G-Man 멘토)을 붙여요. sk-ant-로 시작하는 키가 한 번만 보이니 바로 복사해요.'),
-      step(5,'앱에 넣기','아래 칸이나 G-Man 멘토 대화창에 붙여 넣고 ‘키 저장하고 연결’을 눌러요.')),
-      h('p',{class:'note'},'자세한 내용: ',h('a',{href:'https://console.anthropic.com',target:'_blank',rel:'noopener noreferrer'},'Anthropic Console'),' · ',h('a',{href:'https://docs.claude.com/en/api/overview',target:'_blank',rel:'noopener noreferrer'},'Claude API 문서'))),
-    h('section',{class:'sheet'},h('h3',{},'3. 키 넣기, 교체, 삭제'),mentorSetup({onChange:()=>{}}),h('ul',{class:'pv-list',style:'margin-top:12px'},
-      h('li',{},h('b',{},'교체: '),'‘키 교체’를 누르고 새 키를 넣으면 이전 키는 바로 지워져요. 키를 Console에서 새로 만들었거나 유출이 의심될 때 쓰세요.'),
-      h('li',{},h('b',{},'삭제: '),'‘키 삭제’를 누르면 이 기기에서 키가 지워져요. 개인정보 처리방침 화면의 ‘내 기록 모두 지우기’도 키를 함께 지워요.'),
-      h('li',{},h('b',{},'모델: '),'키를 넣은 뒤 사용할 모델을 고를 수 있어요. 처음에는 권장 모델로 충분해요.'))),
-    h('section',{class:'sheet'},h('h3',{},'4. 안전하게 쓰기'),h('ul',{class:'pv-list'},
-      h('li',{},'API 키는 비밀번호와 같아요. 다른 사람에게 보여 주거나 메신저, 과제, 화면 공유에 올리지 마세요.'),
-      h('li',{},'교사의 키를 학생 기기에 저장하지 마세요. 학교 공용 컴퓨터에서는 ‘이 기기에 기억하기’를 선택하지 마세요.'),
-      h('li',{},'키는 앱 파일이나 GitHub 저장소에 넣지 않아요. 키를 코드에 적어 공개하면 누구나 내 계정으로 요금을 쓸 수 있어요.'),
-      h('li',{},'키가 유출된 것 같으면 Anthropic Console에서 그 키를 바로 삭제하고 새 키로 교체하세요.'),
-      h('li',{},'G-Man 멘토에게는 이름, 학번, 연락처 같은 개인정보를 쓰지 마세요.'))));
+  const mode=mentorMode(),P=PROVIDERS[curProvider()];
+  main.replaceChildren(h('h1',{},'🤖 G-Man 멘토 사용 설명서'),
+    h('p',{class:'lens'},'G-Man 멘토는 정답을 바로 알려 주는 대신, 질문과 힌트로 내 생각을 이어 주는 AI 선생님이에요.'),
+    h('section',{class:'sheet'},h('h3',{},'지금 내 상태'),
+      h('p',{class:'keystat '+(mode==='none'?'':'ok')},mode==='claude'?'✅ claude.ai에서 열어서 키 없이 바로 쓸 수 있어요.':mode==='key'?'✅ API 키로 연결돼 있어요'+(P?' ('+P.name+')':'')+'. 바로 쓸 수 있어요.':'🔑 아직 API 키가 없어요. 아래 순서대로 한 번만 넣으면 돼요.'),
+      h('p',{class:'note'},'키가 없어도 괜찮아요. 각 단계의 질문과 힌트, 교사용 일반화 비교만으로도 탐구를 끝까지 할 수 있어요.'),
+      h('p',{style:'margin:10px 0 0'},h('a',{class:'btn ghost sm',href:'gman-guide.pdf',target:'_blank',rel:'noopener'},'🖨️ 인쇄용 설명서(PDF) 열기'))),
+    h('section',{class:'sheet'},h('h3',{},'그림으로 보는 사용 순서'),
+      h('ol',{class:'gm-steps'},...GM_STEPS.map(([t,d],i)=>h('li',{class:'gm-step'},h('div',{class:'gm-pic',html:GM_SVG[i]}),h('b',{},`${i+1}. ${t}`),h('p',{},...gmText(d)))))),
+    h('section',{class:'sheet'},h('h3',{},'API 키는 어디서 받나요?'),
+      h('p',{},'가장 쉬운 방법은 ',h('b',{},'선생님이 안내한 키'),'를 쓰는 거예요. 직접 만들 때는 아래 사이트에서 ‘API Keys(API 키)’ 메뉴를 찾아 새 키를 만들고 바로 복사해요. 키는 만들 때 한 번만 보여 줄 때가 많아요.'),
+      h('div',{class:'tbl-wrap'},h('table',{class:'map'},h('tr',{},h('th',{},'AI 회사'),h('th',{},'키의 앞부분'),h('th',{},'키를 만드는 곳')),
+        ...GM_KEYS.map(([n,p,s,u])=>h('tr',{},h('td',{},n),h('td',{},h('code',{},p)),h('td',{},h('a',{href:u,target:'_blank',rel:'noopener noreferrer'},s)))))),
+      h('ul',{class:'pv-list',style:'margin-top:12px'},
+        h('li',{},'회사마다 나이 조건과 요금이 달라요. 직접 만들기 전에 선생님이나 보호자와 먼저 확인하세요.'),
+        h('li',{},'사용한 만큼 키 주인의 계정에서 요금이 나가요. 사이트에서 사용 한도를 낮게 정해 두면 안심이에요.'),
+        h('li',{},'목록에 없는 회사의 키도 ‘어느 회사 키인지 직접 고르기’에서 ‘그 밖의 회사’를 고르고 요청 주소를 쓰면 쓸 수 있어요(OpenAI와 같은 방식을 지원하는 회사).'),
+        h('li',{},'어떤 회사는 웹 브라우저에서 바로 연결하는 것을 막아 두기도 해요. 연결이 안 되면 Claude, ChatGPT, Gemini 키로 바꿔 보세요.'))),
+    h('section',{class:'sheet'},h('h3',{},'키 넣기, 바꾸기, 지우기'),mentorSetup({onChange:()=>renderMentor()}),
+      h('ul',{class:'pv-list',style:'margin-top:12px'},
+        h('li',{},h('b',{},'바꾸기: '),'‘키 바꾸기’를 누르고 새 키를 넣으면 전에 쓰던 키는 바로 지워져요.'),
+        h('li',{},h('b',{},'지우기: '),'‘키 지우기’를 누르면 이 기기에서 키가 지워져요. 개인정보 처리방침 화면의 ‘내 기록 모두 지우기’도 키를 함께 지워요.'),
+        h('li',{},h('b',{},'함께 쓰기: '),'gabrielmath.kr의 다른 실험실과 같은 키 칸을 써요. 다른 실험실이 아직 Claude 키만 받는다면, 그곳에서는 Claude 키를 넣어 주세요.'))),
+    h('section',{class:'sheet'},h('h3',{},'G-Man과의 약속 세 가지'),
+      h('div',{class:'gm-promise'},...GM_PROMISES.map(([i,t,d])=>h('div',{},h('span',{class:'gm-ic'},i),h('b',{},t),h('p',{},d))))));
   typeset(main);}
+
 
 /* ---------- G-Man 멘토 ---------- */
 let sample=null,busy=false;const chats={};
@@ -2731,11 +2872,11 @@ function tutor(){return `너는 2022 개정 교육과정 〈${courseById(curCour
 5. 2022 개정 교육과정 〈기하〉 범위를 지킨다. 다루는 것: 포물선, 타원, 쌍곡선의 뜻과 방정식(초점, 준선, 꼭짓점, 중심, 장축, 단축, 주축, 점근선), 축이 좌표축에 평행한 이차곡선의 평행이동, 원뿔의 단면, 판별식을 이용한 이차곡선의 접선(기울기가 주어진 접선, 곡선 위의 점에서의 접선), 이차곡선의 반사 성질, 직선과 평면의 위치 관계와 꼬인 위치, 직선과 평면의 수직, 삼수선 정리, 이면각, 정사영의 길이와 넓이, 좌표공간, 두 점 사이의 거리, 선분의 내분점, 무게중심, 구의 방정식, 벡터의 덧셈·뺄셈·실수배, 위치벡터, 평면벡터와 공간벡터의 성분, 내적과 두 벡터가 이루는 각, 방향벡터와 법선벡터를 이용한 직선의 방정식, 평면과 구의 벡터방정식. 쓰지 않는 것: 이심률을 이용한 이차곡선의 정의, 축이 기울어진 이차곡선(xy항이 있는 경우), 평행이동한 이차곡선의 접선, 직선과 이차곡선이 두 점에서 만나는 복잡한 문제, 선분의 외분점, 벡터의 외적, 점과 평면 사이의 거리 공식, 지나치게 복잡한 공간지각력을 요구하는 문제. 〈미적분Ⅱ〉를 배운 학생이 원하면 접선을 음함수의 미분법으로도 설명할 수 있다.
 6. 친근한 해요체로 3~5문장. 수식은 모두 달러 기호 한 쌍으로 감싼 정확한 LaTeX으로 쓴다. 예: $\\dfrac{x^{2}}{a^{2}}+\\dfrac{y^{2}}{b^{2}}=1$, $\\overline{\\mathrm{PF}}$. 벡터는 $\\vec{a}$, $\\overrightarrow{\\mathrm{AB}}$, 내적은 $\\vec{a}\\cdot\\vec{b}$, 공간의 점은 $\\mathrm{P}(1,\\ 2,\\ 3)$처럼 쓴다. 마크다운 기호(**, #, 목록)는 쓰지 않는다.
 7. 학생이 같은 곳에서 세 번 이상 막혔다고 말하면 그때만 풀이의 핵심 단계 하나를 보여 준다.`;}
-function aiContext(){const l=curLesson();if(!l)return `현재 화면: ${route==='home'?'과목 선택 화면':route==='teacher'?'교사용 안내':route==='editor'?'수학 노트(수식 편집기). 학생이 LaTeX 수식을 쓰는 방법을 물으면 정확한 LaTeX 문법을 알려 준다. 수식은 $ 기호 한 쌍 사이에 쓰고, 기호 단추를 누르면 $ 기호까지 자동으로 들어간다고 안내한다':route==='report'?'기록 모아 저장하기':route==='privacy'?'개인정보 처리방침':route==='terms'?'이용 안내':route==='mentor'?'G-Man 멘토 사용 안내':courseById(curCourse()).name+' 첫 화면'} (특정 차시 아님)`;const st=note(l.id).stage||0;return `과목: ${courseById(courseOfLesson(l)).name}\n차시: ${l.title}\n성취기준: ${l.codes.join(', ')} ${l.std}\n핵심 질문: ${l.big}\n개념 렌즈: ${l.lens}\n현재 단계: ${STAGES[st].name}\n탐색 도구 상태: ${liveState[l.id]||'아직 조작하지 않음'}`;}
-function updateAICtx(){const l=curLesson();$('#aiCtx').replaceChildren(l?h('span',{},'지금 함께 보는 차시: ',h('span',{},l.title)):'차시를 고르면 그 차시에 맞춰 도와줘요.');typeset($('#aiCtx'));renderChat();}
+function aiContext(){const l=curLesson();if(!l)return `현재 화면: ${route==='home'?'과목 선택 화면':route==='teacher'?'교사용 안내':route==='editor'?'수학 노트(수식 편집기). 학생이 LaTeX 수식을 쓰는 방법을 물으면 정확한 LaTeX 문법을 알려 준다. 수식은 $ 기호 한 쌍 사이에 쓰고, 기호 단추를 누르면 $ 기호까지 자동으로 들어간다고 안내한다':route==='report'?'기록 모아 저장하기':route==='privacy'?'개인정보 처리방침':route==='terms'?'이용 안내':route==='mentor'?'G-Man 멘토 사용 설명서':courseById(curCourse()).name+' 첫 화면'} (특정 차시 아님)`;const st=note(l.id).stage||0;return `과목: ${courseById(courseOfLesson(l)).name}\n차시: ${l.title}\n성취기준: ${l.codes.join(', ')} ${l.std}\n핵심 질문: ${l.big}\n개념 렌즈: ${l.lens}\n현재 단계: ${STAGES[st].name}\n탐색 도구 상태: ${liveState[l.id]||'아직 조작하지 않음'}`;}
+function updateAICtx(){const l=curLesson();$('#aiCtx').replaceChildren(l?h('span',{},'지금 함께 보는 차시: ',h('span',{},l.title)):'차시를 열면 G-Man이 그 차시 내용을 알고 도와줘요.');typeset($('#aiCtx'));renderChat();}
 function renderChat(){const c=$('#chat'),hist=chats[route]||[];c.replaceChildren();
-  const mode=mentorMode();$('#aiMode').textContent=mode==='claude'?'claude.ai 연결':mode==='key'?'내 API 키 연결':'API 키 필요';$('#aiMode').className='aimode '+mode;
-  if(mode==='none'){c.append(h('p',{class:'empty'},'G-Man 멘토를 쓰려면 내 API 키가 필요해요. 키가 없어도 각 단계의 질문과 힌트로 탐구를 이어갈 수 있어요.'),mentorSetup({compact:true,onChange:renderChat}));return;}
+  const mode=mentorMode();$('#aiMode').textContent=mode==='claude'?'claude.ai 연결':mode==='key'?((PROVIDERS[curProvider()]||{}).short||'내 키')+' 연결':'키 필요';$('#aiMode').className='aimode '+mode;
+  if(mode==='none'){c.append(h('div',{class:'empty'},h('p',{style:'margin:0 0 6px'},h('b',{},'G-Man 멘토와 이야기하려면 API 키를 한 번만 넣어 주세요.')),h('p',{style:'margin:0'},'키는 선생님께 받거나 직접 만들 수 있어요. 키가 없어도 각 단계의 질문과 힌트를 따라 탐구를 끝까지 할 수 있어요.')),mentorSetup({compact:true,onChange:renderChat}));return;}
   if(!hist.length)c.append(h('p',{class:'empty'},'탐색하며 알게 된 것, 헷갈리는 것, 내 추측을 말해 주세요. 수식은 ',h('code',{},'$'),' 기호 한 쌍으로 감싸서 쓰면 돼요. 예: ',h('code',{},'$x^{2}$')));
   hist.forEach(m=>c.append(h('div',{class:'msg '+m.role},m.content)));c.scrollTop=c.scrollHeight;typeset(c);}
 function openAI(prefill){$('#ai').classList.add('open');$('#scrim').classList.add('on');if(prefill){$('#aiInput').value=`“${prefill}”에 대해 내 생각은 `;}$('#aiInput').focus();}
@@ -2746,7 +2887,7 @@ async function sendAI(text){if(busy||!text.trim())return;if(mentorMode()==='none
   try{const txt=await askMentor(msgs,t=>{bubble.textContent=t;$('#chat').scrollTop=1e9;});hist.push({role:'assistant',content:txt});}
   catch(e){const last=hist.pop();$('#aiInput').value=last.content;bubble.textContent=mentorErr(e);bubble.classList.add('err');busy=false;$('#aiSend').disabled=false;return;}
   busy=false;$('#aiSend').disabled=false;renderChat();}
-async function genFeedback(l,text,box,btn){if(mentorMode()==='none'){box.replaceChildren(h('div',{class:'fb'},h('b',{},'G-Man 멘토의 피드백을 받으려면 API 키가 필요해요.'),mentorSetup({compact:true,onChange:()=>genFeedback(l,text,box,btn)})));return;}if(!text.trim()){box.replaceChildren(h('div',{class:'fb'},'먼저 일반화 문장을 써 주세요.'));return;}
+async function genFeedback(l,text,box,btn){if(mentorMode()==='none'){box.replaceChildren(h('div',{class:'fb'},h('b',{},'G-Man 멘토의 피드백을 받으려면 API 키를 한 번 넣어 주세요. 키가 없으면 아래 ‘교사용 일반화와 비교하기’로 스스로 점검할 수 있어요.'),mentorSetup({compact:true,onChange:()=>genFeedback(l,text,box,btn)})));return;}if(!text.trim()){box.replaceChildren(h('div',{class:'fb'},'먼저 일반화 문장을 써 주세요.'));return;}
   btn.disabled=true;const out=h('div',{class:'fb'},'읽는 중…');box.replaceChildren(out);
   const prompt=`${tutor()}\n\n[과제] 학생이 이번 차시 핵심 질문에 대한 ‘일반화 문장’을 썼어. 다음 세 가지로 짧게 피드백해 줘. (1) 잘 포착한 관계 한 가지 (2) 빠졌거나 모호한 조건이나 근거 한 가지 (3) 문장을 스스로 다듬도록 돕는 질문 하나. 참고용 일반화를 그대로 옮겨 쓰지 마.\n\n[학습 맥락]\n${aiContext()}\n\n[참고용 교사 일반화: 학생에게 그대로 보여 주지 말 것]\n${l.gen}\n\n[학생의 일반화]\n${text}`;
   try{const r=await askMentor(prompt,t=>{out.textContent=t;});out.textContent=r;typeset(out);}
