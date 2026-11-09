@@ -30,10 +30,16 @@
 
 설치나 빌드가 필요 없는 HTML 파일 하나(`index.html`)입니다. 수식 표시 도구(KaTeX, MathJax)가 파일 안에 들어 있어 크기가 약 2.7MB입니다. 실험의 난수는 브라우저 안에서 만들며, 결과는 매번 달라집니다.
 
+## G-Man 멘토
+
+- **어느 회사 키든 연결:** Anthropic(Claude), OpenAI(ChatGPT), Google(Gemini), OpenRouter, Groq, xAI(Grok), DeepSeek, Mistral, Perplexity, Upstage(Solar)의 API 키를 넣으면 키 모양을 보고 회사를 알아서 찾아 연결합니다. 키 모양이 같은 회사(예: `sk-`로 시작하는 OpenAI와 DeepSeek)는 차례로 연결해 보며 맞는 곳을 찾고, 모델은 회사별 기본 목록에서 쓸 수 있는 것을 자동으로 고릅니다. ‘더 보기’에서 회사와 모델을 직접 정할 수도 있습니다.
+- **그림 설명서:** 앱 안의 ‘G-Man 사용 설명서’ 화면에 5단계 그림 설명서가 있고, 같은 내용을 `gman-guide.png`(화면·게시용), `gman-guide.pdf`(인쇄용)로도 넣었습니다.
+- 회사에 따라 웹 브라우저에서 바로 연결하는 것을 막아 둔 경우가 있어, 그때는 다른 회사의 키를 쓰도록 안내합니다.
+
 ## 저장과 개인정보
 
 - 학습 기록은 `prob-stats-inquiry-lab-v1` 이름으로 이 기기의 브라우저에만 저장되며, math1, algebra, calculus1, calculus2의 기록과 섞이지 않습니다.
-- G-Man 멘토 API 키 설정(`gman-mentor-key-v1`)은 같은 도메인의 다른 웹앱과 함께 씁니다. 한 번 넣으면 모든 앱에서 작동합니다.
+- G-Man 멘토 API 키(`gman-mentor-key-v1`)와 연결 설정(`gman-mentor-cfg-v2`)은 같은 도메인의 다른 웹앱과 함께 씁니다. 한 번 넣으면 모든 앱에서 작동합니다.
 - 자세한 조항은 [PRIVACY.md](./PRIVACY.md)에 있습니다.
 
 ## 내용의 출처
